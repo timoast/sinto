@@ -1,0 +1,29 @@
+#! /usr/bin/env python
+
+import sys
+from argparse import ArgumentParser
+import pkg_resources
+from sinto import cli
+
+
+version = pkg_resources.require("sinto")[0].version
+parser = ArgumentParser(description='Tools for single-cell data processing')
+parser.add_argument('--version', action='version', version='%(prog)s '+str(version))
+subparsers = parser.add_subparsers(title='Subcommands')
+
+# filterbarcodes
+parser_filterbarcodes = subparsers.add_parser('filterbarcodes', description='Filter reads based on input list of cell barcodes')
+parser_filterbarcodes.add_argument('-b', '--bam', help='Input bam file (must be indexed)', required=True, type=str)
+parser_filterbarcodes.add_argument('-c', '--cells', help='File or comma-separated list of cell barcodes. Can be gzip compressed', required=True, type=str)
+parser_filterbarcodes.add_argument('-o', '--output', help='Name for output text file', required=True, type=str)
+parser_filterbarcodes.add_argument('-t', '--trim_suffix', help='Remove trail 2 characters from cell barcode in BAM file', action='store_true', default=False)
+parser_filterbarcodes.add_argument('-s', '--sam', help='Output sam format (default bam output)', required=False, action='store_true', default=False)
+parser_filterbarcodes.add_argument('-p', '--nproc', help='Number of processors (default = 1)', required=False, default=1, type=int)
+parser_filterbarcodes.set_defaults(func=cli.run_filterbarcodes)
+
+if len(sys.argv[1:]) == 0:
+    parser.print_help()
+    parser.exit()
+else:
+    options = parser.parse_args()
+    options.func(options)
