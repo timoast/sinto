@@ -4,7 +4,6 @@ from multiprocessing import Pool
 import functools
 import random
 import string
-from glob import glob
 import os
 from subprocess import call
 
@@ -116,22 +115,6 @@ def chunk(seq, num):
     while last < len(seq):
         out.append(seq[int(last):int(last + avg)])
         last += avg
-    return out
-
-
-def merge_thread_output(data):
-    """
-    merge multiple dictionaries of the same format into one
-    """
-    out = {}
-    for d in data:
-        for cell, counts in d.items():
-            try:
-                out[cell]
-            except KeyError:
-                out[cell] = counts
-            else:
-                out[cell] = [sum(x) for x in zip(counts, out[cell])]
     return out
 
 
