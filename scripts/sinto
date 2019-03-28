@@ -19,6 +19,8 @@ parser_filterbarcodes.add_argument('-o', '--output', help='Name for output text 
 parser_filterbarcodes.add_argument('-t', '--trim_suffix', help='Remove trail 2 characters from cell barcode in BAM file', action='store_true', default=False)
 parser_filterbarcodes.add_argument('-s', '--sam', help='Output sam format (default bam output)', required=False, action='store_true', default=False)
 parser_filterbarcodes.add_argument('-p', '--nproc', help='Number of processors (default = 1)', required=False, default=1, type=int)
+parser_filterbarcodes.add_argument('-m', '--mode', help='Either tag (default) or readname. Some BAM file store the cell barcode in the readname rather than under a read tag',
+                                   required=False, default='tag', type=str)
 parser_filterbarcodes.set_defaults(func=cli.run_filterbarcodes)
 
 if len(sys.argv[1:]) == 0:
