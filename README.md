@@ -3,6 +3,14 @@ Tools for single-cell data processing
 
 ## Installation
 
+Install from PyPI:
+
+```bash
+pip install sinto
+```
+
+Install from source:
+
 ```bash
 git clone https://github.com/timoast/sinto.git
 cd sinto
