@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from setuptools import setup
+import setuptools
 import versioneer
 import subprocess
 import sys
@@ -12,7 +12,6 @@ def samtools():
     else:
         v = subprocess.check_output(['samtools', '--version']).split()[1].split('.')
     major = int(v[0])
-    minor = int(v[1])
     if major >= 1:
         return True
     return False
@@ -22,18 +21,29 @@ if __name__ == "__main__":
     if not samtools():
         raise Exception("sinto requires samtools >= v1")
 
+with open("README.md", "r") as fh:
+    long_description = fh.read()
 
-setup(
+setuptools.setup(
     name = 'sinto',
     version = versioneer.get_version(),
-    cmdclass=versioneer.get_cmdclass(),
-    description="sinto: tools for single-cell data processing",
+    cmdclass = versioneer.get_cmdclass(),
+    description = "sinto: tools for single-cell data processing",
+    long_description = long_description,
+    long_description_content_type = "text/markdown",
     author = 'Tim Stuart',
     install_requires = [
-        'pysam>0.8',
+        'pysam>=0.8',
     ],
     scripts = ["scripts/sinto"],
     author_email = 'tstuart@nygenome.org',
     url = 'https://github.com/timoast/sinto',
-    packages = ['sinto']
+    packages = setuptools.find_packages(),
+    classifiers = [
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+        "Intended Audience :: Science/Research",
+        "Topic :: Science/Engineering"
+    ]
 )
