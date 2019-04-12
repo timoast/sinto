@@ -1,4 +1,7 @@
 # sinto
+
+[![PyPI version](https://badge.fury.io/py/sinto.svg)](https://badge.fury.io/py/sinto)
+
 Tools for single-cell data processing
 
 ## Installation
