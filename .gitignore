@@ -9,3 +9,6 @@ sinto.egg-info/
 .eggs/
 .gitattributes
 ./versioneer.py
+docs/_build
+docs/.buildinfo
+docs/_sources
