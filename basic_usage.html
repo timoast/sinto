@@ -1,0 +1,269 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Basic usage &mdash; sinto 0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> sinto
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Basic usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#filter-cell-barcodes-from-bam-file">Filter cell barcodes from BAM file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#add-read-tags-to-bam-file">Add read tags to BAM file</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">sinto</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Basic usage</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/basic_usage.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="basic-usage">
+<h1>Basic usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="filter-cell-barcodes-from-bam-file">
+<h2>Filter cell barcodes from BAM file<a class="headerlink" href="#filter-cell-barcodes-from-bam-file" title="Permalink to this headline">¶</a></h2>
+<p>Reads for a subset of cells can be extracted from a BAM file using the <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code> command.
+This requires a position-sorted, indexed BAM file, and a file containing a list of cell barcodes to retain.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sinto filterbarcodes [-h] -b BAM -c CELLS -o OUTPUT [-t] [-s]
+                            [-p NPROC] [-m MODE]
+
+Filter reads based on input list of cell barcodes
+
+optional arguments:
+-h, --help            show this help message and exit
+-b BAM, --bam BAM     Input bam file (must be indexed)
+-c CELLS, --cells CELLS
+                        File or comma-separated list of cell barcodes. Can be
+                        gzip compressed
+-o OUTPUT, --output OUTPUT
+                        Name for output text file
+-t, --trim_suffix     Remove trail 2 characters from cell barcode in BAM
+                        file
+-s, --sam             Output sam format (default bam output)
+-p NPROC, --nproc NPROC
+                        Number of processors (default = 1)
+-m MODE, --mode MODE  Either tag (default) or readname. Some BAM file store
+                        the cell barcode in the readname rather than under a
+                        read tag
+</pre></div>
+</div>
+</div>
+<div class="section" id="add-read-tags-to-bam-file">
+<h2>Add read tags to BAM file<a class="headerlink" href="#add-read-tags-to-bam-file" title="Permalink to this headline">¶</a></h2>
+<p>Read tags can be added to a BAM file according to which cell the read belongs to using the <code class="docutils literal notranslate"><span class="pre">addtags</span></code> command.
+This requires a position-sorted and indexed BAM file, and a file specifying the tags to be added to each cell, for example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>TGGCAATGTTGAAGCG-1  CI      A
+GACCAATCACCATTCC-1  CI      A
+CAGGATTCAGAACTTC-1  CI      B
+GAACCTAAGAGAGGTA-1  CI      B
+ACATGGTGTAGACGCA-1  CI      C
+CCCTGATTCGGATAGG-1  CI      C
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sinto addtags [-h] -b BAM -f TAGFILE -o OUTPUT [-t] [-s] [-p NPROC]
+                    [-m MODE]
+
+Add read tags to reads from individual cells
+
+optional arguments:
+-h, --help            show this help message and exit
+-b BAM, --bam BAM     Input bam file (must be indexed)
+-f TAGFILE, --tagfile TAGFILE
+                        Tab-delimited file containing cell barcode, tag to be
+                        added, and tag identity. Can be gzip compressed
+-o OUTPUT, --output OUTPUT
+                        Name for output text file
+-t, --trim_suffix     Remove trail 2 characters from cell barcode in BAM
+                        file
+-s, --sam             Output sam format (default bam output)
+-p NPROC, --nproc NPROC
+                        Number of processors (default = 1)
+-m MODE, --mode MODE  Either tag (default) or readname. Some BAM file store
+                        the cell barcode in the readname rather than under a
+                        read tag
+</pre></div>
+</div>
+<p>This will add a <code class="docutils literal notranslate"><span class="pre">CI</span></code> tag, with the tag set to A, B, or C depending on the cell barcode sequence.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Tim Stuart
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
