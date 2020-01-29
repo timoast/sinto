@@ -21,7 +21,7 @@ This requires a position-sorted, indexed BAM file, and a file containing a list 
                             File or comma-separated list of cell barcodes. Can be
                             gzip compressed
     -o OUTPUT, --output OUTPUT
-                            Name for output text file
+                            Name for output BAM file
     -t, --trim_suffix     Remove trail 2 characters from cell barcode in BAM
                             file
     -s, --sam             Output sam format (default bam output)
@@ -60,7 +60,7 @@ This requires a position-sorted and indexed BAM file, and a file specifying the 
                             Tab-delimited file containing cell barcode, tag to be
                             added, and tag identity. Can be gzip compressed
     -o OUTPUT, --output OUTPUT
-                            Name for output text file
+                            Name for output BAM file
     -t, --trim_suffix     Remove trail 2 characters from cell barcode in BAM
                             file
     -s, --sam             Output sam format (default bam output)
