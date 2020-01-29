@@ -48,7 +48,7 @@ def filterbarcodes(cells, bam, output, sam=False, trim_suffix=True, nproc=1, mod
     bam : str
         Path to BAM file.
     output : str
-        Name for output file.
+        Name for output BAM file.
     sam : bool, optional
         Output SAM format. Default is BAM format.
     trim_suffix: bool, optional

@@ -72,7 +72,7 @@ def addtags(bam, tagfile, output, sam=False, trim_suffix=True, mode='tag', nproc
     tagfile : str
         Tab-delimited file containing cell barcode, read tag to be added, tag information
     output : str
-        Name for output file.
+        Name for output BAM file.
     sam : bool, optional
         Output SAM format. Default is BAM format.
     trim_suffix: bool, optional
