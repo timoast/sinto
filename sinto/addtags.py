@@ -21,9 +21,9 @@ def _readtags(infile):
     cb = {}
     if os.path.isfile(infile):
         if infile.endswith(".gz"):
-            inf = gzip.open(infile, 'b')
+            inf = gzip.open(infile, "b")
         else:
-            inf = open(infile, 'r')
+            inf = open(infile, "r")
         for line in inf:
             line = line.rsplit()
             if line[0] in cb.keys():
@@ -31,21 +31,23 @@ def _readtags(infile):
             else:
                 cb[line[0]] = [(line[1], line[2])]
         inf.close()
-    return(cb)
+    return cb
 
 
 def _add_read_tags(intervals, bam, sam, output, cb, trim_suffix, mode):
-    inputBam = pysam.AlignmentFile(bam, 'rb')
-    ident = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
+    inputBam = pysam.AlignmentFile(bam, "rb")
+    ident = "".join(
+        random.choice(string.ascii_uppercase + string.digits) for _ in range(6)
+    )
     if sam:
         outputBam = pysam.AlignmentFile(output + ident, "w", template=inputBam)
     else:
-        outputBam = pysam.AlignmentFile(output + ident, 'wb', template=inputBam)
+        outputBam = pysam.AlignmentFile(output + ident, "wb", template=inputBam)
     for i in intervals:
         for r in inputBam.fetch(i[0], i[1], i[2]):
-            if mode == 'tag':
+            if mode == "tag":
                 cell_barcode, _ = utils.scan_tags(r.tags)
-            elif mode == 'readname':
+            elif mode == "readname":
                 cell_barcode = r.qname.split(":")[0]
             else:
                 raise Exception("Unknown mode. Use either tag or readname")
@@ -60,7 +62,7 @@ def _add_read_tags(intervals, bam, sam, output, cb, trim_suffix, mode):
     return output + ident
 
 
-def addtags(bam, tagfile, output, sam=False, trim_suffix=True, mode='tag', nproc=1):
+def addtags(bam, tagfile, output, sam=False, trim_suffix=True, mode="tag", nproc=1):
     """Add tags to reads from individual cells
 
     Copies BAM entries to a new file, adding a read tag to cells matching an input table
@@ -72,7 +74,7 @@ def addtags(bam, tagfile, output, sam=False, trim_suffix=True, mode='tag', nproc
     tagfile : str
         Tab-delimited file containing cell barcode, read tag to be added, tag information
     output : str
-        Name for output file.
+        Name for output BAM file.
     sam : bool, optional
         Output SAM format. Default is BAM format.
     trim_suffix: bool, optional
@@ -90,13 +92,25 @@ def addtags(bam, tagfile, output, sam=False, trim_suffix=True, mode='tag', nproc
     """
     nproc = int(nproc)
     tags = _readtags(tagfile)
-    inputBam = pysam.AlignmentFile(bam, 'rb')
+    inputBam = pysam.AlignmentFile(bam, "rb")
     intervals = utils.chunk_bam(inputBam, nproc)
     inputBam.close()
     p = Pool(nproc)
-    tempfiles = p.map_async(functools.partial(_add_read_tags, bam=bam, sam=sam, output=output,
-                            cb=tags, trim_suffix=trim_suffix, mode=mode), intervals.values()).get(9999999)
-    mergestring = 'samtools merge -@ ' + str(nproc) + ' ' + output + ' ' + ' '.join(tempfiles)
+    tempfiles = p.map_async(
+        functools.partial(
+            _add_read_tags,
+            bam=bam,
+            sam=sam,
+            output=output,
+            cb=tags,
+            trim_suffix=trim_suffix,
+            mode=mode,
+        ),
+        intervals.values(),
+    ).get(9999999)
+    mergestring = (
+        "samtools merge -@ " + str(nproc) + " " + output + " " + " ".join(tempfiles)
+    )
     call(mergestring, shell=True)
     if os.path.exists(output):
         [os.remove(i) for i in tempfiles]
