@@ -8,7 +8,7 @@ from sinto import cli
 
 version = pkg_resources.require("sinto")[0].version
 parser = ArgumentParser(description='Tools for single-cell data processing')
-parser.add_argument('--version', action='version', version='%(prog)s '+str(version))
+parser.add_argument('-v', '--version', action='version', version='%(prog)s '+str(version))
 subparsers = parser.add_subparsers(title='Subcommands')
 
 # filterbarcodes
@@ -34,6 +34,15 @@ parser_addtags.add_argument('-p', '--nproc', help='Number of processors (default
 parser_addtags.add_argument('-m', '--mode', help='Either tag (default) or readname. Some BAM file store the cell barcode in the readname rather than under a read tag',
                                    required=False, default='tag', type=str)
 parser_addtags.set_defaults(func=cli.run_addtags)
+
+# fragments
+parser_fragments = subparsers.add_parser('fragments', description='Create ATAC-seq fragment file from BAM file')
+parser_fragments.add_argument('-b', '--bam', help='Input bam file (must be indexed)', required=True, type=str)
+parser_fragments.add_argument('-f', '--fragments', help='Name and path for output fragments file', required=True, type=str)
+parser_fragments.add_argument('-m', '--min_mapq', help='Minimum MAPQ required to retain fragment (default = 30)', required=False, default=30, type=int)
+parser_fragments.add_argument('-p', '--nproc', help='Number of processors (default = 1)', required=False, type=int, default=1)
+parser_fragments.add_argument('-c', '--cellbarcode', help='Read tag storing cell barcode information (default = "CB")', required=False, type=str, default='CB')
+parser_fragments.set_defaults(func=cli.run_fragments)
 
 if len(sys.argv[1:]) == 0:
     parser.print_help()
