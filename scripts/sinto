@@ -7,42 +7,172 @@ from sinto import cli
 
 
 version = pkg_resources.require("sinto")[0].version
-parser = ArgumentParser(description='Tools for single-cell data processing')
-parser.add_argument('-v', '--version', action='version', version='%(prog)s '+str(version))
-subparsers = parser.add_subparsers(title='Subcommands')
+parser = ArgumentParser(description="Tools for single-cell data processing")
+parser.add_argument(
+    "-v", "--version", action="version", version="%(prog)s " + str(version)
+)
+subparsers = parser.add_subparsers(title="Subcommands")
 
 # filterbarcodes
-parser_filterbarcodes = subparsers.add_parser('filterbarcodes', description='Filter reads based on input list of cell barcodes')
-parser_filterbarcodes.add_argument('-b', '--bam', help='Input bam file (must be indexed)', required=True, type=str)
-parser_filterbarcodes.add_argument('-c', '--cells', help='File or comma-separated list of cell barcodes. Can be gzip compressed', required=True, type=str)
-parser_filterbarcodes.add_argument('-o', '--output', help='Name for output text file', required=True, type=str)
-parser_filterbarcodes.add_argument('-t', '--trim_suffix', help='Remove trail 2 characters from cell barcode in BAM file', action='store_true', default=False)
-parser_filterbarcodes.add_argument('-s', '--sam', help='Output sam format (default bam output)', required=False, action='store_true', default=False)
-parser_filterbarcodes.add_argument('-p', '--nproc', help='Number of processors (default = 1)', required=False, default=1, type=int)
-parser_filterbarcodes.add_argument('-m', '--mode', help='Either tag (default) or readname. Some BAM file store the cell barcode in the readname rather than under a read tag',
-                                   required=False, default='tag', type=str)
+parser_filterbarcodes = subparsers.add_parser(
+    "filterbarcodes", description="Filter reads based on input list of cell barcodes"
+)
+parser_filterbarcodes.add_argument(
+    "-b", "--bam", help="Input bam file (must be indexed)", required=True, type=str
+)
+parser_filterbarcodes.add_argument(
+    "-c",
+    "--cells",
+    help="File or comma-separated list of cell barcodes. Can be gzip compressed",
+    required=True,
+    type=str,
+)
+parser_filterbarcodes.add_argument(
+    "-o", "--output", help="Name for output text file", required=True, type=str
+)
+parser_filterbarcodes.add_argument(
+    "-t",
+    "--trim_suffix",
+    help="Remove trail 2 characters from cell barcode in BAM file",
+    action="store_true",
+    default=False,
+)
+parser_filterbarcodes.add_argument(
+    "-s",
+    "--sam",
+    help="Output sam format (default bam output)",
+    required=False,
+    action="store_true",
+    default=False,
+)
+parser_filterbarcodes.add_argument(
+    "-p",
+    "--nproc",
+    help="Number of processors (default = 1)",
+    required=False,
+    default=1,
+    type=int,
+)
+parser_filterbarcodes.add_argument(
+    "-m",
+    "--mode",
+    help="Either tag (default) or readname. Some BAM file store the cell barcode in the readname rather than under a read tag",
+    required=False,
+    default="tag",
+    type=str,
+)
 parser_filterbarcodes.set_defaults(func=cli.run_filterbarcodes)
 
 # addtags
-parser_addtags = subparsers.add_parser('addtags', description='Add read tags to reads from individual cells')
-parser_addtags.add_argument('-b', '--bam', help='Input bam file (must be indexed)', required=True, type=str)
-parser_addtags.add_argument('-f', '--tagfile', help='Tab-delimited file containing cell barcode, tag to be added, and tag identity. Can be gzip compressed', required=True, type=str)
-parser_addtags.add_argument('-o', '--output', help='Name for output text file', required=True, type=str)
-parser_addtags.add_argument('-t', '--trim_suffix', help='Remove trail 2 characters from cell barcode in BAM file', action='store_true', default=False)
-parser_addtags.add_argument('-s', '--sam', help='Output sam format (default bam output)', required=False, action='store_true', default=False)
-parser_addtags.add_argument('-p', '--nproc', help='Number of processors (default = 1)', required=False, default=1, type=int)
-parser_addtags.add_argument('-m', '--mode', help='Either tag (default) or readname. Some BAM file store the cell barcode in the readname rather than under a read tag',
-                                   required=False, default='tag', type=str)
+parser_addtags = subparsers.add_parser(
+    "addtags", description="Add read tags to reads from individual cells"
+)
+parser_addtags.add_argument(
+    "-b", "--bam", help="Input bam file (must be indexed)", required=True, type=str
+)
+parser_addtags.add_argument(
+    "-f",
+    "--tagfile",
+    help="Tab-delimited file containing cell barcode, tag to be added, and tag identity. Can be gzip compressed",
+    required=True,
+    type=str,
+)
+parser_addtags.add_argument(
+    "-o", "--output", help="Name for output text file", required=True, type=str
+)
+parser_addtags.add_argument(
+    "-t",
+    "--trim_suffix",
+    help="Remove trail 2 characters from cell barcode in BAM file",
+    action="store_true",
+    default=False,
+)
+parser_addtags.add_argument(
+    "-s",
+    "--sam",
+    help="Output sam format (default bam output)",
+    required=False,
+    action="store_true",
+    default=False,
+)
+parser_addtags.add_argument(
+    "-p",
+    "--nproc",
+    help="Number of processors (default = 1)",
+    required=False,
+    default=1,
+    type=int,
+)
+parser_addtags.add_argument(
+    "-m",
+    "--mode",
+    help="Either tag (default) or readname. Some BAM file store the cell barcode in the readname rather than under a read tag",
+    required=False,
+    default="tag",
+    type=str,
+)
 parser_addtags.set_defaults(func=cli.run_addtags)
 
 # fragments
-parser_fragments = subparsers.add_parser('fragments', description='Create ATAC-seq fragment file from BAM file')
-parser_fragments.add_argument('-b', '--bam', help='Input bam file (must be indexed)', required=True, type=str)
-parser_fragments.add_argument('-f', '--fragments', help='Name and path for output fragments file', required=True, type=str)
-parser_fragments.add_argument('-m', '--min_mapq', help='Minimum MAPQ required to retain fragment (default = 30)', required=False, default=30, type=int)
-parser_fragments.add_argument('-p', '--nproc', help='Number of processors (default = 1)', required=False, type=int, default=1)
-parser_fragments.add_argument('-t', '--barcodetag', help='Read tag storing cell barcode information (default = "CB")', required=False, type=str, default='CB')
-parser_fragments.add_argument('-c', '--cells', help='Path to file containing cell barcodes to retain', required=False, type=str, default=None)
+parser_fragments = subparsers.add_parser(
+    "fragments", description="Create ATAC-seq fragment file from BAM file"
+)
+parser_fragments.add_argument(
+    "-b", "--bam", help="Input bam file (must be indexed)", required=True, type=str
+)
+parser_fragments.add_argument(
+    "-f",
+    "--fragments",
+    help="Name and path for output fragments file",
+    required=True,
+    type=str,
+)
+parser_fragments.add_argument(
+    "-m",
+    "--min_mapq",
+    help="Minimum MAPQ required to retain fragment (default = 30)",
+    required=False,
+    default=30,
+    type=int,
+)
+parser_fragments.add_argument(
+    "-p",
+    "--nproc",
+    help="Number of processors (default = 1)",
+    required=False,
+    type=int,
+    default=1,
+)
+parser_fragments.add_argument(
+    "-t",
+    "--barcodetag",
+    help='Read tag storing cell barcode information (default = "CB")',
+    required=False,
+    type=str,
+    default="CB",
+)
+parser_fragments.add_argument(
+    "-c",
+    "--cells",
+    help="Path to file containing cell barcodes to retain",
+    required=False,
+    type=str,
+    default=None,
+)
+parser_fragments.add_argument(
+    "--barcode_regex",
+    help="Regular expression used to extract cell barcode from read name. If None (default), extract cell barcode from read tag",
+    required=False,
+    type=str,
+    default=None,
+)
+parser_fragments.add_argument(
+    "--use_chrom",
+    help="Regular expression used to match chromosomes to be included in output. Default is (?i)^chr",
+    required=False,
+    default="(?i)^chr",
+    type=str,
+)
 parser_fragments.set_defaults(func=cli.run_fragments)
 
 if len(sys.argv[1:]) == 0:

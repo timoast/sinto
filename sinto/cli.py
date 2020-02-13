@@ -40,5 +40,7 @@ def run_fragments(options):
         min_mapq=options.min_mapq,
         nproc=options.nproc,
         cellbarcode=options.barcodetag,
+        readname_barcode=options.barcode_regex,
+        chromosomes=options.use_chrom,
         cells=options.cells
     )
