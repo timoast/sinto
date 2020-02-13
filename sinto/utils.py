@@ -2,6 +2,8 @@ import functools
 import time
 import gzip
 import os
+import pysam
+import re
 
 
 def log_info(func):
@@ -124,6 +126,16 @@ def read_cells(cells):
     return cb
 
 
-def get_chromosome_chunks(bam):
+def get_chromosomes(bam, keep_contigs="(?i)^chr"):
     """Create one interval for each chromosome"""
-    return
+    if keep_contigs is None:
+        keep_contigs = "."
+    pattern = re.compile(keep_contigs)
+    aln = pysam.AlignmentFile(bam)
+    idxstats = aln.get_index_statistics()
+    keep_contigs = []
+    for i in idxstats:
+        if i.mapped > 0 and pattern.match(i.contig):
+            keep_contigs.append(i.contig)
+    conlen = {x: aln.get_reference_length(x) for x in keep_contigs}
+    return conlen
