@@ -4,6 +4,7 @@ import setuptools
 import subprocess
 import sys
 import re
+from pathlib import Path
 
 
 VERSIONFILE="sinto/_version.py"
@@ -40,8 +41,8 @@ setuptools.setup(
     long_description = long_description,
     long_description_content_type = "text/markdown",
     author = 'Tim Stuart',
-    install_requires = [
-        'pysam>=0.8',
+    install_requires=[
+        l.strip() for l in Path('requirements.txt').read_text('utf-8').splitlines()
     ],
     scripts = ["scripts/sinto"],
     author_email = 'tstuart@nygenome.org',
