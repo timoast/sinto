@@ -81,7 +81,9 @@ def id_lookup(l):
     return lookup
 
 
-def getFragments(interval, bam, min_mapq=30, cellbarcode="CB", readname_barcode=None, cells=None):
+def getFragments(
+    interval, bam, min_mapq=30, cellbarcode="CB", readname_barcode=None, cells=None
+):
     """Extract ATAC fragments from BAM file
 
     Iterate over paired reads in a BAM file and extract the ATAC fragment coordinates
@@ -111,14 +113,16 @@ def getFragments(interval, bam, min_mapq=30, cellbarcode="CB", readname_barcode=
             min_mapq=min_mapq,
             cellbarcode=cellbarcode,
             readname_barcode=readname_barcode,
-            cells=cells
+            cells=cells,
         )
     fragment_dict = filterFragmentDict(fragments=fragment_dict)
     collapsed = collapseFragments(fragments=fragment_dict)
     return collapsed
 
 
-def updateFragmentDict(fragments, segment, min_mapq, cellbarcode, readname_barcode, cells):
+def updateFragmentDict(
+    fragments, segment, min_mapq, cellbarcode, readname_barcode, cells
+):
     """Update dictionary of ATAC fragments
     Takes a new aligned segment and adds information to the dictionary,
     returns a modified version of the dictionary
@@ -206,7 +210,8 @@ def condenseFragList(fraglist):
     x = []
     for i in fraglist:
         for j in i:
-            x.append(j)
+            for y in j:
+                x.append(y)
     return x
 
 
@@ -218,7 +223,7 @@ def fragments(
     cellbarcode="CB",
     chromosomes="(?i)^chr",
     readname_barcode=None,
-    cells=None
+    cells=None,
 ):
     """Create ATAC fragment file from BAM file
 
@@ -253,16 +258,18 @@ def fragments(
     chrom = utils.get_chromosomes(bam, keep_contigs=chromosomes)
     cells = utils.read_cells(cells)
     p = Pool(nproc)
-    frag_lists = [p.map_async(
-        functools.partial(
-            getFragments,
-            bam=bam,
-            min_mapq=int(min_mapq),
-            cellbarcode=cellbarcode,
-            readname_barcode=readname_barcode,
-            cells=cells
-        ),
-        list(chrom.items())
-    )]
+    frag_lists = [
+        p.map_async(
+            functools.partial(
+                getFragments,
+                bam=bam,
+                min_mapq=int(min_mapq),
+                cellbarcode=cellbarcode,
+                readname_barcode=readname_barcode,
+                cells=cells,
+            ),
+            list(chrom.items()),
+        )
+    ]
     frags = condenseFragList([res.get() for res in frag_lists])
     writeFragments(fragments=frags, filepath=fragment_path)

@@ -112,6 +112,7 @@ def scan_tags(tags, cb="CB", ub="UB"):
             pass
     return cell_barcode, umi
 
+
 def read_cells(cells):
     """Read file containing cell barcodes"""
     if cells is None:
