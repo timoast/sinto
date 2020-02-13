@@ -41,7 +41,8 @@ parser_fragments.add_argument('-b', '--bam', help='Input bam file (must be index
 parser_fragments.add_argument('-f', '--fragments', help='Name and path for output fragments file', required=True, type=str)
 parser_fragments.add_argument('-m', '--min_mapq', help='Minimum MAPQ required to retain fragment (default = 30)', required=False, default=30, type=int)
 parser_fragments.add_argument('-p', '--nproc', help='Number of processors (default = 1)', required=False, type=int, default=1)
-parser_fragments.add_argument('-c', '--cellbarcode', help='Read tag storing cell barcode information (default = "CB")', required=False, type=str, default='CB')
+parser_fragments.add_argument('-t', '--barcodetag', help='Read tag storing cell barcode information (default = "CB")', required=False, type=str, default='CB')
+parser_fragments.add_argument('-c', '--cells', help='Path to file containing cell barcodes to retain', required=False, type=str, default=None)
 parser_fragments.set_defaults(func=cli.run_fragments)
 
 if len(sys.argv[1:]) == 0:

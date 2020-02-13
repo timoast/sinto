@@ -39,5 +39,6 @@ def run_fragments(options):
         fragment_path=options.fragments,
         min_mapq=options.min_mapq,
         nproc=options.nproc,
-        cellbarcode=options.cellbarcode
+        cellbarcode=options.barcodetag,
+        cells=options.cells
     )
