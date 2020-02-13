@@ -123,7 +123,10 @@ parser_fragments.add_argument(
 parser_fragments.add_argument(
     "-f",
     "--fragments",
-    help="Name and path for output fragments file",
+    help="""
+    Name and path for output fragments file. Note that the output is not sorted or compressed.
+    To sort the output file use sort -k 1,1 -k2,2n
+    """,
     required=True,
     type=str,
 )
@@ -154,21 +157,32 @@ parser_fragments.add_argument(
 parser_fragments.add_argument(
     "-c",
     "--cells",
-    help="Path to file containing cell barcodes to retain",
+    help="""
+    Path to file containing cell barcodes to retain, or a
+    comma-separated list of cell barcodes.
+    If None (default), use all cell barocodes present in the BAM file.
+    """,
     required=False,
     type=str,
     default=None,
 )
 parser_fragments.add_argument(
     "--barcode_regex",
-    help="Regular expression used to extract cell barcode from read name. If None (default), extract cell barcode from read tag",
+    help="""
+    Regular expression used to extract cell barcode from read name. If None (default), extract cell barcode from read tag.
+    Use "[^:]*" to match all characters up to the first colon.
+    """,
     required=False,
     type=str,
     default=None,
 )
 parser_fragments.add_argument(
     "--use_chrom",
-    help="Regular expression used to match chromosomes to be included in output. Default is (?i)^chr",
+    help="""
+    Regular expression used to match chromosomes to be included in output.
+    Default is "(?i)^chr" to match all chromosomes starting with "chr", 
+    case insensitive
+    """,
     required=False,
     default="(?i)^chr",
     type=str,
