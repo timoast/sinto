@@ -90,7 +90,7 @@ def id_lookup(l):
     return lookup
 
 
-def getFragments(bam, min_mapq=30, nproc=1, cellbarcode="CB"):
+def getFragments(bam, min_mapq=30, nproc=1, cellbarcode="CB", cells=None):
     """Extract ATAC fragments from BAM file
 
     Iterate over paired reads in a BAM file and extract the ATAC fragment coordinates
@@ -106,16 +106,16 @@ def getFragments(bam, min_mapq=30, nproc=1, cellbarcode="CB"):
     cellbarcode : str
        Tag used for cell barcode. Default is CB (used by cellranger)
     """
-    nproc = int(nproc)
     fragment_dict = dict()
     inputBam = pysam.AlignmentFile(bam, "rb")
+    cells = utils.read_cells(cells)
     for i in inputBam.fetch():
-        fragment_dict = updateFragmentDict(fragment_dict, i, min_mapq, cellbarcode)
+        fragment_dict = updateFragmentDict(fragment_dict, i, min_mapq, cellbarcode, cells)
     fragment_dict = filterFragmentDict(fragment_dict)
     return fragment_dict
 
 
-def updateFragmentDict(fragments, segment, min_mapq, cellbarcode):
+def updateFragmentDict(fragments, segment, min_mapq, cellbarcode, cells):
     """Update dictionary of ATAC fragments
     Takes a new aligned segment and adds information to the dictionary,
     returns a modified version of the dictionary
@@ -134,11 +134,18 @@ def updateFragmentDict(fragments, segment, min_mapq, cellbarcode):
         Minimum MAPQ to retain fragment
     cellbarcode : str
        Tag used for cell barcode. Default is CB (used by cellranger)
+    cells : list
+        List of cells to retain. If None, retain all cells found.
     """
     # because the cell barcode is not stored with each read pair (only one of the pair)
     # we need to look for each read separately rather than using the mate cigar / mate postion information
     cell_barcode, _ = utils.scan_tags(segment.tags, cb=cellbarcode)
+    if cells is not None and cell_barcode is not None:
+        if cell_barcode not in cells:
+            return fragments
     mapq = segment.mapping_quality
+    if mapq < min_mapq:
+        return fragments
     chromosome = segment.reference_name
     qname = segment.query_name
     rstart = segment.reference_start
@@ -154,9 +161,7 @@ def updateFragmentDict(fragments, segment, min_mapq, cellbarcode):
         rend = rend - 5
     else:
         rstart = rstart + 4
-    if mapq < min_mapq:
-        return fragments
-    elif qname in fragments.keys():
+    if qname in fragments.keys():
         if is_reverse:
             fragments[qname]["end"] = rend
         else:
@@ -177,11 +182,11 @@ def updateFragmentDict(fragments, segment, min_mapq, cellbarcode):
 
 def filterFragmentDict(fragments):
     """Remove invalid entries"""
-    keepval = []
-    for key, value in fragments.items():
-        if all(fragments[key].values()):
-            keepval.append(key)
-    return {key: value for key, value in fragments.items() if key in keepval}
+    allkey = list(fragments.keys())
+    for key in allkey:
+        if not all(fragments[key].values()):
+            del fragments[key]
+    return fragments
 
 
 def fragments(
@@ -191,6 +196,7 @@ def fragments(
     nproc=1,
     cellbarcode="CB",
     retain_cross_bc_duplicates=False,
+    cells=None
 ):
     """Create ATAC fragment file from BAM file
 
@@ -212,9 +218,12 @@ def fragments(
     retain_cross_bc_duplicates : bool
         Retain fragments that have the same start and end position but originate from 
         different cell barcodes. Default is False
+    cells : str
+        File containing list of cell barcodes to retain. If None (default), use all cell barcodes
+        found in the BAM file.
     """
     frags = getFragments(
-        bam=bam, min_mapq=int(min_mapq), nproc=int(nproc), cellbarcode=cellbarcode
+        bam=bam, min_mapq=int(min_mapq), nproc=int(nproc), cellbarcode=cellbarcode, cells=cells
     )
     frags = collapseFragments(fragments=frags)
     writeFragments(fragments=frags, filepath=fragment_path)
