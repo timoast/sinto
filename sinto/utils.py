@@ -1,5 +1,7 @@
 import functools
 import time
+import gzip
+import os
 
 
 def log_info(func):
@@ -107,3 +109,21 @@ def scan_tags(tags, cb="CB", ub="UB"):
         else:
             pass
     return cell_barcode, umi
+
+def read_cells(cells):
+    """Read file containing cell barcodes"""
+    if cells is None:
+        return None
+    if os.path.isfile(cells):
+        if cells.endswith(".gz"):
+            cb = [line.strip("\n") for line in gzip.open(cells, "b")]
+        else:
+            cb = [line.strip("\n") for line in open(cells, "r")]
+    else:
+        cb = cells.split(",")
+    return cb
+
+
+def get_chromosome_chunks(bam):
+    """Create one interval for each chromosome"""
+    return
