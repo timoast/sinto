@@ -5,6 +5,7 @@ import numpy as np
 from collections import Counter, defaultdict
 from multiprocessing import Pool
 import functools
+import re
 
 
 def writeFragments(fragments, filepath):
