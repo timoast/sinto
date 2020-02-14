@@ -14,14 +14,61 @@ def writeFragments(fragments, filepath):
     Parameters
     ----------
     fragments : list
-        List of ATAC fragments
+        3-deep list of ATAC fragments
     filepath : str
         Path for output file
     """
     with open(filepath, "w") as outf:
         for i in fragments:
-            outstr = "\t".join(map(str, i))
-            outf.write(outstr + "\n")
+            for j in i:
+                for y in j:
+                    outstr = "\t".join(map(str, y))
+                    outf.write(outstr + "\n")
+
+
+def createPositionLookup(frags, pos=1):
+    """Create dictionary where key is subsetted fragment coords
+    (no start or no stop), value is the list of full fragments 
+    that share the coordinates in the key.
+    Only entries where >1 full fragments share the same coordinate
+    are retained"""
+    fragsplit = [x.split("|") for x in frags]
+    posfrags = ["|".join([x[0], x[pos], x[3]]) for x in fragsplit]
+    counts = Counter(posfrags)
+    starts = dict()
+    for i in range(len(frags)):
+        if counts[posfrags[i]] > 1:
+            try:
+                starts[posfrags[i]]
+            except KeyError:
+                starts[posfrags[i]] = [frags[i]]
+            else:
+                starts[posfrags[i]].append(frags[i])
+        else:
+            pass
+    return starts
+
+
+def collapseOverlapFragments(counts, pos=1):
+    """Collapse fragment counts that share a common start
+    or end coordinate and are from the same cell"""
+    keys = list(counts.keys())
+    startfrags = createPositionLookup(frags=keys, pos=pos)
+    for i in startfrags.keys():
+        # extract counts for all fragments sharing start coord
+        fullfrags = startfrags[i]
+        countvec = [counts[x] for x in fullfrags]
+        # find which fragment has the max
+        # if ties, choose first in tie
+        windex = countvec.index(max(countvec))
+        winner = fullfrags[windex]
+        # update count for the winner
+        counts[winner] = sum(countvec)
+        # remove losers
+        del fullfrags[windex]
+        for j in fullfrags:
+            del counts[j]
+    return counts
 
 
 def collapseFragments(fragments):
@@ -35,6 +82,10 @@ def collapseFragments(fragments):
     # enumerate fragments and barcodes
     frag_id_lookup = id_lookup(l=fragcoords)
     bc_id_lookup = id_lookup(l=cellbarcodes)
+
+    # collapse counts from the same cell barcode with partial overlap
+    counts = collapseOverlapFragments(counts, pos=1)
+    counts = collapseOverlapFragments(counts, pos=2)
 
     # get list of barcode index and fragment index from counts
     row = []
@@ -55,8 +106,6 @@ def collapseFragments(fragments):
     mat = mat.tocsr()
 
     # find which barcode contains the most counts for each fragment
-    rowsums = mat.sum(axis=1)
-    colsums = mat.sum(axis=0)
     rowmax = np.argmax(mat, axis=1)
     rowsum = mat.sum(axis=1).tolist()
 
@@ -67,10 +116,13 @@ def collapseFragments(fragments):
     collapsed_barcodes = [bc_inverse[x[0]] for x in rowmax.tolist()]
     collapsed = []
     for i in range(len(collapsed_barcodes)):
-        frag = collapsed_frags[i].split("|")
-        frag.append(collapsed_barcodes[i])
-        frag.append(rowsum[i][0])
-        collapsed.append(frag)
+        if rowsum[i][0] < 1:
+            pass
+        else:
+            frag = collapsed_frags[i].split("|")
+            frag.append(collapsed_barcodes[i])
+            frag.append(rowsum[i][0])
+            collapsed.append(frag)
     return collapsed
 
 
@@ -204,18 +256,6 @@ def filterFragmentDict(fragments):
     return fragments
 
 
-def condenseFragList(fraglist):
-    """Condense multiple lists of fragments into one
-    Input should be a 3-deep list
-    """
-    x = []
-    for i in fraglist:
-        for j in i:
-            for y in j:
-                x.append(y)
-    return x
-
-
 def fragments(
     bam,
     fragment_path,
@@ -272,5 +312,4 @@ def fragments(
             list(chrom.items()),
         )
     ]
-    frags = condenseFragList([res.get() for res in frag_lists])
-    writeFragments(fragments=frags, filepath=fragment_path)
+    writeFragments(fragments=[res.get() for res in frag_lists], filepath=fragment_path)
