@@ -1,6 +1,4 @@
-from sinto import utils
-from sinto import filterbarcodes
-from sinto import addtags
+from sinto import utils, filterbarcodes, addtags, fragments
 
 
 @utils.log_info
@@ -30,4 +28,19 @@ def run_addtags(options):
         sam=options.sam,
         nproc=options.nproc,
         mode=options.mode,
+    )
+
+@utils.log_info
+def run_fragments(options):
+    """Wraps the sctools.fragments function for use on the command line
+    """
+    fragments.fragments(
+        bam=options.bam,
+        fragment_path=options.fragments,
+        min_mapq=options.min_mapq,
+        nproc=options.nproc,
+        cellbarcode=options.barcodetag,
+        readname_barcode=options.barcode_regex,
+        chromosomes=options.use_chrom,
+        cells=options.cells
     )

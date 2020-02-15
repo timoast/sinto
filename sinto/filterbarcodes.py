@@ -1,10 +1,8 @@
 import pysam
-import gzip
 from multiprocessing import Pool
 import functools
 import random
 import string
-import os
 from sinto import utils
 from subprocess import call
 
@@ -69,13 +67,7 @@ def filterbarcodes(
         If samtools merge of temporary BAM files fails
     """
     nproc = int(nproc)
-    if os.path.isfile(cells):
-        if cells.endswith(".gz"):
-            cb = [line.strip("\n") for line in gzip.open(cells, "b")]
-        else:
-            cb = [line.strip("\n") for line in open(cells, "r")]
-    else:
-        cb = cells.split(",")
+    cb = utils.read_cells(cells)
     inputBam = pysam.AlignmentFile(bam, "rb")
     intervals = utils.chunk_bam(inputBam, nproc)
     inputBam.close()

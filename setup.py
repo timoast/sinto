@@ -1,10 +1,20 @@
 #!/usr/bin/env python
 
 import setuptools
-import versioneer
 import subprocess
 import sys
+import re
+from pathlib import Path
 
+
+VERSIONFILE="sinto/_version.py"
+verstrline = open(VERSIONFILE, "rt").read()
+VSRE = r"^__version__ = ['\"]([^'\"]*)['\"]"
+mo = re.search(VSRE, verstrline, re.M)
+if mo:
+    verstr = mo.group(1)
+else:
+    raise RuntimeError("Unable to find version string in %s." % (VERSIONFILE,))
 
 def samtools():
     if (sys.version_info > (3, 0)):
@@ -26,14 +36,13 @@ with open("README.rst", "r") as fh:
 
 setuptools.setup(
     name = 'sinto',
-    version = versioneer.get_version(),
-    cmdclass = versioneer.get_cmdclass(),
+    version = verstr,
     description = "sinto: tools for single-cell data processing",
     long_description = long_description,
     long_description_content_type = "text/markdown",
     author = 'Tim Stuart',
-    install_requires = [
-        'pysam>=0.8',
+    install_requires=[
+        l.strip() for l in Path('requirements.txt').read_text('utf-8').splitlines()
     ],
     scripts = ["scripts/sinto"],
     author_email = 'tstuart@nygenome.org',
