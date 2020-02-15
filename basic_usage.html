@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Basic usage &mdash; sinto 0.2 documentation</title>
+  <title>Basic usage &mdash; sinto 0.3 documentation</title>
   
 
   
@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -82,6 +82,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Basic usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#create-scatac-seq-fragments-file">Create scATAC-seq fragments file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#filter-cell-barcodes-from-bam-file">Filter cell barcodes from BAM file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#add-read-tags-to-bam-file">Add read tags to BAM file</a></li>
 </ul>
@@ -152,6 +153,51 @@
             
   <div class="section" id="basic-usage">
 <h1>Basic usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="create-scatac-seq-fragments-file">
+<h2>Create scATAC-seq fragments file<a class="headerlink" href="#create-scatac-seq-fragments-file" title="Permalink to this headline">¶</a></h2>
+<p>An ATAC-seq fragment file can be created from a BAM file using the <code class="docutils literal notranslate"><span class="pre">fragments</span></code> command.
+The fragment file contains the position of each Tn5 integration site, the cell barcode
+associated with the fragment, and the number of times the fragment was sequenced.
+PCR duplicates are collapsed. See <a class="reference external" href="https://support.10xgenomics.com/single-cell-atac/software/pipelines/latest/output/fragments">10x Genomics</a>
+for a further description of the fragment file format.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sinto fragments [-h] -b BAM -f FRAGMENTS [-m MIN_MAPQ] [-p NPROC]
+                   [-t BARCODETAG] [-c CELLS]
+                   [--barcode_regex BARCODE_REGEX] [--use_chrom USE_CHROM]
+
+Create ATAC-seq fragment file from BAM file
+
+optional arguments:
+-h, --help            show this help message and exit
+-b BAM, --bam BAM     Input bam file (must be indexed)
+-f FRAGMENTS, --fragments FRAGMENTS
+                        Name and path for output fragments file. Note that the
+                        output is not sorted or compressed. To sort the output
+                        file use sort -k 1,1 -k2,2n
+-m MIN_MAPQ, --min_mapq MIN_MAPQ
+                        Minimum MAPQ required to retain fragment (default =
+                        30)
+-p NPROC, --nproc NPROC
+                        Number of processors (default = 1)
+-t BARCODETAG, --barcodetag BARCODETAG
+                        Read tag storing cell barcode information (default =
+                        &quot;CB&quot;)
+-c CELLS, --cells CELLS
+                        Path to file containing cell barcodes to retain, or a
+                        comma-separated list of cell barcodes. If None
+                        (default), use all cell barocodes present in the BAM
+                        file.
+--barcode_regex BARCODE_REGEX
+                        Regular expression used to extract cell barcode from
+                        read name. If None (default), extract cell barcode
+                        from read tag. Use &quot;[^:]*&quot; to match all characters up
+                        to the first colon.
+--use_chrom USE_CHROM
+                        Regular expression used to match chromosomes to be
+                        included in output. Default is &quot;(?i)^chr&quot; to match all
+                        chromosomes starting with &quot;chr&quot;, case insensitive
+</pre></div>
+</div>
+</div>
 <div class="section" id="filter-cell-barcodes-from-bam-file">
 <h2>Filter cell barcodes from BAM file<a class="headerlink" href="#filter-cell-barcodes-from-bam-file" title="Permalink to this headline">¶</a></h2>
 <p>Reads for a subset of cells can be extracted from a BAM file using the <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code> command.

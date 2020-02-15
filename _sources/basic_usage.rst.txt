@@ -1,6 +1,53 @@
 Basic usage
 ===========
 
+Create scATAC-seq fragments file
+--------------------------------
+
+An ATAC-seq fragment file can be created from a BAM file using the ``fragments`` command.
+The fragment file contains the position of each Tn5 integration site, the cell barcode 
+associated with the fragment, and the number of times the fragment was sequenced. 
+PCR duplicates are collapsed. See `10x Genomics <https://support.10xgenomics.com/single-cell-atac/software/pipelines/latest/output/fragments>`_
+for a further description of the fragment file format.
+
+.. code-block:: none
+    
+    sinto fragments [-h] -b BAM -f FRAGMENTS [-m MIN_MAPQ] [-p NPROC]
+                       [-t BARCODETAG] [-c CELLS]
+                       [--barcode_regex BARCODE_REGEX] [--use_chrom USE_CHROM]
+
+    Create ATAC-seq fragment file from BAM file
+
+    optional arguments:
+    -h, --help            show this help message and exit
+    -b BAM, --bam BAM     Input bam file (must be indexed)
+    -f FRAGMENTS, --fragments FRAGMENTS
+                            Name and path for output fragments file. Note that the
+                            output is not sorted or compressed. To sort the output
+                            file use sort -k 1,1 -k2,2n
+    -m MIN_MAPQ, --min_mapq MIN_MAPQ
+                            Minimum MAPQ required to retain fragment (default =
+                            30)
+    -p NPROC, --nproc NPROC
+                            Number of processors (default = 1)
+    -t BARCODETAG, --barcodetag BARCODETAG
+                            Read tag storing cell barcode information (default =
+                            "CB")
+    -c CELLS, --cells CELLS
+                            Path to file containing cell barcodes to retain, or a
+                            comma-separated list of cell barcodes. If None
+                            (default), use all cell barocodes present in the BAM
+                            file.
+    --barcode_regex BARCODE_REGEX
+                            Regular expression used to extract cell barcode from
+                            read name. If None (default), extract cell barcode
+                            from read tag. Use "[^:]*" to match all characters up
+                            to the first colon.
+    --use_chrom USE_CHROM
+                            Regular expression used to match chromosomes to be
+                            included in output. Default is "(?i)^chr" to match all
+                            chromosomes starting with "chr", case insensitive
+
 Filter cell barcodes from BAM file
 ----------------------------------
 
