@@ -168,6 +168,7 @@ def getFragments(
             readname_barcode=readname_barcode,
             cells=cells,
         )
+    inputBam.close()
     fragment_dict = filterFragmentDict(fragments=fragment_dict)
     collapsed = collapseFragments(fragments=fragment_dict)
     return collapsed
