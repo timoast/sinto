@@ -11,4 +11,4 @@ Tools for single-cell data processing.
 
 Read the documentation at https://timoast.github.io/sinto
 
-.. include:: docs/installation.rst
+

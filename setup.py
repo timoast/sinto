@@ -39,7 +39,7 @@ setuptools.setup(
     version = verstr,
     description = "sinto: tools for single-cell data processing",
     long_description = long_description,
-    long_description_content_type = "text/markdown",
+    long_description_content_type = "text/x-rst",
     author = 'Tim Stuart',
     install_requires=[
         l.strip() for l in Path('requirements.txt').read_text('utf-8').splitlines()
