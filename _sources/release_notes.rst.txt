@@ -1,6 +1,14 @@
 Version 0.3
 -----------
 
+0.3.1
+~~~~~
+
+- Better handling of BAM file opening/closing
+
+0.3.0
+~~~~~
+
 - added ``fragments`` function to create scATAC fragment file from BAM file
 - removed use of versioneer for version tracking
 
