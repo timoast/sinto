@@ -5,6 +5,7 @@ Version 0.3
 ~~~~~
 
 - Better handling of BAM file opening/closing
+- Add ``max_distance`` parameter to ``fragments`` to remove fragments over a certain length
 
 0.3.0
 ~~~~~
