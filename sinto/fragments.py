@@ -135,11 +135,7 @@ def id_lookup(l):
 
 
 def getFragments(
-<<<<<<< HEAD
     interval, bam, min_mapq=30, cellbarcode="CB", readname_barcode=None, cells=None, max_distance=5000
-=======
-    interval, bam, min_mapq=30, cellbarcode="CB", readname_barcode=None, cells=None
->>>>>>> fd2ee29ec36545ec5c1160ecf16d64e9c94435c7
 ):
     """Extract ATAC fragments from BAM file
 
@@ -158,13 +154,10 @@ def getFragments(
         use the read tag instead.
     cells : list, optional
         List of cell barocodes to retain
-<<<<<<< HEAD
     max_distance : int, optional
         Maximum distance between integration sites for the fragment to be retained.
         Allows filtering of implausible fragments that likely result from incorrect 
         mapping positions. Default is 5000 bp.
-=======
->>>>>>> fd2ee29ec36545ec5c1160ecf16d64e9c94435c7
     """
     fragment_dict = dict()
     inputBam = pysam.AlignmentFile(bam, "rb")
@@ -179,12 +172,7 @@ def getFragments(
             readname_barcode=readname_barcode,
             cells=cells,
         )
-<<<<<<< HEAD
     fragment_dict = filterFragmentDict(fragments=fragment_dict, max_distance=max_distance)
-=======
-    inputBam.close()
-    fragment_dict = filterFragmentDict(fragments=fragment_dict)
->>>>>>> fd2ee29ec36545ec5c1160ecf16d64e9c94435c7
     collapsed = collapseFragments(fragments=fragment_dict)
     return collapsed
 
