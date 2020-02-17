@@ -6,6 +6,7 @@ from collections import Counter, defaultdict
 from multiprocessing import Pool
 import functools
 import re
+import gc
 
 
 def writeFragments(fragments, filepath):
@@ -76,12 +77,11 @@ def collapseFragments(fragments):
     """
     fraglist = [list(x.values()) for x in list(fragments.values())]
     fragcoords_with_bc = ["|".join(map(str, x)) for x in fraglist]
-    fragcoords = ["|".join(map(str, x[:3])) for x in fraglist]
-    cellbarcodes = [x[3] for x in fraglist]
     counts = Counter(fragcoords_with_bc)
+
     # enumerate fragments and barcodes
-    frag_id_lookup = id_lookup(l=fragcoords)
-    bc_id_lookup = id_lookup(l=cellbarcodes)
+    frag_id_lookup = id_lookup(l=["|".join(map(str, x[:3])) for x in fraglist])
+    bc_id_lookup = id_lookup(l=[x[3] for x in fraglist])
 
     # collapse counts from the same cell barcode with partial overlap
     counts = collapseOverlapFragments(counts, pos=1)
@@ -97,6 +97,12 @@ def collapseFragments(fragments):
         bcstr = i[0].split("|")[3]
         row.append(frag_id_lookup["|".join(rowstr)])
         col.append(bc_id_lookup[bcstr])
+    
+    # free memory
+    del fraglist
+    del fragments
+    del counts
+    gc.collect()
 
     # create sparse matrix of fragment counts from fraglist (column, row, value)
     mat = sparse.coo_matrix(
@@ -174,6 +180,7 @@ def getFragments(
         )
     fragment_dict = filterFragmentDict(fragments=fragment_dict, max_distance=max_distance)
     collapsed = collapseFragments(fragments=fragment_dict)
+    gc.collect()
     return collapsed
 
 
