@@ -15,6 +15,7 @@ for a further description of the fragment file format.
     sinto fragments [-h] -b BAM -f FRAGMENTS [-m MIN_MAPQ] [-p NPROC]
                        [-t BARCODETAG] [-c CELLS]
                        [--barcode_regex BARCODE_REGEX] [--use_chrom USE_CHROM]
+                       [--max_distance MAX_DISTANCE]
 
     Create ATAC-seq fragment file from BAM file
 
@@ -47,6 +48,11 @@ for a further description of the fragment file format.
                             Regular expression used to match chromosomes to be
                             included in output. Default is "(?i)^chr" to match all
                             chromosomes starting with "chr", case insensitive
+    --max_distance MAX_DISTANCE
+                            Maximum distance between integration sites for the
+                            fragment to be retained. Allows filtering of
+                            implausible fragments that likely result from
+                            incorrect mapping positions. Default is 5000 bp.
 
 Filter cell barcodes from BAM file
 ----------------------------------

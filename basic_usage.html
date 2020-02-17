@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Basic usage &mdash; sinto 0.3 documentation</title>
+  <title>Basic usage &mdash; sinto 0.3.0 documentation</title>
   
 
   
@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -163,6 +163,7 @@ for a further description of the fragment file format.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sinto fragments [-h] -b BAM -f FRAGMENTS [-m MIN_MAPQ] [-p NPROC]
                    [-t BARCODETAG] [-c CELLS]
                    [--barcode_regex BARCODE_REGEX] [--use_chrom USE_CHROM]
+                   [--max_distance MAX_DISTANCE]
 
 Create ATAC-seq fragment file from BAM file
 
@@ -195,6 +196,11 @@ optional arguments:
                         Regular expression used to match chromosomes to be
                         included in output. Default is &quot;(?i)^chr&quot; to match all
                         chromosomes starting with &quot;chr&quot;, case insensitive
+--max_distance MAX_DISTANCE
+                        Maximum distance between integration sites for the
+                        fragment to be retained. Allows filtering of
+                        implausible fragments that likely result from
+                        incorrect mapping positions. Default is 5000 bp.
 </pre></div>
 </div>
 </div>
@@ -283,7 +289,7 @@ optional arguments:
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Tim Stuart
+        &copy; Copyright 2020, Tim Stuart
 
     </p>
   </div>
