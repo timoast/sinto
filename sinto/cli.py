@@ -1,6 +1,4 @@
-from sinto import utils
-from sinto import filterbarcodes
-from sinto import addtags
+from sinto import utils, filterbarcodes, addtags, fragments
 
 
 @utils.log_info
