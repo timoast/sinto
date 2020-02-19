@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Basic usage &mdash; sinto 0.3.0 documentation</title>
+  <title>User guide &mdash; sinto 0.3.0 documentation</title>
   
 
   
@@ -81,8 +81,21 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Basic usage</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#create-scatac-seq-fragments-file">Create scATAC-seq fragments file</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">User guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#create-scatac-seq-fragments-file">Create scATAC-seq fragments file</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fragment-file-format">Fragment file format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#how-the-fragment-file-is-generated">How the fragment file is generated</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#additional-arguments-for-the-fragments-function">Additional arguments for the fragments function</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#number-of-processors-nproc">Number of processors: <code class="docutils literal notranslate"><span class="pre">--nproc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#minimum-mapping-quality-min-mapq">Minimum mapping quality: <code class="docutils literal notranslate"><span class="pre">--min_mapq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cell-barcode-tag-barcodetag">Cell barcode tag: <code class="docutils literal notranslate"><span class="pre">--barcodetag</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cell-barcode-regex-barcode-regex">Cell barcode regex: <code class="docutils literal notranslate"><span class="pre">--barcode_regex</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#choosing-chromosomes-to-include-use-chrom">Choosing chromosomes to include: <code class="docutils literal notranslate"><span class="pre">--use_chrom</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#set-the-maximum-distance-between-tn5-integration-sites-max-distance">Set the maximum distance between Tn5 integration sites: <code class="docutils literal notranslate"><span class="pre">--max_distance</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#filter-cell-barcodes-from-bam-file">Filter cell barcodes from BAM file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#add-read-tags-to-bam-file">Add read tags to BAM file</a></li>
 </ul>
@@ -132,7 +145,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Basic usage</li>
+      <li>User guide</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -151,15 +164,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="basic-usage">
-<h1>Basic usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="user-guide">
+<h1>User guide<a class="headerlink" href="#user-guide" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="create-scatac-seq-fragments-file">
 <h2>Create scATAC-seq fragments file<a class="headerlink" href="#create-scatac-seq-fragments-file" title="Permalink to this headline">¶</a></h2>
 <p>An ATAC-seq fragment file can be created from a BAM file using the <code class="docutils literal notranslate"><span class="pre">fragments</span></code> command.
 The fragment file contains the position of each Tn5 integration site, the cell barcode
 associated with the fragment, and the number of times the fragment was sequenced.
-PCR duplicates are collapsed. See <a class="reference external" href="https://support.10xgenomics.com/single-cell-atac/software/pipelines/latest/output/fragments">10x Genomics</a>
-for a further description of the fragment file format.</p>
+PCR duplicates are collapsed.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sinto fragments [-h] -b BAM -f FRAGMENTS [-m MIN_MAPQ] [-p NPROC]
                    [-t BARCODETAG] [-c CELLS]
                    [--barcode_regex BARCODE_REGEX] [--use_chrom USE_CHROM]
@@ -202,6 +214,110 @@ optional arguments:
                         implausible fragments that likely result from
                         incorrect mapping positions. Default is 5000 bp.
 </pre></div>
+</div>
+<div class="section" id="fragment-file-format">
+<h3>Fragment file format<a class="headerlink" href="#fragment-file-format" title="Permalink to this headline">¶</a></h3>
+<p>The fragment file is a BED format file containing the positions of Tn5 integration
+sites, the cell barcode that the DNA fragment originated from, and the number
+of times the fragment was sequenced. See the <a class="reference external" href="https://support.10xgenomics.com/single-cell-atac/software/pipelines/latest/output/fragments">10x Genomics</a>
+website for a further description of the fragment file format.</p>
+<p>This is a convenient compressed form of the most useful data generated in a
+scATAC-seq experiment. The fragments file generated by Sinto needs to be sorted,
+block-gzip compressed (<a class="reference external" href="https://www.htslib.org/doc/bgzip.html">bgzip</a>),
+and indexed using <a class="reference external" href="https://www.htslib.org/doc/tabix.html">tabix</a>.</p>
+<p>For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sort -k <span class="m">1</span>,2 -k2,2n frags.bed &gt; frags.sort.bed
+bgzip frags.sort.bed
+tabix -p bed frags.sort.bed
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-the-fragment-file-is-generated">
+<h3>How the fragment file is generated<a class="headerlink" href="#how-the-fragment-file-is-generated" title="Permalink to this headline">¶</a></h3>
+<p>Generating the fragment file involves the following steps in order:</p>
+<ol class="arabic">
+<li><p>Remove soft-clipped bases from the alignment position.</p></li>
+<li><p>Extract cell barcode sequence associated with the fragment.</p></li>
+<li><p>Adjust alignment positions for the 9 bp Tn5 shift by
+applying +4/-5 to the start and end position of the paired reads.</p></li>
+<li><p>Remove fragments where either read has a MAPQ score less than
+the specified cutoff.</p></li>
+<li><p>Remove fragments where the fragment size is greater than the
+specified maximum.</p></li>
+<li><p>Collapse PCR duplicates:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Count the frequency of each fragment for each cell barcode.</p></li>
+<li><p>Within a cell barocode, collapse fragments that share
+a start or end coordinate on the same chromosome.</p></li>
+<li><p>Across all cell barcodes, collapse fragments that share
+the exact start and end coordinates on the same chromosome.</p></li>
+<li><p>Assign the fragment to the most abundant cell barcode.</p></li>
+<li><p>Record the read count for the collapsed fragment.</p></li>
+</ol>
+</div></blockquote>
+</li>
+<li><p>Write fragments to file. Note that fragments are not sorted
+or compressed.</p></li>
+</ol>
+</div>
+<div class="section" id="additional-arguments-for-the-fragments-function">
+<h3>Additional arguments for the fragments function<a class="headerlink" href="#additional-arguments-for-the-fragments-function" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="number-of-processors-nproc">
+<h4>Number of processors: <code class="docutils literal notranslate"><span class="pre">--nproc</span></code><a class="headerlink" href="#number-of-processors-nproc" title="Permalink to this headline">¶</a></h4>
+<p>Multiple cores can be used by specifying the <code class="docutils literal notranslate"><span class="pre">--nproc</span></code> argument.
+Note that each process will load fragments from a single chromosome into
+memory, so the more processors used the more memory required.
+At a minimum, enough memory to fragments from the largest chromosome into memory is required.
+The amount of memory this corresponds to will depend on sequencing depth and the genome
+size. There is no point specifiying more processors than the number of chromosomes.</p>
+</div>
+<div class="section" id="minimum-mapping-quality-min-mapq">
+<h4>Minimum mapping quality: <code class="docutils literal notranslate"><span class="pre">--min_mapq</span></code><a class="headerlink" href="#minimum-mapping-quality-min-mapq" title="Permalink to this headline">¶</a></h4>
+<p>The minimum allowed mapping quality (MAPQ) can be set using <code class="docutils literal notranslate"><span class="pre">--min_mapq</span></code>.
+Depending on the aligner used, the MAPQ value can mean different <a class="reference external" href="https://sequencing.qcfail.com/articles/mapq-values-are-really-useful-but-their-implementation-is-a-mess/">things</a>.
+Cellranger-atac uses <code class="docutils literal notranslate"><span class="pre">bwa-mem</span></code> for alignment, which follows the SAM spec and
+reports Phred scores as MAPQ values:</p>
+<blockquote>
+<div><p>MAPping Quality.  It equals -10 log10 Pr {mapping position is wrong},
+rounded to the nearest integer.  A value 255 indicates that the
+mapping quality is not available.</p>
+</div></blockquote>
+</div>
+<div class="section" id="cell-barcode-tag-barcodetag">
+<h4>Cell barcode tag: <code class="docutils literal notranslate"><span class="pre">--barcodetag</span></code><a class="headerlink" href="#cell-barcode-tag-barcodetag" title="Permalink to this headline">¶</a></h4>
+<p>Different methods may use different tags to store the cell barcode.
+Cellranger uses the <code class="docutils literal notranslate"><span class="pre">CB</span></code> tag, which is set as the default for Sinto.
+Other methods may use different tags, for example SNARE-seq uses the <code class="docutils literal notranslate"><span class="pre">XC</span></code> tag.
+You can work out what tag is used by looking at part of the BAM file:
+<code class="docutils literal notranslate"><span class="pre">samtools</span> <span class="pre">view</span> <span class="pre">aln.bam</span> <span class="pre">|</span> <span class="pre">head</span></code>.</p>
+</div>
+<div class="section" id="cell-barcode-regex-barcode-regex">
+<h4>Cell barcode regex: <code class="docutils literal notranslate"><span class="pre">--barcode_regex</span></code><a class="headerlink" href="#cell-barcode-regex-barcode-regex" title="Permalink to this headline">¶</a></h4>
+<p>Some methods store the cell barcode in the read name rather than under a read tag.
+If this is the case, you can use a regular expression to extract the cell barcode
+from the read name. For example, if the first section of your read name
+up until the first <code class="docutils literal notranslate"><span class="pre">:</span></code> character corresponds to the cell barcode sequence,
+you can specify <code class="docutils literal notranslate"><span class="pre">--barcode_regex</span> <span class="pre">[^:]*</span></code> to correcly match the cell barcodes.</p>
+</div>
+<div class="section" id="choosing-chromosomes-to-include-use-chrom">
+<h4>Choosing chromosomes to include: <code class="docutils literal notranslate"><span class="pre">--use_chrom</span></code><a class="headerlink" href="#choosing-chromosomes-to-include-use-chrom" title="Permalink to this headline">¶</a></h4>
+<p>Often a genome build might contain several scaffolds that are not typically used in
+downstream analysis. This option allows you to specify a regular expression to
+match chromosome names that will be retained in the output. By default,
+all chromosomes starting with “chr” are retained, case insensitive (ie,
+“Chr”, and “CHR” are also retained).</p>
+</div>
+<div class="section" id="set-the-maximum-distance-between-tn5-integration-sites-max-distance">
+<h4>Set the maximum distance between Tn5 integration sites: <code class="docutils literal notranslate"><span class="pre">--max_distance</span></code><a class="headerlink" href="#set-the-maximum-distance-between-tn5-integration-sites-max-distance" title="Permalink to this headline">¶</a></h4>
+<p>Incorrect alignment can sometimes generate implausible fragment coordinates.
+Since we known there is an upper limit to the size of a DNA molecule that
+can be sequenced on the Illumina platform, very large fragments over 5 kb
+in size likely originate from incorrect read mapping. We can remove these
+to reduce the impact of mapping artefacts on the downstream analysis
+by setting the <code class="docutils literal notranslate"><span class="pre">--max_distance</span></code> parameter. Fragments larger than
+this value will not be included in the output file.</p>
+</div>
 </div>
 </div>
 <div class="section" id="filter-cell-barcodes-from-bam-file">
