@@ -54,12 +54,21 @@ parser_filterbarcodes.add_argument(
     type=int,
 )
 parser_filterbarcodes.add_argument(
-    "-m",
-    "--mode",
-    help="Either tag (default) or readname. Some BAM file store the cell barcode in the readname rather than under a read tag",
+    "--barcode_regex",
+    help="""
+    Regular expression used to extract cell barcode from read name. If None (default), extract cell barcode from read tag.
+    Use "[^:]*" to match all characters up to the first colon.
+    """,
     required=False,
-    default="tag",
     type=str,
+    default=None,
+)
+parser_filterbarcodes.add_argument(
+    "--barcodetag",
+    help='Read tag storing cell barcode information (default = "CB")',
+    required=False,
+    type=str,
+    default="CB",
 )
 parser_filterbarcodes.set_defaults(func=cli.run_filterbarcodes)
 
