@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>User guide &mdash; sinto 0.3.0 documentation</title>
+  <title>User guide &mdash; sinto 0.3.2 documentation</title>
   
 
   
@@ -21,10 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -324,8 +324,9 @@ this value will not be included in the output file.</p>
 <h2>Filter cell barcodes from BAM file<a class="headerlink" href="#filter-cell-barcodes-from-bam-file" title="Permalink to this headline">¶</a></h2>
 <p>Reads for a subset of cells can be extracted from a BAM file using the <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code> command.
 This requires a position-sorted, indexed BAM file, and a file containing a list of cell barcodes to retain.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sinto filterbarcodes [-h] -b BAM -c CELLS -o OUTPUT [-t] [-s]
-                            [-p NPROC] [-m MODE]
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> sinto filterbarcodes [-h] -b BAM -c CELLS -o OUTPUT [-t] [-s]
+                         [-p NPROC] [--barcode_regex BARCODE_REGEX]
+                         [--barcodetag BARCODETAG]
 
 Filter reads based on input list of cell barcodes
 
@@ -336,15 +337,20 @@ optional arguments:
                         File or comma-separated list of cell barcodes. Can be
                         gzip compressed
 -o OUTPUT, --output OUTPUT
-                        Name for output BAM file
+                        Name for output text file
 -t, --trim_suffix     Remove trail 2 characters from cell barcode in BAM
                         file
 -s, --sam             Output sam format (default bam output)
 -p NPROC, --nproc NPROC
                         Number of processors (default = 1)
--m MODE, --mode MODE  Either tag (default) or readname. Some BAM file store
-                        the cell barcode in the readname rather than under a
-                        read tag
+--barcode_regex BARCODE_REGEX
+                        Regular expression used to extract cell barcode from
+                        read name. If None (default), extract cell barcode
+                        from read tag. Use &quot;[^:]*&quot; to match all characters up
+                        to the first colon.
+--barcodetag BARCODETAG
+                        Read tag storing cell barcode information (default =
+                        &quot;CB&quot;)
 </pre></div>
 </div>
 </div>

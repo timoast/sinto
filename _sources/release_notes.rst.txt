@@ -1,6 +1,11 @@
 Version 0.3
 -----------
 
+0.3.2
+~~~~~
+
+- Added ``--barcodetag`` and ``--barcode_regex`` arguments to ``filterbarcodes``
+
 0.3.1
 ~~~~~
 
