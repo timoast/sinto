@@ -78,7 +78,10 @@ def collapseFragments(fragments):
     fraglist = [list(x.values()) for x in list(fragments.values())]
     fragcoords_with_bc = ["|".join(map(str, x)) for x in fraglist]
     counts = Counter(fragcoords_with_bc)
-
+    
+    if len(fraglist) == 0:
+        return list()
+    
     # enumerate fragments and barcodes
     frag_id_lookup = id_lookup(l=["|".join(map(str, x[:3])) for x in fraglist])
     bc_id_lookup = id_lookup(l=[x[3] for x in fraglist])
