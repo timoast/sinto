@@ -1,6 +1,11 @@
 Version 0.3
 -----------
 
+0.3.3
+~~~~~
+
+- Bug fix for ``fragments`` function when using chromosome containing zero fragments
+
 0.3.2
 ~~~~~
 
