@@ -7,6 +7,8 @@ from multiprocessing import Pool
 import functools
 import re
 import gc
+import tempfile
+import os
 
 
 def writeFragments(fragments, filepath):
@@ -19,12 +21,10 @@ def writeFragments(fragments, filepath):
     filepath : str
         Path for output file
     """
-    with open(filepath, "w") as outf:
+    with open(filepath, "a") as outf:
         for i in fragments:
-            for j in i:
-                for y in j:
-                    outstr = "\t".join(map(str, y))
-                    outf.write(outstr + "\n")
+            outstr = "\t".join(map(str, i))
+            outf.write(outstr + "\n")
 
 
 def createPositionLookup(frags, pos=1):
@@ -75,7 +75,8 @@ def collapseOverlapFragments(counts, pos=1):
 def collapseFragments(fragments):
     """Collapse duplicate fragments
     """
-    fraglist = [list(x.values()) for x in list(fragments.values())]
+    # fraglist = [list(x.values()) for x in list(fragments.values())]
+    fraglist = list(fragments.values())
     fragcoords_with_bc = ["|".join(map(str, x)) for x in fraglist]
     counts = Counter(fragcoords_with_bc)
     
@@ -170,6 +171,9 @@ def getFragments(
     """
     fragment_dict = dict()
     inputBam = pysam.AlignmentFile(bam, "rb")
+    outfile = tempfile.NamedTemporaryFile(delete=False)
+    outname = outfile.name
+    x = 0
     if readname_barcode is not None:
         readname_barcode = re.compile(readname_barcode)
     for i in inputBam.fetch(interval[0], 0, interval[1]):
@@ -180,15 +184,69 @@ def getFragments(
             cellbarcode=cellbarcode,
             readname_barcode=readname_barcode,
             cells=cells,
+            max_dist=max_distance,
         )
-    fragment_dict = filterFragmentDict(fragments=fragment_dict, max_distance=max_distance)
-    collapsed = collapseFragments(fragments=fragment_dict)
-    gc.collect()
-    return collapsed
+        x += 1
+        if x > 50000:
+            current_position = i.reference_start
+            complete = findCompleteFragments(
+                fragments = fragment_dict,
+                max_dist=max_distance,
+                current_position=current_position,
+                max_collapse_dist=20
+            )
+            collapsed = collapseFragments(fragments=complete)
+            writeFragments(fragments=collapsed, filepath=outname)
+            x = 0
+            gc.collect()
+    # collapse and write the remaining fragments
+    complete = findCompleteFragments(
+                fragments = fragment_dict,
+                max_dist=max_distance,
+                current_position=i.reference_start,
+                max_collapse_dist= -max_distance # make sure we get them all
+            )
+    collapsed = collapseFragments(fragments=complete)
+    writeFragments(fragments=collapsed, filepath=outname)
+    return outname
+
+
+def findCompleteFragments(fragments, max_dist, current_position, max_collapse_dist=20):
+    """Find complete fragments that are >max_dist bp away from
+    the current BAM file position
+    
+    Parameters
+    ----------
+    fragments : dict
+        A dictionary containing ATAC fragment information
+    max_dist : int
+        The maximum allowed distance between fragment start and 
+        end positions
+    current_position : int
+        The current position being looked at in the position-sorted
+        BAM file
+    max_collapse_dist : int
+        Maximum allowed distance for fragments from the same cell 
+        barcode that share one Tn5 integration site (fragment 
+        start or end coordinate) to be collapsed into a single 
+        fragment.
+    
+    Moves completed fragments to a new dictionary
+    Completed fragments will be deleted from the original dictionary
+    """
+    allkey = list(fragments.keys())
+    completed = dict()
+    for key in allkey:
+        vals = list(fragments[key].values())
+        if all(vals):
+            if (fragments[key]['end'] + max_dist + max_collapse_dist) < current_position:
+                completed[key] = vals
+                del fragments[key]
+    return completed
 
 
 def updateFragmentDict(
-    fragments, segment, min_mapq, cellbarcode, readname_barcode, cells
+    fragments, segment, min_mapq, cellbarcode, readname_barcode, cells, max_dist
 ):
     """Update dictionary of ATAC fragments
     Takes a new aligned segment and adds information to the dictionary,
@@ -213,6 +271,8 @@ def updateFragmentDict(
         use the read tags.
     cells : list
         List of cells to retain. If None, retain all cells found.
+    max_dist : int
+        Maximum allowed distance between fragment start and end sites
     """
     # because the cell barcode is not stored with each read pair (only one of the pair)
     # we need to look for each read separately rather than using the mate cigar / mate postion information
@@ -233,7 +293,7 @@ def updateFragmentDict(
     rend = segment.reference_end
     qstart = segment.query_alignment_start
     is_reverse = segment.is_reverse
-    if rend is None:
+    if (rend is None) or (rstart is None):
         return fragments
     # correct for soft clipping
     rstart = rstart + qstart
@@ -244,9 +304,22 @@ def updateFragmentDict(
         rstart = rstart + 4
     if qname in fragments.keys():
         if is_reverse:
-            fragments[qname]["end"] = rend
+            current_coord = fragments[qname]["start"]
+            if current_coord is None:
+                # read aligned to the wrong strand, pass
+                pass
+            elif (rend - current_coord) > max_dist:
+                del fragments[qname]
+            else:
+                fragments[qname]["end"] = rend
         else:
-            fragments[qname]["start"] = rstart
+            current_coord = fragments[qname]["end"]
+            if current_coord is None:
+                pass
+            elif (fragments[qname]["end"] - rstart) > max_dist:
+                del fragments[qname]
+            else:
+                fragments[qname]["start"] = rstart
     else:
         fragments[qname] = {
             "chrom": chromosome,
@@ -267,8 +340,6 @@ def filterFragmentDict(fragments, max_distance=5000):
     for key in allkey:
         vals = list(fragments[key].values())
         if not all(vals):
-            del fragments[key]
-        elif (vals[2] - vals[1]) > max_distance:
             del fragments[key]
     return fragments
 
@@ -335,4 +406,12 @@ def fragments(
             list(chrom.items()),
         )
     ]
-    writeFragments(fragments=[res.get() for res in frag_lists], filepath=fragment_path)
+    filenames = [res.get() for res in frag_lists]
+    # cat files and write to output
+    with open(fragment_path, 'w') as outfile:
+        for fname in filenames:
+            with open(fname) as infile:
+                for line in infile:
+                    outfile.write(line)
+    # remove temp files
+    [os.remove(i) for i in filenames]
