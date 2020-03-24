@@ -44,5 +44,6 @@ def run_fragments(options):
         readname_barcode=options.barcode_regex,
         chromosomes=options.use_chrom,
         cells=options.cells,
-        max_distance=options.max_distance
+        max_distance=options.max_distance,
+        chunksize=options.chunksize
     )

@@ -145,7 +145,7 @@ def id_lookup(l):
 
 
 def getFragments(
-    interval, bam, min_mapq=30, cellbarcode="CB", readname_barcode=None, cells=None, max_distance=5000
+    interval, bam, min_mapq=30, cellbarcode="CB", readname_barcode=None, cells=None, max_distance=5000, chunksize=500000
 ):
     """Extract ATAC fragments from BAM file
 
@@ -168,6 +168,10 @@ def getFragments(
         Maximum distance between integration sites for the fragment to be retained.
         Allows filtering of implausible fragments that likely result from incorrect 
         mapping positions. Default is 5000 bp.
+    chunksize : int
+        Number of BAM entries to read through before collapsing and writing
+        fragments to disk. Higher chunksize will use more memory but will be 
+        faster.
     """
     fragment_dict = dict()
     inputBam = pysam.AlignmentFile(bam, "rb")
@@ -187,7 +191,7 @@ def getFragments(
             max_dist=max_distance,
         )
         x += 1
-        if x > 50000:
+        if x > chunksize:
             current_position = i.reference_start
             complete = findCompleteFragments(
                 fragments = fragment_dict,
@@ -354,6 +358,7 @@ def fragments(
     readname_barcode=None,
     cells=None,
     max_distance=5000,
+    chunksize=500000
 ):
     """Create ATAC fragment file from BAM file
 
@@ -387,6 +392,10 @@ def fragments(
         Maximum distance between integration sites for the fragment to be retained.
         Allows filtering of implausible fragments that likely result from incorrect 
         mapping positions. Default is 5000 bp.
+    chunksize : int
+        Number of BAM entries to read through before collapsing and writing
+        fragments to disk. Higher chunksize will use more memory but will be 
+        faster.
     """
     nproc = int(nproc)
     chrom = utils.get_chromosomes(bam, keep_contigs=chromosomes)
@@ -401,7 +410,8 @@ def fragments(
                 cellbarcode=cellbarcode,
                 readname_barcode=readname_barcode,
                 cells=cells,
-                max_distance=max_distance
+                max_distance=max_distance,
+                chunksize=chunksize
             ),
             list(chrom.items()),
         )

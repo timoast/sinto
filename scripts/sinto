@@ -207,6 +207,16 @@ parser_fragments.add_argument(
     default=5000,
     type=int
 )
+parser_fragments.add_argument(
+    "--chunksize",
+    help="""
+    Number of BAM file entries to iterate over before collapsing the fragments and writing
+    to disk. Higher chunksize will use more memory but will be faster.
+    """,
+    required=False,
+    default=500000,
+    type=int
+)
 parser_fragments.set_defaults(func=cli.run_fragments)
 
 if len(sys.argv[1:]) == 0:
