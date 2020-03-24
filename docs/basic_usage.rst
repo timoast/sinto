@@ -52,6 +52,10 @@ PCR duplicates are collapsed.
                             fragment to be retained. Allows filtering of
                             implausible fragments that likely result from
                             incorrect mapping positions. Default is 5000 bp.
+   --chunksize CHUNKSIZE
+                           Number of BAM file entries to iterate over before
+                           collapsing the fragments and writing to disk. Higher
+                           chunksize will use more memory but will be faster.
 
 Fragment file format
 ~~~~~~~~~~~~~~~~~~~~~
