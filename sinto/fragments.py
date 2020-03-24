@@ -420,8 +420,8 @@ def fragments(
     # cat files and write to output
     with open(fragment_path, 'w') as outfile:
         for fname in filenames:
-            with open(fname) as infile:
+            with open(fname[0]) as infile:
                 for line in infile:
                     outfile.write(line)
     # remove temp files
-    [os.remove(i) for i in filenames]
+    [os.remove(i[0]) for i in filenames]
