@@ -240,12 +240,22 @@ def findCompleteFragments(fragments, max_dist, current_position, max_collapse_di
     """
     allkey = list(fragments.keys())
     completed = dict()
+    d = max_dist + max_collapse_dist
     for key in allkey:
-        vals = list(fragments[key].values())
-        if all(vals):
-            if (fragments[key]['end'] + max_dist + max_collapse_dist) < current_position:
-                completed[key] = vals
+        if fragments[key]["complete"]:
+            if (fragments[key]['end'] + d) < current_position:
+                completed[key] = [fragments[key]["chrom"], fragments[key]["start"],
+                fragments[key]["end"], fragments[key]["cell"]]
                 del fragments[key]
+        else:
+            if fragments[key]["start"] is None:
+                if (fragments[key]["end"] + d) < current_position:
+                    del fragments[key]
+            elif fragments[key]["end"] is None:
+                if (fragments[key]["start"] + d) < current_position:
+                    del fragments[key]
+            else:
+                raise Exception("Fragment has start and end coordinates but is marked incomplete")
     return completed
 
 
@@ -285,7 +295,9 @@ def updateFragmentDict(
         cell_barcode = re_match.group()
     else:
         cell_barcode, _ = utils.scan_tags(segment.tags, cb=cellbarcode)
-    if cells is not None and cell_barcode is not None:
+    if cell_barcode is None:
+        return fragments
+    if cells is not None:
         if cell_barcode not in cells:
             return fragments
     mapq = segment.mapping_quality
@@ -312,39 +324,32 @@ def updateFragmentDict(
             if current_coord is None:
                 # read aligned to the wrong strand, pass
                 pass
-            elif (rend - current_coord) > max_dist:
+            elif ((rend - current_coord) > max_dist) or ((rend - current_coord) < 0):
                 del fragments[qname]
             else:
                 fragments[qname]["end"] = rend
+                fragments[qname]["complete"] = True
         else:
             current_coord = fragments[qname]["end"]
             if current_coord is None:
                 pass
-            elif (fragments[qname]["end"] - rstart) > max_dist:
+            elif ((current_coord - rstart) > max_dist) or ((current_coord - rstart) < 0):
                 del fragments[qname]
             else:
                 fragments[qname]["start"] = rstart
+                fragments[qname]["complete"] = True
     else:
         fragments[qname] = {
             "chrom": chromosome,
             "start": None,
             "end": None,
             "cell": cell_barcode,
+            "complete": False
         }
         if is_reverse:
             fragments[qname]["end"] = rend
         else:
             fragments[qname]["start"] = rstart
-    return fragments
-
-
-def filterFragmentDict(fragments, max_distance=5000):
-    """Remove invalid entries"""
-    allkey = list(fragments.keys())
-    for key in allkey:
-        vals = list(fragments[key].values())
-        if not all(vals):
-            del fragments[key]
     return fragments
 
 
