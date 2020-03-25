@@ -241,11 +241,13 @@ def findCompleteFragments(fragments, max_dist, current_position, max_collapse_di
     completed = dict()
     d = max_dist + max_collapse_dist
     for key in allkey:
-        if fragments[key][4]:
+        if fragments[key][4]:  # complete fragment
             if (fragments[key][2] + d) < current_position:
                 completed[key] = fragments[key][:-1]  # removes "completed" T/F information
                 del fragments[key]
         else:
+            # remove incomplete fragments that are 
+            # too far away to ever be complete
             if fragments[key][1] is None:
                 if (fragments[key][2] + d) < current_position:
                     del fragments[key]
@@ -253,7 +255,8 @@ def findCompleteFragments(fragments, max_dist, current_position, max_collapse_di
                 if (fragments[key][1] + d) < current_position:
                     del fragments[key]
             else:
-                raise Exception("Fragment has start and end coordinates but is marked incomplete")
+                # start and end coordinates present without a cell barcode
+                del fragments[key]
     return completed
 
 
@@ -293,9 +296,7 @@ def updateFragmentDict(
         cell_barcode = re_match.group()
     else:
         cell_barcode, _ = utils.scan_tags(segment.tags, cb=cellbarcode)
-    if cell_barcode is None:
-        return fragments
-    if cells is not None:
+    if cells is not None and cell_barcode is not None:
         if cell_barcode not in cells:
             return fragments
     mapq = segment.mapping_quality
@@ -316,27 +317,70 @@ def updateFragmentDict(
         rend = rend - 5
     else:
         rstart = rstart + 4
+    fragments = addToFragments(
+        fragments,
+        qname,
+        chromosome,
+        rstart,
+        rend,
+        cell_barcode,
+        is_reverse,
+        max_dist
+    )
+    return fragments
+
+
+def addToFragments(
+    fragments, qname, chromosome, rstart, rend, cell_barcode, is_reverse, max_dist
+):
+    """Add new fragment information to dictionary
+    
+    Parameters
+    ----------
+
+    fragments : dict
+        A dictionary containing all the fragment information
+    qname : str
+        Read name
+    chromosome : str
+        Chromosome name
+    rstart : int
+        Alignment start position
+    rend : int
+        Alignment end position
+    cell_barcode : str
+        Cell barcode sequence
+    is_reverse : bool
+        Read is aligned to reverse strand
+    max_dist : int
+        Maximum allowed fragment size
+    """
     if qname in fragments.keys():
         if is_reverse:
             current_coord = fragments[qname][1]
             if current_coord is None:
-                # read aligned to the wrong strand, pass
-                pass
+                # read aligned to the wrong strand, don't include
+                return fragments
             elif ((rend - current_coord) > max_dist) or ((rend - current_coord) < 0):
-                del fragments[qname]
+                # too far away, don't include
+                return fragments
             else:
                 fragments[qname][2] = rend
-                fragments[qname][4] = True
+                if cell_barcode is not None:
+                    # mark complete fragment
+                    fragments[qname][4] = True
         else:
             current_coord = fragments[qname][2]
             if current_coord is None:
-                pass
+                return fragments
             elif ((current_coord - rstart) > max_dist) or ((current_coord - rstart) < 0):
-                del fragments[qname]
+                return fragments
             else:
                 fragments[qname][1] = rstart
-                fragments[qname][4] = True
+                if cell_barcode is not None:
+                    fragments[qname][4] = True
     else:
+        # new read pair, add to dictionary
         fragments[qname] = [
             chromosome,    # chromosome    0
             None,          # start         1
@@ -349,7 +393,6 @@ def updateFragmentDict(
         else:
             fragments[qname][1] = rstart
     return fragments
-
 
 def fragments(
     bam,
