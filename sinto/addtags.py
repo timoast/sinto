@@ -66,7 +66,7 @@ def addtags(bam, tagfile, output, sam=False, trim_suffix=True, mode="tag", nproc
         If samtools merge of temporary BAM files fails
     """
     nproc = int(nproc)
-    tags = utils.read_cell_barcodes(tagfile)
+    tags = utils.read_cell_barcode_tag_file(tagfile)
     inputBam = pysam.AlignmentFile(bam, "rb")
     intervals = utils.chunk_bam(inputBam, nproc)
     inputBam.close()

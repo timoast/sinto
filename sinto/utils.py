@@ -143,9 +143,15 @@ def get_chromosomes(bam, keep_contigs="(?i)^chr"):
     return conlen
 
 
-def read_cell_barcodes(infile):
+def read_cell_barcode_tag_file(infile):
     """
     Read in table of cell barcodes and associated group
+
+    Note that each cell barcode can be in multiple groups
+
+    Returns a dictionary where the cell barcode is the key,
+    value is a list of tuples. Each tuple in the list is the 
+    read tag and the group.
 
     Parameters
     ----------
@@ -164,5 +170,34 @@ def read_cell_barcodes(infile):
                 cb[line[0]].append((line[1], line[2]))
             else:
                 cb[line[0]] = [(line[1], line[2])]
+        inf.close()
+    return cb
+
+def read_cell_barcode_file(infile):
+    """
+    Read in table of cell barcodes and associated group
+
+    Note that each cell barcode can be in multiple groups
+
+    Returns a dictionary where the cell barcode is the key,
+    value is a list of groups that the cell belongs to.
+
+    Parameters
+    ----------
+    infile : str
+        File name. Can be a gzip-compressed file or plain text.
+    """
+    cb = {}
+    if os.path.isfile(infile):
+        if infile.endswith(".gz"):
+            inf = gzip.open(infile, "b")
+        else:
+            inf = open(infile, "r")
+        for line in inf:
+            line = line.rsplit()
+            if line[0] in cb.keys():
+                cb[line[0]].append(line[1])
+            else:
+                cb[line[0]] = [line[1]]
         inf.close()
     return cb
