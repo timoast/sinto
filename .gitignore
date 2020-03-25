@@ -1,0 +1,5 @@
+.vscode/
+build/
+dist/
+docs/
+sinto.egg-info/

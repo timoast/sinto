@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>User guide &mdash; sinto 0.3.3 documentation</title>
+  <title>User guide &mdash; sinto 0.3.4 documentation</title>
   
 
   
@@ -92,6 +92,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#cell-barcode-regex-barcode-regex">Cell barcode regex: <code class="docutils literal notranslate"><span class="pre">--barcode_regex</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#choosing-chromosomes-to-include-use-chrom">Choosing chromosomes to include: <code class="docutils literal notranslate"><span class="pre">--use_chrom</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#set-the-maximum-distance-between-tn5-integration-sites-max-distance">Set the maximum distance between Tn5 integration sites: <code class="docutils literal notranslate"><span class="pre">--max_distance</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#set-the-maximum-number-of-fragments-to-hold-in-memory-before-collapsing-chunksize">Set the maximum number of fragments to hold in memory before collapsing: <code class="docutils literal notranslate"><span class="pre">--chunksize</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -172,47 +173,51 @@
 The fragment file contains the position of each Tn5 integration site, the cell barcode
 associated with the fragment, and the number of times the fragment was sequenced.
 PCR duplicates are collapsed.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sinto fragments [-h] -b BAM -f FRAGMENTS [-m MIN_MAPQ] [-p NPROC]
-                   [-t BARCODETAG] [-c CELLS]
-                   [--barcode_regex BARCODE_REGEX] [--use_chrom USE_CHROM]
-                   [--max_distance MAX_DISTANCE]
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> sinto fragments [-h] -b BAM -f FRAGMENTS [-m MIN_MAPQ] [-p NPROC]
+                    [-t BARCODETAG] [-c CELLS]
+                    [--barcode_regex BARCODE_REGEX] [--use_chrom USE_CHROM]
+                    [--max_distance MAX_DISTANCE]
 
-Create ATAC-seq fragment file from BAM file
+ Create ATAC-seq fragment file from BAM file
 
-optional arguments:
--h, --help            show this help message and exit
--b BAM, --bam BAM     Input bam file (must be indexed)
--f FRAGMENTS, --fragments FRAGMENTS
-                        Name and path for output fragments file. Note that the
-                        output is not sorted or compressed. To sort the output
-                        file use sort -k 1,1 -k2,2n
--m MIN_MAPQ, --min_mapq MIN_MAPQ
-                        Minimum MAPQ required to retain fragment (default =
-                        30)
--p NPROC, --nproc NPROC
-                        Number of processors (default = 1)
--t BARCODETAG, --barcodetag BARCODETAG
-                        Read tag storing cell barcode information (default =
-                        &quot;CB&quot;)
--c CELLS, --cells CELLS
-                        Path to file containing cell barcodes to retain, or a
-                        comma-separated list of cell barcodes. If None
-                        (default), use all cell barocodes present in the BAM
-                        file.
---barcode_regex BARCODE_REGEX
-                        Regular expression used to extract cell barcode from
-                        read name. If None (default), extract cell barcode
-                        from read tag. Use &quot;[^:]*&quot; to match all characters up
-                        to the first colon.
---use_chrom USE_CHROM
-                        Regular expression used to match chromosomes to be
-                        included in output. Default is &quot;(?i)^chr&quot; to match all
-                        chromosomes starting with &quot;chr&quot;, case insensitive
---max_distance MAX_DISTANCE
-                        Maximum distance between integration sites for the
-                        fragment to be retained. Allows filtering of
-                        implausible fragments that likely result from
-                        incorrect mapping positions. Default is 5000 bp.
+ optional arguments:
+ -h, --help            show this help message and exit
+ -b BAM, --bam BAM     Input bam file (must be indexed)
+ -f FRAGMENTS, --fragments FRAGMENTS
+                         Name and path for output fragments file. Note that the
+                         output is not sorted or compressed. To sort the output
+                         file use sort -k 1,1 -k2,2n
+ -m MIN_MAPQ, --min_mapq MIN_MAPQ
+                         Minimum MAPQ required to retain fragment (default =
+                         30)
+ -p NPROC, --nproc NPROC
+                         Number of processors (default = 1)
+ -t BARCODETAG, --barcodetag BARCODETAG
+                         Read tag storing cell barcode information (default =
+                         &quot;CB&quot;)
+ -c CELLS, --cells CELLS
+                         Path to file containing cell barcodes to retain, or a
+                         comma-separated list of cell barcodes. If None
+                         (default), use all cell barocodes present in the BAM
+                         file.
+ --barcode_regex BARCODE_REGEX
+                         Regular expression used to extract cell barcode from
+                         read name. If None (default), extract cell barcode
+                         from read tag. Use &quot;[^:]*&quot; to match all characters up
+                         to the first colon.
+ --use_chrom USE_CHROM
+                         Regular expression used to match chromosomes to be
+                         included in output. Default is &quot;(?i)^chr&quot; to match all
+                         chromosomes starting with &quot;chr&quot;, case insensitive
+ --max_distance MAX_DISTANCE
+                         Maximum distance between integration sites for the
+                         fragment to be retained. Allows filtering of
+                         implausible fragments that likely result from
+                         incorrect mapping positions. Default is 5000 bp.
+--chunksize CHUNKSIZE
+                        Number of BAM file entries to iterate over before
+                        collapsing the fragments and writing to disk. Higher
+                        chunksize will use more memory but will be faster.
 </pre></div>
 </div>
 <div class="section" id="fragment-file-format">
@@ -226,7 +231,7 @@ scATAC-seq experiment. The fragments file generated by Sinto needs to be sorted,
 block-gzip compressed (<a class="reference external" href="https://www.htslib.org/doc/bgzip.html">bgzip</a>),
 and indexed using <a class="reference external" href="https://www.htslib.org/doc/tabix.html">tabix</a>.</p>
 <p>For example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sort -k <span class="m">1</span>,2 -k2,2n frags.bed &gt; frags.sort.bed
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sort -k <span class="m">1</span>,1 -k2,2n frags.bed &gt; frags.sort.bed
 bgzip frags.sort.bed
 tabix -p bed frags.sort.bed
 </pre></div>
@@ -317,6 +322,16 @@ in size likely originate from incorrect read mapping. We can remove these
 to reduce the impact of mapping artefacts on the downstream analysis
 by setting the <code class="docutils literal notranslate"><span class="pre">--max_distance</span></code> parameter. Fragments larger than
 this value will not be included in the output file.</p>
+</div>
+<div class="section" id="set-the-maximum-number-of-fragments-to-hold-in-memory-before-collapsing-chunksize">
+<h4>Set the maximum number of fragments to hold in memory before collapsing: <code class="docutils literal notranslate"><span class="pre">--chunksize</span></code><a class="headerlink" href="#set-the-maximum-number-of-fragments-to-hold-in-memory-before-collapsing-chunksize" title="Permalink to this headline">¶</a></h4>
+<p>The fragments algorithm iterates through a position-sorted BAM file and stores
+fragment information as it iterates through the paired reads. Once all the
+reads at a genomic locus have been read, the fragments covering that locus can
+be PCR-collapsed. Sinto performs this step in chunks to balance speed and memory
+use. The <code class="docutils literal notranslate"><span class="pre">--chunksize</span></code> parameter controls how many fragments are able to be
+held in memory before they get collapsed and written to a file. Setting a larger
+value should require more memory but the function will complete faster.</p>
 </div>
 </div>
 </div>

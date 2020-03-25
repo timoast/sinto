@@ -1,6 +1,11 @@
 Version 0.3
 -----------
 
+0.3.4
+~~~~~
+
+- Memory improvements for ``fragments`` function
+
 0.3.3
 ~~~~~
 
