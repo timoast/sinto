@@ -360,26 +360,30 @@ def addToFragments(
             current_coord = fragments[qname][1]
             if current_coord is None:
                 # read aligned to the wrong strand, don't include
-                return fragments
+                del fragments[qname]
             elif ((rend - current_coord) > max_dist) or ((rend - current_coord) < 0):
                 # too far away, don't include
-                return fragments
+                del fragments[qname]
             else:
-                fragments[qname][2] = rend
-                if cell_barcode is not None:
-                    # mark complete fragment
+                if cell_barcode is None and fragments[qname][3] is None:
+                    # both fragment ends present but no cell barcode
+                    del fragments[qname]
+                else:
+                    fragments[qname][2] = rend
                     fragments[qname][4] = True
         else:
             current_coord = fragments[qname][2]
             if current_coord is None:
-                return fragments
+                del fragments[qname]
             elif ((current_coord - rstart) > max_dist) or (
                 (current_coord - rstart) < 0
             ):
-                return fragments
+                del fragments[qname]
             else:
-                fragments[qname][1] = rstart
-                if cell_barcode is not None:
+                if cell_barcode is None and fragments[qname][3] is None:
+                    del fragments[qname]
+                else:
+                    fragments[qname][1] = rstart
                     fragments[qname][4] = True
     else:
         # new read pair, add to dictionary
