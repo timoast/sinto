@@ -419,9 +419,9 @@ def fragments(
     filenames = [res.get() for res in frag_lists]
     # cat files and write to output
     with open(fragment_path, 'w') as outfile:
-        for fname in filenames:
-            with open(fname[0]) as infile:
-                for line in infile:
-                    outfile.write(line)
-    # remove temp files
-    [os.remove(i[0]) for i in filenames]
+        for i in filenames:
+            for j in i:
+                with open(j, 'r') as infile:
+                    for line in infile:
+                        outfile.write(line)
+                os.remove(j)
