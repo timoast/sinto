@@ -12,3 +12,4 @@ sinto.egg-info/
 docs/_build
 docs/.buildinfo
 docs/_sources
+.vscode/
