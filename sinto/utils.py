@@ -141,3 +141,28 @@ def get_chromosomes(bam, keep_contigs="(?i)^chr"):
     conlen = {x: aln.get_reference_length(x) for x in keep_contigs}
     aln.close()
     return conlen
+
+
+def read_cell_barcodes(infile):
+    """
+    Read in table of cell barcodes and associated group
+
+    Parameters
+    ----------
+    infile : str
+        File name. Can be a gzip-compressed file or plain text.
+    """
+    cb = {}
+    if os.path.isfile(infile):
+        if infile.endswith(".gz"):
+            inf = gzip.open(infile, "b")
+        else:
+            inf = open(infile, "r")
+        for line in inf:
+            line = line.rsplit()
+            if line[0] in cb.keys():
+                cb[line[0]].append((line[1], line[2]))
+            else:
+                cb[line[0]] = [(line[1], line[2])]
+        inf.close()
+    return cb
