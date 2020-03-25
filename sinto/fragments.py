@@ -78,10 +78,10 @@ def collapseFragments(fragments):
     fraglist = list(fragments.values())
     fragcoords_with_bc = ["|".join(map(str, x)) for x in fraglist]
     counts = Counter(fragcoords_with_bc)
-    
+
     if len(fraglist) == 0:
         return list()
-    
+
     # enumerate fragments and barcodes
     frag_id_lookup = id_lookup(l=["|".join(map(str, x[:3])) for x in fraglist])
     bc_id_lookup = id_lookup(l=[x[3] for x in fraglist])
@@ -100,7 +100,7 @@ def collapseFragments(fragments):
         bcstr = i[0].split("|")[3]
         row.append(frag_id_lookup["|".join(rowstr)])
         col.append(bc_id_lookup[bcstr])
-    
+
     # free memory
     del fraglist
     del fragments
@@ -144,7 +144,14 @@ def id_lookup(l):
 
 
 def getFragments(
-    interval, bam, min_mapq=30, cellbarcode="CB", readname_barcode=None, cells=None, max_distance=5000, chunksize=500000
+    interval,
+    bam,
+    min_mapq=30,
+    cellbarcode="CB",
+    readname_barcode=None,
+    cells=None,
+    max_distance=5000,
+    chunksize=500000,
 ):
     """Extract ATAC fragments from BAM file
 
@@ -193,10 +200,10 @@ def getFragments(
         if x > chunksize:
             current_position = i.reference_start
             complete = findCompleteFragments(
-                fragments = fragment_dict,
+                fragments=fragment_dict,
                 max_dist=max_distance,
                 current_position=current_position,
-                max_collapse_dist=20
+                max_collapse_dist=20,
             )
             collapsed = collapseFragments(fragments=complete)
             writeFragments(fragments=collapsed, filepath=outname)
@@ -204,11 +211,11 @@ def getFragments(
             gc.collect()
     # collapse and write the remaining fragments
     complete = findCompleteFragments(
-                fragments = fragment_dict,
-                max_dist=max_distance,
-                current_position=i.reference_start,
-                max_collapse_dist= -max_distance # make sure we get them all
-            )
+        fragments=fragment_dict,
+        max_dist=max_distance,
+        current_position=i.reference_start,
+        max_collapse_dist=-max_distance,  # make sure we get them all
+    )
     collapsed = collapseFragments(fragments=complete)
     writeFragments(fragments=collapsed, filepath=outname)
     return outname
@@ -246,7 +253,7 @@ def findCompleteFragments(fragments, max_dist, current_position, max_collapse_di
                 completed[key] = fragments[key][:-1]  # removes "completed" T/F information
                 del fragments[key]
         else:
-            # remove incomplete fragments that are 
+            # remove incomplete fragments that are
             # too far away to ever be complete
             if fragments[key][1] is None:
                 if (fragments[key][2] + d) < current_position:
@@ -318,14 +325,7 @@ def updateFragmentDict(
     else:
         rstart = rstart + 4
     fragments = addToFragments(
-        fragments,
-        qname,
-        chromosome,
-        rstart,
-        rend,
-        cell_barcode,
-        is_reverse,
-        max_dist
+        fragments, qname, chromosome, rstart, rend, cell_barcode, is_reverse, max_dist
     )
     return fragments
 
@@ -373,7 +373,9 @@ def addToFragments(
             current_coord = fragments[qname][2]
             if current_coord is None:
                 return fragments
-            elif ((current_coord - rstart) > max_dist) or ((current_coord - rstart) < 0):
+            elif ((current_coord - rstart) > max_dist) or (
+                (current_coord - rstart) < 0
+            ):
                 return fragments
             else:
                 fragments[qname][1] = rstart
@@ -382,17 +384,18 @@ def addToFragments(
     else:
         # new read pair, add to dictionary
         fragments[qname] = [
-            chromosome,    # chromosome    0
-            None,          # start         1
-            None,          # end           2
-            cell_barcode,  # cell          3
-            False          # complete      4
+            chromosome,     # chromosome    0
+            None,           # start         1
+            None,           # end           2
+            cell_barcode,   # cell          3
+            False,          # complete      4
         ]
         if is_reverse:
             fragments[qname][2] = rend
         else:
             fragments[qname][1] = rstart
     return fragments
+
 
 def fragments(
     bam,
@@ -404,7 +407,7 @@ def fragments(
     readname_barcode=None,
     cells=None,
     max_distance=5000,
-    chunksize=500000
+    chunksize=500000,
 ):
     """Create ATAC fragment file from BAM file
 
@@ -457,17 +460,17 @@ def fragments(
                 readname_barcode=readname_barcode,
                 cells=cells,
                 max_distance=max_distance,
-                chunksize=chunksize
+                chunksize=chunksize,
             ),
             list(chrom.items()),
         )
     ]
     filenames = [res.get() for res in frag_lists]
     # cat files and write to output
-    with open(fragment_path, 'w') as outfile:
+    with open(fragment_path, "w") as outfile:
         for i in filenames:
             for j in i:
-                with open(j, 'r') as infile:
+                with open(j, "r") as infile:
                     for line in infile:
                         outfile.write(line)
                 os.remove(j)
