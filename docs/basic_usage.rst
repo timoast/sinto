@@ -75,7 +75,7 @@ For example:
 
 .. code-block:: bash
 
-    sort -k 1,2 -k2,2n frags.bed > frags.sort.bed
+    sort -k 1,1 -k2,2n frags.bed > frags.sort.bed
     bgzip frags.sort.bed
     tabix -p bed frags.sort.bed
 
