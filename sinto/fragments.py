@@ -75,7 +75,6 @@ def collapseOverlapFragments(counts, pos=1):
 def collapseFragments(fragments):
     """Collapse duplicate fragments
     """
-    # fraglist = [list(x.values()) for x in list(fragments.values())]
     fraglist = list(fragments.values())
     fragcoords_with_bc = ["|".join(map(str, x)) for x in fraglist]
     counts = Counter(fragcoords_with_bc)
@@ -242,17 +241,16 @@ def findCompleteFragments(fragments, max_dist, current_position, max_collapse_di
     completed = dict()
     d = max_dist + max_collapse_dist
     for key in allkey:
-        if fragments[key]["complete"]:
-            if (fragments[key]['end'] + d) < current_position:
-                completed[key] = [fragments[key]["chrom"], fragments[key]["start"],
-                fragments[key]["end"], fragments[key]["cell"]]
+        if fragments[key][4]:
+            if (fragments[key][2] + d) < current_position:
+                completed[key] = fragments[key][:-1]  # removes "completed" T/F information
                 del fragments[key]
         else:
-            if fragments[key]["start"] is None:
-                if (fragments[key]["end"] + d) < current_position:
+            if fragments[key][1] is None:
+                if (fragments[key][2] + d) < current_position:
                     del fragments[key]
-            elif fragments[key]["end"] is None:
-                if (fragments[key]["start"] + d) < current_position:
+            elif fragments[key][2] is None:
+                if (fragments[key][1] + d) < current_position:
                     del fragments[key]
             else:
                 raise Exception("Fragment has start and end coordinates but is marked incomplete")
@@ -320,36 +318,36 @@ def updateFragmentDict(
         rstart = rstart + 4
     if qname in fragments.keys():
         if is_reverse:
-            current_coord = fragments[qname]["start"]
+            current_coord = fragments[qname][1]
             if current_coord is None:
                 # read aligned to the wrong strand, pass
                 pass
             elif ((rend - current_coord) > max_dist) or ((rend - current_coord) < 0):
                 del fragments[qname]
             else:
-                fragments[qname]["end"] = rend
-                fragments[qname]["complete"] = True
+                fragments[qname][2] = rend
+                fragments[qname][4] = True
         else:
-            current_coord = fragments[qname]["end"]
+            current_coord = fragments[qname][2]
             if current_coord is None:
                 pass
             elif ((current_coord - rstart) > max_dist) or ((current_coord - rstart) < 0):
                 del fragments[qname]
             else:
-                fragments[qname]["start"] = rstart
-                fragments[qname]["complete"] = True
+                fragments[qname][1] = rstart
+                fragments[qname][4] = True
     else:
-        fragments[qname] = {
-            "chrom": chromosome,
-            "start": None,
-            "end": None,
-            "cell": cell_barcode,
-            "complete": False
-        }
+        fragments[qname] = [
+            chromosome,    # chromosome    0
+            None,          # start         1
+            None,          # end           2
+            cell_barcode,  # cell          3
+            False          # complete      4
+        ]
         if is_reverse:
-            fragments[qname]["end"] = rend
+            fragments[qname][2] = rend
         else:
-            fragments[qname]["start"] = rstart
+            fragments[qname][1] = rstart
     return fragments
 
 
