@@ -170,6 +170,16 @@ to reduce the impact of mapping artefacts on the downstream analysis
 by setting the ``--max_distance`` parameter. Fragments larger than
 this value will not be included in the output file.
 
+Set the maximum number of fragments to hold in memory before collapsing: ``--chunksize``
+________________________________________________________________________________________
+
+The fragments algorithm iterates through a position-sorted BAM file and stores
+fragment information as it iterates through the paired reads. Once all the 
+reads at a genomic locus have been read, the fragments covering that locus can
+be PCR-collapsed. Sinto performs this step in chunks to balance speed and memory 
+use. The ``--chunksize`` parameter controls how many fragments are able to be 
+held in memory before they get collapsed and written to a file. Setting a larger
+value should require more memory but the function will complete faster.
 
 Filter cell barcodes from BAM file
 ----------------------------------
