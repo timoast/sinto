@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>User guide &mdash; sinto 0.3.4 documentation</title>
+  <title>User guide &mdash; sinto 0.3.5 documentation</title>
   
 
   
@@ -351,11 +351,8 @@ optional arguments:
 -c CELLS, --cells CELLS
                         File or comma-separated list of cell barcodes. Can be
                         gzip compressed
--o OUTPUT, --output OUTPUT
-                        Name for output text file
 -t, --trim_suffix     Remove trail 2 characters from cell barcode in BAM
                         file
--s, --sam             Output sam format (default bam output)
 -p NPROC, --nproc NPROC
                         Number of processors (default = 1)
 --barcode_regex BARCODE_REGEX
@@ -368,6 +365,25 @@ optional arguments:
                         &quot;CB&quot;)
 </pre></div>
 </div>
+<p>The input “cells” file should be a tab-delimited text file with cell barcodes in
+the first column and the groups the cell belongs to in the second column. This
+could be the cluster number, for example. A cell can belong to multiple groups
+specified in the file using a comma-separated list of groups. If multiple
+groups are provided, reads from that cell will be copied to the output BAM
+file for each of the groups.</p>
+<p>Example input “cells” file:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>TGGCAATGTTGAAGCG-1  A
+GACCAATCACCATTCC-1  A
+CAGGATTCAGAACTTC-1  B
+GAACCTAAGAGAGGTA-1  B,A
+ACATGGTGTAGACGCA-1  C
+CCCTGATTCGGATAGG-1  C
+</pre></div>
+</div>
+<p>The names of the output BAM files are determined by the name of each group in the
+input cells file. The example file above would generate three bam files,
+named <code class="docutils literal notranslate"><span class="pre">A.bam</span></code>, <code class="docutils literal notranslate"><span class="pre">B.bam</span></code>, and <code class="docutils literal notranslate"><span class="pre">C.bam</span></code>. Note that reads from the fourth cell
+would appear in both <code class="docutils literal notranslate"><span class="pre">B.bam</span></code> and <code class="docutils literal notranslate"><span class="pre">A.bam</span></code>.</p>
 </div>
 <div class="section" id="add-read-tags-to-bam-file">
 <h2>Add read tags to BAM file<a class="headerlink" href="#add-read-tags-to-bam-file" title="Permalink to this headline">¶</a></h2>
