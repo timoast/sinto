@@ -1,3 +1,20 @@
+Major version changes indicate new functionality
+or breaking changes to existing functionality.
+
+Minor version changes indicate bug fixes or
+performance improvements to existing functionality
+without breaking compatibility with previous versions.
+
+Version 0.4
+-----------
+
+0.4.0
+~~~~~
+
+- Removed ``sam`` parameter from ``filterbarcodes``
+- Allow multiple groups of cells to be specified in ``filterbarcodes``. 
+  This will create a separate BAM file for each unique group of cells.
+
 Version 0.3
 -----------
 
