@@ -9,31 +9,6 @@ from sinto import utils
 from subprocess import call
 
 
-def _readtags(infile):
-    """
-    Read in table of cell barcodes and associated group
-
-    Parameters
-    ----------
-    infile : str
-        File name. Can be a gzip-compressed file or plain text.
-    """
-    cb = {}
-    if os.path.isfile(infile):
-        if infile.endswith(".gz"):
-            inf = gzip.open(infile, "b")
-        else:
-            inf = open(infile, "r")
-        for line in inf:
-            line = line.rsplit()
-            if line[0] in cb.keys():
-                cb[line[0]].append((line[1], line[2]))
-            else:
-                cb[line[0]] = [(line[1], line[2])]
-        inf.close()
-    return cb
-
-
 def _add_read_tags(intervals, bam, sam, output, cb, trim_suffix, mode):
     inputBam = pysam.AlignmentFile(bam, "rb")
     ident = "".join(
@@ -91,7 +66,7 @@ def addtags(bam, tagfile, output, sam=False, trim_suffix=True, mode="tag", nproc
         If samtools merge of temporary BAM files fails
     """
     nproc = int(nproc)
-    tags = _readtags(tagfile)
+    tags = utils.read_cell_barcode_tag_file(tagfile)
     inputBam = pysam.AlignmentFile(bam, "rb")
     intervals = utils.chunk_bam(inputBam, nproc)
     inputBam.close()

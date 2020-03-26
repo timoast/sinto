@@ -9,8 +9,6 @@ def run_filterbarcodes(options):
         cells=options.cells,
         bam=options.bam,
         trim_suffix=options.trim_suffix,
-        output=options.output,
-        sam=options.sam,
         nproc=options.nproc,
         readname_barcode=options.barcode_regex,
         cellbarcode=options.barcodetag

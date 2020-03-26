@@ -28,20 +28,9 @@ parser_filterbarcodes.add_argument(
     type=str,
 )
 parser_filterbarcodes.add_argument(
-    "-o", "--output", help="Name for output text file", required=True, type=str
-)
-parser_filterbarcodes.add_argument(
     "-t",
     "--trim_suffix",
     help="Remove trail 2 characters from cell barcode in BAM file",
-    action="store_true",
-    default=False,
-)
-parser_filterbarcodes.add_argument(
-    "-s",
-    "--sam",
-    help="Output sam format (default bam output)",
-    required=False,
     action="store_true",
     default=False,
 )
