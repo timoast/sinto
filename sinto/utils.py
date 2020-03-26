@@ -195,9 +195,10 @@ def read_cell_barcode_file(infile):
             inf = open(infile, "r")
         for line in inf:
             line = line.rsplit()
+            groups = line[1].split(",")
             if line[0] in cb.keys():
-                cb[line[0]].append(line[1])
+                cb[line[0]].append(groups)
             else:
-                cb[line[0]] = [line[1]]
+                cb[line[0]] = groups
         inf.close()
     return cb
