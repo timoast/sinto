@@ -201,11 +201,8 @@ This requires a position-sorted, indexed BAM file, and a file containing a list 
    -c CELLS, --cells CELLS
                            File or comma-separated list of cell barcodes. Can be
                            gzip compressed
-   -o OUTPUT, --output OUTPUT
-                           Name for output text file
    -t, --trim_suffix     Remove trail 2 characters from cell barcode in BAM
                            file
-   -s, --sam             Output sam format (default bam output)
    -p NPROC, --nproc NPROC
                            Number of processors (default = 1)
    --barcode_regex BARCODE_REGEX
@@ -216,6 +213,30 @@ This requires a position-sorted, indexed BAM file, and a file containing a list 
    --barcodetag BARCODETAG
                            Read tag storing cell barcode information (default =
                            "CB")
+
+The input "cells" file should be a tab-delimited text file with cell barcodes in 
+the first column and the groups the cell belongs to in the second column. This 
+could be the cluster number, for example. A cell can belong to multiple groups
+specified in the file using a comma-separated list of groups. If multiple 
+groups are provided, reads from that cell will be copied to the output BAM
+file for each of the groups.
+
+Example input "cells" file:
+
+.. code-block:: none
+
+    TGGCAATGTTGAAGCG-1	A
+    GACCAATCACCATTCC-1	A
+    CAGGATTCAGAACTTC-1	B
+    GAACCTAAGAGAGGTA-1	B,A
+    ACATGGTGTAGACGCA-1	C
+    CCCTGATTCGGATAGG-1	C
+
+The names of the output BAM files are determined by the name of each group in the 
+input cells file. The example file above would generate three bam files, 
+named ``A.bam``, ``B.bam``, and ``C.bam``. Note that reads from the fourth cell
+would appear in both ``B.bam`` and ``A.bam``.
+
 
 Add read tags to BAM file
 -------------------------
