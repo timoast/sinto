@@ -12,7 +12,7 @@ Version 0.4
 ~~~~~
 
 - Increase recursion limit to prevent error when running on genomes
-  with a >1000 scaffolds.
+  with >1000 scaffolds.
 
 0.4.0
 ~~~~~
