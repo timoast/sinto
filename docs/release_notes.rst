@@ -8,6 +8,11 @@ without breaking compatibility with previous versions.
 Version 0.4
 -----------
 
+0.4.2
+~~~~~
+
+- Fix bug when cell barcode is None for ``fragments`` function.
+
 0.4.1
 ~~~~~
 
