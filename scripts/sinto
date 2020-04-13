@@ -209,6 +209,79 @@ parser_fragments.add_argument(
 )
 parser_fragments.set_defaults(func=cli.run_fragments)
 
+# blocks
+parser_blocks = subparsers.add_parser(
+    "blocks", description="Create scRNA-seq block file from BAM file"
+)
+parser_blocks.add_argument(
+    "-b", "--bam", help="Input bam file (must be indexed)", required=True, type=str
+)
+parser_blocks.add_argument(
+    "--blocks",
+    help="""
+    Name and path for output blocks file. Note that the output is not sorted or compressed.
+    To sort the output file use sort -k 1,1 -k2,2n
+    """,
+    required=True,
+    type=str,
+)
+
+parser_blocks.add_argument(
+    "-m",
+    "--min_mapq",
+    help="Minimum MAPQ required to retain read (default = 30)",
+    required=False,
+    default=30,
+    type=int,
+)
+parser_blocks.add_argument(
+    "-p",
+    "--nproc",
+    help="Number of processors (default = 1)",
+    required=False,
+    type=int,
+    default=1,
+)
+parser_blocks.add_argument(
+    "-t",
+    "--barcodetag",
+    help='Read tag storing cell barcode information (default = "CB")',
+    required=False,
+    type=str,
+    default="CB",
+)
+parser_blocks.add_argument(
+    "-u",
+    "--umitag",
+    help='Read tag storing UMI barcode information (default = "UB")',
+    required=False,
+    type=str,
+    default="UB",
+)
+parser_blocks.add_argument(
+    "-c",
+    "--cells",
+    help="""
+    Path to file containing cell barcodes to retain, or a
+    comma-separated list of cell barcodes.
+    If None (default), use all cell barocodes present in the BAM file.
+    """,
+    required=False,
+    type=str,
+    default=None,
+)
+parser_blocks.add_argument(
+    "--barcode_regex",
+    help="""
+    Regular expression used to extract cell barcode from read name. If None (default), extract cell barcode from read tag.
+    Use "[^:]*" to match all characters up to the first colon.
+    """,
+    required=False,
+    type=str,
+    default=None,
+)
+parser_blocks.set_defaults(func=cli.run_blocks)
+
 if len(sys.argv[1:]) == 0:
     parser.print_help()
     parser.exit()
