@@ -30,7 +30,7 @@ def getBlocks(
                 _, umi = utils.scan_tags(r.tags, ub=umibarcode)
             else:
                 cell_barcode, umi = utils.scan_tags(r.tags, cb=cellbarcode, ub=umibarcode)
-            if cell_barcode is None:
+            if cell_barcode is None or umi is None:
                 continue
             if cells is not None:
                 if cell_barcode not in cells:
