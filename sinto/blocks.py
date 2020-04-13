@@ -32,15 +32,13 @@ def getBlocks(
                 cell_barcode, umi = utils.scan_tags(r.tags, cb=cellbarcode, ub=umibarcode)
             if cell_barcode is None or umi is None:
                 continue
-            if cells is not None:
-                if cell_barcode not in cells:
-                    continue
-            else:
-                blocks = r.blocks
-                chrom = r.reference_name
-                for i in blocks:
-                    outstr = "\t".join(map(str, [chrom, i[0], i[1], cell_barcode, umi]))
-                    outf.write(outstr + "\n")
+            if (cells is not None) and (cell_barcode not in cells):
+                continue
+            blocks = r.blocks
+            chrom = r.reference_name
+            for i in blocks:
+                outstr = "\t".join(map(str, [chrom, i[0], i[1], cell_barcode, umi]))
+                outf.write(outstr + "\n")
     outf.close()
     inputBam.close()
     return(outname)
