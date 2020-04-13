@@ -27,15 +27,15 @@ def getBlocks(
             if readname_barcode is not None:
                 re_match = readname_barcode.match(r.qname)
                 cell_barcode = re_match.group()
+                _, umi = utils.scan_tags(r.tags, ub=umibarcode)
             else:
-                cell_barcode, _ = utils.scan_tags(r.tags, cb=cellbarcode)
+                cell_barcode, umi = utils.scan_tags(r.tags, cb=cellbarcode, ub=umibarcode)
             if cell_barcode is None:
                 continue
             if cells is not None:
                 if cell_barcode not in cells:
                     continue
             else:
-                umi, _ = utils.scan_tags(r.tags, cb=umibarcode)
                 blocks = r.blocks
                 chrom = r.reference_name
                 for i in blocks:
