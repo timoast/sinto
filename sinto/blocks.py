@@ -37,7 +37,7 @@ def getBlocks(
             else:
                 umi, _ = utils.scan_tags(r.tags, cb=umibarcode)
                 blocks = r.blocks
-                chrom = r.rname
+                chrom = r.reference_name
                 for i in blocks:
                     outstr = "\t".join(map(str, [chrom, i[0], i[1], cell_barcode, umi]))
                     outf.write(outstr + "\n")
