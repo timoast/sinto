@@ -8,7 +8,7 @@ import tempfile
 
 
 def getBlocks(
-    interval,
+    intervals,
     bam,
     min_mapq=30,
     cellbarcode="CB",
@@ -20,28 +20,27 @@ def getBlocks(
     outfile = tempfile.NamedTemporaryFile(delete=False)
     outname = outfile.name
     outf = open(outname, "w+")
-    if readname_barcode is not None:
-        readname_barcode = re.compile(readname_barcode)
-    for r in inputBam.fetch():
-        if r.mapping_quality < min_mapq:
-            pass
-        if readname_barcode is not None:
-            re_match = readname_barcode.match(r.qname)
-            cell_barcode = re_match.group()
-        else:
-            cell_barcode, _ = utils.scan_tags(r.tags, cb=cellbarcode)
-        if cell_barcode is None:
-            pass
-        if cells is not None:
-            if cell_barcode not in cells:
-                pass
-        else:
-            umi, _ = utils.scan_tags(r.tags, cb=umibarcode)
-            blocks = r.blocks
-            chrom = r.rname
-            for i in blocks:
-                outstr = "\t".join(map(str, [chrom, i[0], i[1], cell_barcode, umi]))
-                outf.write(outstr + "\n")
+    for i in intervals:
+        for r in inputBam.fetch(i[0], i[1], i[2]):
+            if r.mapping_quality < min_mapq:
+                continue
+            if readname_barcode is not None:
+                re_match = readname_barcode.match(r.qname)
+                cell_barcode = re_match.group()
+            else:
+                cell_barcode, _ = utils.scan_tags(r.tags, cb=cellbarcode)
+            if cell_barcode is None:
+                continue
+            if cells is not None:
+                if cell_barcode not in cells:
+                    continue
+            else:
+                umi, _ = utils.scan_tags(r.tags, cb=umibarcode)
+                blocks = r.blocks
+                chrom = r.rname
+                for i in blocks:
+                    outstr = "\t".join(map(str, [chrom, i[0], i[1], cell_barcode, umi]))
+                    outf.write(outstr + "\n")
     outf.close()
     inputBam.close()
     return(outname)
@@ -105,7 +104,7 @@ def blocks(
                 readname_barcode=readname_barcode,
                 cells=cells
             ),
-            list(intervals.values()),
+            intervals.values(),
         )
     ]
     filenames = [res.get() for res in tmpfiles]
