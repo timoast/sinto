@@ -8,6 +8,17 @@ without breaking compatibility with previous versions.
 Version 0.4
 -----------
 
+0.4.2
+~~~~~
+
+- Fix bug when cell barcode is None for ``fragments`` function.
+
+0.4.1
+~~~~~
+
+- Increase recursion limit to prevent error when running on genomes
+  with >1000 scaffolds.
+
 0.4.0
 ~~~~~
 

@@ -369,6 +369,8 @@ def addToFragments(
                     # both fragment ends present but no cell barcode
                     del fragments[qname]
                 else:
+                    if fragments[qname][3] is None:
+                        fragments[qname][3] = cell_barcode
                     fragments[qname][2] = rend
                     fragments[qname][4] = True
         else:
@@ -383,6 +385,8 @@ def addToFragments(
                 if cell_barcode is None and fragments[qname][3] is None:
                     del fragments[qname]
                 else:
+                    if fragments[qname][3] is None:
+                        fragments[qname][3] = cell_barcode
                     fragments[qname][1] = rstart
                     fragments[qname][4] = True
     else:

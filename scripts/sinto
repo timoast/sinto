@@ -4,6 +4,7 @@ import sys
 from argparse import ArgumentParser
 import pkg_resources
 from sinto import cli
+import sys
 
 
 version = pkg_resources.require("sinto")[0].version
@@ -213,4 +214,5 @@ if len(sys.argv[1:]) == 0:
     parser.exit()
 else:
     options = parser.parse_args()
+    sys.setrecursionlimit(10000)
     options.func(options)
