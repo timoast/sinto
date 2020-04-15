@@ -126,7 +126,7 @@ def collapseFragments(fragments):
     collapsed = []
     for i in range(len(collapsed_barcodes)):
         if rowsum[i][0] < 1:
-            pass
+            continue
         else:
             frag = collapsed_frags[i].split("|")
             frag.append(collapsed_barcodes[i])
