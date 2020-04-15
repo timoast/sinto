@@ -8,6 +8,11 @@ without breaking compatibility with previous versions.
 Version 0.4
 -----------
 
+0.4.3
+~~~~~
+
+- Throw error if file is not present for ``filterbarcodes`` and ``addtags``
+
 0.4.2
 ~~~~~
 
