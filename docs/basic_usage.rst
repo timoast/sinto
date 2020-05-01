@@ -279,3 +279,73 @@ This requires a position-sorted and indexed BAM file, and a file specifying the 
 
 
 This will add a ``CI`` tag, with the tag set to A, B, or C depending on the cell barcode sequence.
+
+
+Convert read tag to read group
+-------------------------------
+
+Read groups can be added to a SAM/BAM file based on an arbitrary read tag using the
+``tagtorg`` command. Let's assume we have a SAM file called ``input.sam``
+with the following contents:
+
+.. code-block:: none
+
+    @HD	VN:1.5	SO:coordinate
+    @SQ	SN:20	LN:63025520
+    @RG	ID:rg1	SM:sample_1	LB:1	PU:1	PL:ILLUMINA
+    r002	0	20	9	30	3S6M1P1I4M	*	0	0	AAAAGATAAGGATA	*	CB:Z:AAAA-1	RG:Z:rg1
+    r003	0	20	9	30	3S6M1P1I4M	*	0	0	AAAAGATAAGGATA	*	CB:Z:CCCC-1	RG:Z:rg1
+
+We would like to assign each read to a separate read group according to the value of
+it's ``CB`` tag. First, we need a list of tag values that we expect to see:
+
+.. code-block:: none
+
+    AAAA-1
+    CCCC-1
+
+Let us assume that the barcodes are stored in a file called ``barcodes.txt``.
+Then we can replace the read groups in the SAM file using the command:
+
+.. code-block::
+
+    sinto addtorg -b input.sam -f barcodes.txt
+
+This will print the following SAM file to screen:
+
+.. code-block::
+
+    @HD	VN:1.5	SO:coordinate
+    @SQ	SN:20	LN:63025520
+    @RG	ID:rg1	SM:sample_1	LB:1	PU:1	PL:ILLUMINA
+    @RG	ID:rg1:CCCC-1	SM:sample_1:CCCC-1	LB:1	PU:1	PL:ILLUMINA
+    @RG	ID:rg1:AAAA-1	SM:sample_1:AAAA-1	LB:1	PU:1	PL:ILLUMINA
+    r002	0	20	9	30	3S6M1P1I4M	*	0	0	AAAAGATAAGGATA	*	CB:Z:AAAA-1	RG:Z:rg1:AAAA-1
+    r003	0	20	9	30	3S6M1P1I4M	*	0	0	AAAAGATAAGGATA	*	CB:Z:CCCC-1	RG:Z:rg1:CCCC-1
+
+Two new @RG tags have been added to the header with SM fields that are cell
+barcode-specic. The two reads r002 and r003 have been assigned new RG tags
+according to their cell barcode.
+
+.. code-block:: none
+
+    usage: sinto tagtorg [-h] -b BAM [--tag TAG] -f TAGFILE [-o OUTPUT] [-O O]
+
+    Append a read tag to the read group ID of each read. Also appends the read tag
+    to the SM field of the read group.
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      -b BAM, --bam BAM     Input SAM/BAM file, '-' reads from stdin
+      --tag TAG             Read tag to extract the value from that is appended to
+                            the read group. Default is 'CB', the tag that is used
+                            in 10x sequencing to identify cells.
+      -f TAGFILE, --tagfile TAGFILE
+                            List of expected tag values. Reads with tag values
+                            that are not in this list are not altered.
+      -o OUTPUT, --output OUTPUT
+                            Output SAM/BAM file, '-' outputs to stdout (default
+                            '-')
+      -O OUTPUTFORMAT, --outputformat OUTPUTFORMAT
+                            Output format. One of 't' (SAM), 'b' (BAM), or 'u'
+                            (uncompressed BAM) ('t' default)

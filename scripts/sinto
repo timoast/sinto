@@ -112,6 +112,51 @@ parser_addtags.add_argument(
 )
 parser_addtags.set_defaults(func=cli.run_addtags)
 
+# tagtorg
+parser_tagtorg = subparsers.add_parser(
+    "tagtorg",
+    description="Append a read tag to the read group ID of each read. "
+    "Also appends the read tag to the SM field of the read group.",
+)
+parser_tagtorg.add_argument(
+    "-b",
+    "--bam",
+    help="Input SAM/BAM file, '-' reads from stdin",
+    required=True,
+    type=str,
+)
+parser_tagtorg.add_argument(
+    "--tag",
+    help="Read tag to extract the value from that is appended to the read group. "
+    "Default is 'CB', the tag that is used in 10x sequencing to identify cells.",
+    default="CB",
+    type=str,
+)
+parser_tagtorg.add_argument(
+    "-f",
+    "--tagfile",
+    help="List of expected tag values. Reads with tag values that are not in this list are not altered.",
+    required=True,
+    type=str,
+)
+parser_tagtorg.add_argument(
+    "-o",
+    "--output",
+    help="Output SAM/BAM file, '-' outputs to stdout (default '-')",
+    default="-",
+    type=str,
+)
+parser_tagtorg.add_argument(
+    "-O",
+    "--outputformat",
+    help="Output format. One of 't' (SAM), 'b' (BAM),"
+    " or 'u' (uncompressed BAM) ('t' default)",
+    default="t",
+)
+
+
+parser_tagtorg.set_defaults(func=cli.run_tagtorg)
+
 # fragments
 parser_fragments = subparsers.add_parser(
     "fragments", description="Create ATAC-seq fragment file from BAM file"
@@ -195,7 +240,7 @@ parser_fragments.add_argument(
     """,
     required=False,
     default=5000,
-    type=int
+    type=int,
 )
 parser_fragments.add_argument(
     "--chunksize",
@@ -205,7 +250,7 @@ parser_fragments.add_argument(
     """,
     required=False,
     default=500000,
-    type=int
+    type=int,
 )
 parser_fragments.set_defaults(func=cli.run_fragments)
 
