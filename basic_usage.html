@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>User guide &mdash; sinto 0.5.0 documentation</title>
+  <title>User guide &mdash; sinto 0.4.3 documentation</title>
   
 
   
@@ -99,6 +99,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#filter-cell-barcodes-from-bam-file">Filter cell barcodes from BAM file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#add-read-tags-to-bam-file">Add read tags to BAM file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#convert-read-tag-to-read-group">Convert read tag to read group</a></li>
 </ul>
 </li>
 </ul>
@@ -422,6 +423,65 @@ optional arguments:
 </div>
 <p>This will add a <code class="docutils literal notranslate"><span class="pre">CI</span></code> tag, with the tag set to A, B, or C depending on the cell barcode sequence.</p>
 </div>
+<div class="section" id="convert-read-tag-to-read-group">
+<h2>Convert read tag to read group<a class="headerlink" href="#convert-read-tag-to-read-group" title="Permalink to this headline">¶</a></h2>
+<p>Read groups can be added to a SAM/BAM file based on an arbitrary read tag using the
+<code class="docutils literal notranslate"><span class="pre">tagtorg</span></code> command. Let’s assume we have a SAM file called <code class="docutils literal notranslate"><span class="pre">input.sam</span></code>
+with the following contents:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>@HD VN:1.5  SO:coordinate
+@SQ SN:20   LN:63025520
+@RG ID:rg1  SM:sample_1     LB:1    PU:1    PL:ILLUMINA
+r002        0       20      9       30      3S6M1P1I4M      *       0       0       AAAAGATAAGGATA  *       CB:Z:AAAA-1     RG:Z:rg1
+r003        0       20      9       30      3S6M1P1I4M      *       0       0       AAAAGATAAGGATA  *       CB:Z:CCCC-1     RG:Z:rg1
+</pre></div>
+</div>
+<p>We would like to assign each read to a separate read group according to the value of
+it’s <code class="docutils literal notranslate"><span class="pre">CB</span></code> tag. First, we need a list of tag values that we expect to see:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>AAAA-1
+CCCC-1
+</pre></div>
+</div>
+<p>Let us assume that the barcodes are stored in a file called <code class="docutils literal notranslate"><span class="pre">barcodes.txt</span></code>.
+Then we can replace the read groups in the SAM file using the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sinto</span> <span class="n">tagtorg</span> <span class="o">-</span><span class="n">b</span> <span class="nb">input</span><span class="o">.</span><span class="n">sam</span> <span class="o">-</span><span class="n">f</span> <span class="n">barcodes</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p>This will print the following SAM file to screen:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@HD</span> <span class="n">VN</span><span class="p">:</span><span class="mf">1.5</span>  <span class="n">SO</span><span class="p">:</span><span class="n">coordinate</span>
+<span class="nd">@SQ</span> <span class="n">SN</span><span class="p">:</span><span class="mi">20</span>   <span class="n">LN</span><span class="p">:</span><span class="mi">63025520</span>
+<span class="nd">@RG</span> <span class="n">ID</span><span class="p">:</span><span class="n">rg1</span>  <span class="n">SM</span><span class="p">:</span><span class="n">sample_1</span>     <span class="n">LB</span><span class="p">:</span><span class="mi">1</span>    <span class="n">PU</span><span class="p">:</span><span class="mi">1</span>    <span class="n">PL</span><span class="p">:</span><span class="n">ILLUMINA</span>
+<span class="nd">@RG</span> <span class="n">ID</span><span class="p">:</span><span class="n">rg1</span><span class="p">:</span><span class="n">CCCC</span><span class="o">-</span><span class="mi">1</span>   <span class="n">SM</span><span class="p">:</span><span class="n">sample_1</span><span class="p">:</span><span class="n">CCCC</span><span class="o">-</span><span class="mi">1</span>      <span class="n">LB</span><span class="p">:</span><span class="mi">1</span>    <span class="n">PU</span><span class="p">:</span><span class="mi">1</span>    <span class="n">PL</span><span class="p">:</span><span class="n">ILLUMINA</span>
+<span class="nd">@RG</span> <span class="n">ID</span><span class="p">:</span><span class="n">rg1</span><span class="p">:</span><span class="n">AAAA</span><span class="o">-</span><span class="mi">1</span>   <span class="n">SM</span><span class="p">:</span><span class="n">sample_1</span><span class="p">:</span><span class="n">AAAA</span><span class="o">-</span><span class="mi">1</span>      <span class="n">LB</span><span class="p">:</span><span class="mi">1</span>    <span class="n">PU</span><span class="p">:</span><span class="mi">1</span>    <span class="n">PL</span><span class="p">:</span><span class="n">ILLUMINA</span>
+<span class="n">r002</span>        <span class="mi">0</span>       <span class="mi">20</span>      <span class="mi">9</span>       <span class="mi">30</span>      <span class="mi">3</span><span class="n">S6M1P1I4M</span>      <span class="o">*</span>       <span class="mi">0</span>       <span class="mi">0</span>       <span class="n">AAAAGATAAGGATA</span>  <span class="o">*</span>       <span class="n">CB</span><span class="p">:</span><span class="n">Z</span><span class="p">:</span><span class="n">AAAA</span><span class="o">-</span><span class="mi">1</span>     <span class="n">RG</span><span class="p">:</span><span class="n">Z</span><span class="p">:</span><span class="n">rg1</span><span class="p">:</span><span class="n">AAAA</span><span class="o">-</span><span class="mi">1</span>
+<span class="n">r003</span>        <span class="mi">0</span>       <span class="mi">20</span>      <span class="mi">9</span>       <span class="mi">30</span>      <span class="mi">3</span><span class="n">S6M1P1I4M</span>      <span class="o">*</span>       <span class="mi">0</span>       <span class="mi">0</span>       <span class="n">AAAAGATAAGGATA</span>  <span class="o">*</span>       <span class="n">CB</span><span class="p">:</span><span class="n">Z</span><span class="p">:</span><span class="n">CCCC</span><span class="o">-</span><span class="mi">1</span>     <span class="n">RG</span><span class="p">:</span><span class="n">Z</span><span class="p">:</span><span class="n">rg1</span><span class="p">:</span><span class="n">CCCC</span><span class="o">-</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>Two new &#64;RG tags have been added to the header with SM fields that are cell
+barcode-specic. The two reads r002 and r003 have been assigned new RG tags
+according to their cell barcode.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>usage: sinto tagtorg [-h] -b BAM [--tag TAG] -f TAGFILE [-o OUTPUT] [-O O]
+
+Append a read tag to the read group ID of each read. Also appends the read tag
+to the SM field of the read group.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -b BAM, --bam BAM     Input SAM/BAM file, &#39;-&#39; reads from stdin
+  --tag TAG             Read tag to extract the value from that is appended to
+                        the read group. Default is &#39;CB&#39;, the tag that is used
+                        in 10x sequencing to identify cells.
+  -f TAGFILE, --tagfile TAGFILE
+                        List of expected tag values. Reads with tag values
+                        that are not in this list are not altered.
+  -o OUTPUT, --output OUTPUT
+                        Output SAM/BAM file, &#39;-&#39; outputs to stdout (default
+                        &#39;-&#39;)
+  -O OUTPUTFORMAT, --outputformat OUTPUTFORMAT
+                        Output format. One of &#39;t&#39; (SAM), &#39;b&#39; (BAM), or &#39;u&#39;
+                        (uncompressed BAM) (&#39;t&#39; default)
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -442,7 +502,7 @@ optional arguments:
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Tim Stuart
+        &copy; Copyright 2020, Tim Stuart, Warren W. Kretzschmar
 
     </p>
   </div>
