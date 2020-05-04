@@ -5,8 +5,21 @@ Minor version changes indicate bug fixes or
 performance improvements to existing functionality
 without breaking compatibility with previous versions.
 
+Version 0.5
+-----------
+
+0.5.0
+~~~~~
+
+- Add ``tagtorg`` command to add read groups to BAM according to cell barcode.
+
 Version 0.4
 -----------
+
+0.4.3
+~~~~~
+
+- Throw error if file is not present for ``filterbarcodes`` and ``addtags``
 
 0.4.2
 ~~~~~

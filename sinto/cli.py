@@ -1,4 +1,4 @@
-from sinto import utils, filterbarcodes, addtags, fragments, blocks
+from sinto import utils, filterbarcodes, addtags, fragments, tagtorg, blocks
 
 
 @utils.log_info
@@ -11,7 +11,7 @@ def run_filterbarcodes(options):
         trim_suffix=options.trim_suffix,
         nproc=options.nproc,
         readname_barcode=options.barcode_regex,
-        cellbarcode=options.barcodetag
+        cellbarcode=options.barcodetag,
     )
 
 
@@ -29,6 +29,7 @@ def run_addtags(options):
         mode=options.mode,
     )
 
+
 @utils.log_info
 def run_fragments(options):
     """Wraps the sinto.fragments function for use on the command line
@@ -43,8 +44,20 @@ def run_fragments(options):
         chromosomes=options.use_chrom,
         cells=options.cells,
         max_distance=options.max_distance,
-        chunksize=options.chunksize
+        chunksize=options.chunksize,
     )
+
+
+@utils.log_info
+def run_tagtorg(options):
+    tagtorg.tagtorg(
+        bam=options.bam,
+        tag_value_file=options.tagfile,
+        tag=options.tag,
+        output=options.output,
+        out_format=options.outputformat,
+    )
+
 
 @utils.log_info
 def run_blocks(options):

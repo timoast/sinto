@@ -171,7 +171,10 @@ def read_cell_barcode_tag_file(infile):
             else:
                 cb[line[0]] = [(line[1], line[2])]
         inf.close()
-    return cb
+        return cb
+    else:
+        raise Exception("File not found")
+
 
 def read_cell_barcode_file(infile):
     """
@@ -201,4 +204,6 @@ def read_cell_barcode_file(infile):
             else:
                 cb[line[0]] = groups
         inf.close()
-    return cb
+        return cb
+    else:
+        raise Exception("File not found")
