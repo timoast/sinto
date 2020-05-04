@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'sinto'
-copyright = '2020, Tim Stuart'
+copyright = '2020, Tim Stuart, Warren W. Kretzschmar'
 author = 'Tim Stuart'
 
 # The full version, including alpha/beta/rc tags
