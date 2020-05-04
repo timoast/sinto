@@ -5,6 +5,14 @@ Minor version changes indicate bug fixes or
 performance improvements to existing functionality
 without breaking compatibility with previous versions.
 
+Version 0.6
+-----------
+
+0.6.0
+~~~~~
+
+- Add ``blocks`` command to create block file from BAM file.
+
 Version 0.5
 -----------
 
