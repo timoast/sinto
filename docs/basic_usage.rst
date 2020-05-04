@@ -309,7 +309,7 @@ Then we can replace the read groups in the SAM file using the command:
 
 .. code-block::
 
-    sinto addtorg -b input.sam -f barcodes.txt
+    sinto tagtorg -b input.sam -f barcodes.txt
 
 This will print the following SAM file to screen:
 
