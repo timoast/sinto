@@ -5,6 +5,19 @@ Minor version changes indicate bug fixes or
 performance improvements to existing functionality
 without breaking compatibility with previous versions.
 
+Version 0.5
+-----------
+
+0.5.1
+~~~~~
+
+- Fix bug in ``utils.read_cell_barcode_file`` when same cell appears on multiple lines
+
+0.5.0
+~~~~~
+
+- Add ``tagtorg`` command to add read groups to BAM according to cell barcode.
+
 Version 0.4
 -----------
 
