@@ -200,7 +200,8 @@ def read_cell_barcode_file(infile):
             line = line.rsplit()
             groups = line[1].split(",")
             if line[0] in cb.keys():
-                cb[line[0]].append(groups)
+                cb[line[0]] += groups
+                cb[line[0]] = list(set(cb[line[0]]))
             else:
                 cb[line[0]] = groups
         inf.close()
