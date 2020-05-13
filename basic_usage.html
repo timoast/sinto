@@ -272,11 +272,9 @@ or compressed.</p></li>
 <div class="section" id="number-of-processors-nproc">
 <h4>Number of processors: <code class="docutils literal notranslate"><span class="pre">--nproc</span></code><a class="headerlink" href="#number-of-processors-nproc" title="Permalink to this headline">¶</a></h4>
 <p>Multiple cores can be used by specifying the <code class="docutils literal notranslate"><span class="pre">--nproc</span></code> argument.
-Note that each process will load fragments from a single chromosome into
-memory, so the more processors used the more memory required.
-At a minimum, enough memory to fragments from the largest chromosome into memory is required.
-The amount of memory this corresponds to will depend on sequencing depth and the genome
-size. There is no point specifiying more processors than the number of chromosomes.</p>
+Specifying multiple processors will parallelize across chromosomes. Currently,
+at most one thread is used per chromosome, so there is no point specifiying
+more processors than the number of chromosomes.</p>
 </div>
 <div class="section" id="minimum-mapping-quality-min-mapq">
 <h4>Minimum mapping quality: <code class="docutils literal notranslate"><span class="pre">--min_mapq</span></code><a class="headerlink" href="#minimum-mapping-quality-min-mapq" title="Permalink to this headline">¶</a></h4>
