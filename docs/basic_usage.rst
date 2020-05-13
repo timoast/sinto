@@ -113,11 +113,9 @@ Number of processors: ``--nproc``
 _________________________________
 
 Multiple cores can be used by specifying the ``--nproc`` argument.
-Note that each process will load fragments from a single chromosome into 
-memory, so the more processors used the more memory required.
-At a minimum, enough memory to fragments from the largest chromosome into memory is required.
-The amount of memory this corresponds to will depend on sequencing depth and the genome
-size. There is no point specifiying more processors than the number of chromosomes.
+Specifying multiple processors will parallelize across chromosomes. Currently,
+at most one thread is used per chromosome, so there is no point specifiying
+more processors than the number of chromosomes.
 
 Minimum mapping quality: ``--min_mapq``
 _______________________________________
