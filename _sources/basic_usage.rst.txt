@@ -347,3 +347,114 @@ according to their cell barcode.
       -O OUTPUTFORMAT, --outputformat OUTPUTFORMAT
                             Output format. One of 't' (SAM), 'b' (BAM), or 'u'
                             (uncompressed BAM) ('t' default)
+
+Add cell barcodes to FASTQ read names
+-------------------------------------
+
+Cell barcodes from one FASTQ file can be added to the read names of another, or the same,
+FASTQ file using the ``barcode`` command. This is useful when processing raw single-cell
+sequencing data, as the cell barcode information can easily be propagated to the aligned
+BAM file by encoding the cell barcode in the read name. Only gzip-compressed FASTQ files
+are supported.
+
+Running this command will generate new gzipped FASTQ files with the read names modified to
+contain the cell barcode sequence at the beginning of the read name, separated from the
+original read name by a ``:`` character. The output files will be the name of the input
+file with ``.barcoded.fastq.gz`` at the end of the file name.
+
+.. code-block:: none
+
+    sinto barcode [-h] --barcode_fastq BARCODE_FASTQ --read1 READ1
+                     [--read2 READ2] -b BASES [--prefix PREFIX]
+                     [--suffix SUFFIX]
+
+    Add cell barcode sequences to read names in FASTQ file. FASTQ files must be
+    gzip-compressed and end in .gz.
+
+    optional arguments:
+    -h, --help            show this help message and exit
+    --barcode_fastq BARCODE_FASTQ
+                            FASTQ file containing cell barcode sequences
+    --read1 READ1         FASTQ file containing read 1
+    --read2 READ2         FASTQ file containing read 2
+    -b BASES, --bases BASES
+                            Number of bases to extract from barcode-containing
+                            FASTQ
+    --prefix PREFIX       Prefix to add to cell barcodes
+    --suffix SUFFIX       Suffix to add to cell barcodes
+
+Additional arguments for the barcode function
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Bases: ``--bases``
+__________________
+
+This controls how many bases from the read containing the cell barcode are used.
+Bases are counted from the beginning of the read sequence in the FASTQ file. For
+example, ``--bases 12`` will extract the first 12 sequenced bases from the read 
+and use it as the cell barcode.
+
+Barcode read file: ``--barcode_fastq``
+______________________________________
+
+Gzipped FASTQ file with reads containing the cell barcode sequence.
+
+Read 1 and read 2: ``--read1`` and ``--read2``
+______________________________________________
+
+Gzipped FASTQ files containing reads to which the cell barcode information will be
+added. Note that these files must contain the same number of reads as the barcode-containing
+FASTQ file, and the reads must appear in the same order.
+
+Example
+~~~~~~~
+
+Take the following two FASTQ files as an example. The first contains cell barcode sequences
+and the second we want to add those sequences to the read name.
+
+``barocde_file.fastq.gz``:
+
+.. code-block:: none
+
+    @D00611:697:CD0V6ANXX:5:2301:1176:2478 1:N:0:TATCCTCT
+    CAATACACTATATGGGAGACGTTTTTTTTT
+    +
+    BBBBBFFFFFFFFFFFFFFFFFFFFFFFFF
+    @D00611:697:CD0V6ANXX:5:2301:1480:2408 1:N:0:TATCCTCT
+    CAGAGACGTAAACAATGGCGGTTTTTTTTT
+    +
+    B<BBBFFFFFFFFFFFFFFFFFFFFFFFFF
+    @D00611:697:CD0V6ANXX:5:2301:1361:2447 1:N:0:TATCCTAT
+    AGTCTCGCCACATGGGGGGGATTTTTTTTT
+
+``read1.fastq.gz``:
+
+.. code-block:: none
+
+    @D00611:697:CD0V6ANXX:5:2301:1176:2478 2:N:0:TATCCTCT
+    GATTTACACAGATGATATGTTTCTATTGCCTGCTTGGGATGGGGGTGGGAGGCAGAGTCCATCTACCTCTCTAAC
+    +
+    BBBBBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    @D00611:697:CD0V6ANXX:5:2301:1480:2408 2:N:0:TATCCTCT
+    GTGCCTTTGACTTTAGCTAGGCGACAGGGGACGAGTCCATTAGCATACNNNGTAAATTGCTGTTGTCTGTTTTTG
+    +
+    <////////B/B/////<//////<///////////<///////////###////////////<///////////
+    @D00611:697:CD0V6ANXX:5:2301:1361:2447 2:N:0:TATCCTAT
+    TAATACATGACGGTGTCTTAGTAGCACTTACTATGCACAGGTTAAGACCTGTCTCTTATACACATCTCCGAGCCC
+
+After running ``sinto barcode`` with ``-b 12`` to extract the first 12 bases of the barcode sequence
+we have a new file called ``read1.barcoded.fastq.gz``:
+
+.. code-block:: none
+
+    @CAATACACTATA:D00611:697:CD0V6ANXX:5:2301:1176:2478 2:N:0:TATCCTCT
+    GATTTACACAGATGATATGTTTCTATTGCCTGCTTGGGATGGGGGTGGGAGGCAGAGTCCATCTACCTCTCTAAC
+    +
+    BBBBBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    @CAGAGACGTAAA:D00611:697:CD0V6ANXX:5:2301:1480:2408 2:N:0:TATCCTCT
+    GTGCCTTTGACTTTAGCTAGGCGACAGGGGACGAGTCCATTAGCATACNNNGTAAATTGCTGTTGTCTGTTTTTG
+    +
+    <////////B/B/////<//////<///////////<///////////###////////////<///////////
+    @AGTCTCGCCACA:D00611:697:CD0V6ANXX:5:2301:1361:2447 2:N:0:TATCCTAT
+    TAATACATGACGGTGTCTTAGTAGCACTTACTATGCACAGGTTAAGACCTGTCTCTTATACACATCTCCGAGCCC
+

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>User guide &mdash; sinto 0.4.3 documentation</title>
+  <title>User guide &mdash; sinto 0.6.0 documentation</title>
   
 
   
@@ -100,6 +100,16 @@
 <li class="toctree-l2"><a class="reference internal" href="#filter-cell-barcodes-from-bam-file">Filter cell barcodes from BAM file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#add-read-tags-to-bam-file">Add read tags to BAM file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#convert-read-tag-to-read-group">Convert read tag to read group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#add-cell-barcodes-to-fastq-read-names">Add cell barcodes to FASTQ read names</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#additional-arguments-for-the-barcode-function">Additional arguments for the barcode function</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#bases-bases">Bases: <code class="docutils literal notranslate"><span class="pre">--bases</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#barcode-read-file-barcode-fastq">Barcode read file: <code class="docutils literal notranslate"><span class="pre">--barcode_fastq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#read-1-and-read-2-read1-and-read2">Read 1 and read 2: <code class="docutils literal notranslate"><span class="pre">--read1</span></code> and <code class="docutils literal notranslate"><span class="pre">--read2</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -478,6 +488,103 @@ optional arguments:
                         Output format. One of &#39;t&#39; (SAM), &#39;b&#39; (BAM), or &#39;u&#39;
                         (uncompressed BAM) (&#39;t&#39; default)
 </pre></div>
+</div>
+</div>
+<div class="section" id="add-cell-barcodes-to-fastq-read-names">
+<h2>Add cell barcodes to FASTQ read names<a class="headerlink" href="#add-cell-barcodes-to-fastq-read-names" title="Permalink to this headline">¶</a></h2>
+<p>Cell barcodes from one FASTQ file can be added to the read names of another, or the same,
+FASTQ file using the <code class="docutils literal notranslate"><span class="pre">barcode</span></code> command. This is useful when processing raw single-cell
+sequencing data, as the cell barcode information can easily be propagated to the aligned
+BAM file by encoding the cell barcode in the read name. Only gzip-compressed FASTQ files
+are supported.</p>
+<p>Running this command will generate new gzipped FASTQ files with the read names modified to
+contain the cell barcode sequence at the beginning of the read name, separated from the
+original read name by a <code class="docutils literal notranslate"><span class="pre">:</span></code> character. The output files will be the name of the input
+file with <code class="docutils literal notranslate"><span class="pre">.barcoded.fastq.gz</span></code> at the end of the file name.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sinto barcode [-h] --barcode_fastq BARCODE_FASTQ --read1 READ1
+                 [--read2 READ2] -b BASES [--prefix PREFIX]
+                 [--suffix SUFFIX]
+
+Add cell barcode sequences to read names in FASTQ file. FASTQ files must be
+gzip-compressed and end in .gz.
+
+optional arguments:
+-h, --help            show this help message and exit
+--barcode_fastq BARCODE_FASTQ
+                        FASTQ file containing cell barcode sequences
+--read1 READ1         FASTQ file containing read 1
+--read2 READ2         FASTQ file containing read 2
+-b BASES, --bases BASES
+                        Number of bases to extract from barcode-containing
+                        FASTQ
+--prefix PREFIX       Prefix to add to cell barcodes
+--suffix SUFFIX       Suffix to add to cell barcodes
+</pre></div>
+</div>
+<div class="section" id="additional-arguments-for-the-barcode-function">
+<h3>Additional arguments for the barcode function<a class="headerlink" href="#additional-arguments-for-the-barcode-function" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="bases-bases">
+<h4>Bases: <code class="docutils literal notranslate"><span class="pre">--bases</span></code><a class="headerlink" href="#bases-bases" title="Permalink to this headline">¶</a></h4>
+<p>This controls how many bases from the read containing the cell barcode are used.
+Bases are counted from the beginning of the read sequence in the FASTQ file. For
+example, <code class="docutils literal notranslate"><span class="pre">--bases</span> <span class="pre">12</span></code> will extract the first 12 sequenced bases from the read
+and use it as the cell barcode.</p>
+</div>
+<div class="section" id="barcode-read-file-barcode-fastq">
+<h4>Barcode read file: <code class="docutils literal notranslate"><span class="pre">--barcode_fastq</span></code><a class="headerlink" href="#barcode-read-file-barcode-fastq" title="Permalink to this headline">¶</a></h4>
+<p>Gzipped FASTQ file with reads containing the cell barcode sequence.</p>
+</div>
+<div class="section" id="read-1-and-read-2-read1-and-read2">
+<h4>Read 1 and read 2: <code class="docutils literal notranslate"><span class="pre">--read1</span></code> and <code class="docutils literal notranslate"><span class="pre">--read2</span></code><a class="headerlink" href="#read-1-and-read-2-read1-and-read2" title="Permalink to this headline">¶</a></h4>
+<p>Gzipped FASTQ files containing reads to which the cell barcode information will be
+added. Note that these files must contain the same number of reads as the barcode-containing
+FASTQ file, and the reads must appear in the same order.</p>
+</div>
+</div>
+<div class="section" id="example">
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
+<p>Take the following two FASTQ files as an example. The first contains cell barcode sequences
+and the second we want to add those sequences to the read name.</p>
+<p><code class="docutils literal notranslate"><span class="pre">barocde_file.fastq.gz</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>@D00611:697:CD0V6ANXX:5:2301:1176:2478 1:N:0:TATCCTCT
+CAATACACTATATGGGAGACGTTTTTTTTT
++
+BBBBBFFFFFFFFFFFFFFFFFFFFFFFFF
+@D00611:697:CD0V6ANXX:5:2301:1480:2408 1:N:0:TATCCTCT
+CAGAGACGTAAACAATGGCGGTTTTTTTTT
++
+B&lt;BBBFFFFFFFFFFFFFFFFFFFFFFFFF
+@D00611:697:CD0V6ANXX:5:2301:1361:2447 1:N:0:TATCCTAT
+AGTCTCGCCACATGGGGGGGATTTTTTTTT
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">read1.fastq.gz</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>@D00611:697:CD0V6ANXX:5:2301:1176:2478 2:N:0:TATCCTCT
+GATTTACACAGATGATATGTTTCTATTGCCTGCTTGGGATGGGGGTGGGAGGCAGAGTCCATCTACCTCTCTAAC
++
+BBBBBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+@D00611:697:CD0V6ANXX:5:2301:1480:2408 2:N:0:TATCCTCT
+GTGCCTTTGACTTTAGCTAGGCGACAGGGGACGAGTCCATTAGCATACNNNGTAAATTGCTGTTGTCTGTTTTTG
++
+&lt;////////B/B/////&lt;//////&lt;///////////&lt;///////////###////////////&lt;///////////
+@D00611:697:CD0V6ANXX:5:2301:1361:2447 2:N:0:TATCCTAT
+TAATACATGACGGTGTCTTAGTAGCACTTACTATGCACAGGTTAAGACCTGTCTCTTATACACATCTCCGAGCCC
+</pre></div>
+</div>
+<p>After running <code class="docutils literal notranslate"><span class="pre">sinto</span> <span class="pre">barcode</span></code> with <code class="docutils literal notranslate"><span class="pre">-b</span> <span class="pre">12</span></code> to extract the first 12 bases of the barcode sequence
+we have a new file called <code class="docutils literal notranslate"><span class="pre">read1.barcoded.fastq.gz</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>@CAATACACTATA:D00611:697:CD0V6ANXX:5:2301:1176:2478 2:N:0:TATCCTCT
+GATTTACACAGATGATATGTTTCTATTGCCTGCTTGGGATGGGGGTGGGAGGCAGAGTCCATCTACCTCTCTAAC
++
+BBBBBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+@CAGAGACGTAAA:D00611:697:CD0V6ANXX:5:2301:1480:2408 2:N:0:TATCCTCT
+GTGCCTTTGACTTTAGCTAGGCGACAGGGGACGAGTCCATTAGCATACNNNGTAAATTGCTGTTGTCTGTTTTTG
++
+&lt;////////B/B/////&lt;//////&lt;///////////&lt;///////////###////////////&lt;///////////
+@AGTCTCGCCACA:D00611:697:CD0V6ANXX:5:2301:1361:2447 2:N:0:TATCCTAT
+TAATACATGACGGTGTCTTAGTAGCACTTACTATGCACAGGTTAAGACCTGTCTCTTATACACATCTCCGAGCCC
+</pre></div>
+</div>
 </div>
 </div>
 </div>
