@@ -254,6 +254,30 @@ parser_fragments.add_argument(
 )
 parser_fragments.set_defaults(func=cli.run_fragments)
 
+# fragments
+parser_barcode = subparsers.add_parser(
+    "barcode", description="Add cell barcode sequences to read names in FASTQ file. FASTQ files must be gzip-compressed and end in .gz."
+)
+parser_barcode.add_argument(
+    "--barcode_fastq", help="FASTQ file containing cell barcode sequences", required=True, type=str
+)
+parser_barcode.add_argument(
+    "--read1", help="FASTQ file containing read 1", required=True, type=str
+)
+parser_barcode.add_argument(
+    "--read2", help="FASTQ file containing read 2", required=False, type=str, default=None
+)
+parser_barcode.add_argument(
+    "-b", "--bases", help="Number of bases to extract from barcode-containing FASTQ", required=True, type=int
+)
+parser_barcode.add_argument(
+    "--prefix", help="Prefix to add to cell barcodes", required=False, type=str, default=""
+)
+parser_barcode.add_argument(
+    "--suffix", help="Suffix to add to cell barcodes", required=False, type=str, default=""
+)
+parser_barcode.set_defaults(func=cli.run_barcode)
+
 if len(sys.argv[1:]) == 0:
     parser.print_help()
     parser.exit()

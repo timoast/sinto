@@ -13,6 +13,7 @@ Sinto is a toolkit for processing aligned single-cell data. Sinto includes funct
 - Create a scATAC-seq fragments file from a BAM file
 - Add read tags to a BAM file according to cell barcode information
 - Add read groups based on read tags
+- Add cell barcodes to FASTQ read names
 
 Read the documentation at https://timoast.github.io/sinto
 

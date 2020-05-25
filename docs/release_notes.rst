@@ -5,6 +5,15 @@ Minor version changes indicate bug fixes or
 performance improvements to existing functionality
 without breaking compatibility with previous versions.
 
+Version 0.6
+-----------
+
+0.6.0
+~~~~~
+
+- New ``barcode`` function to add cell barcodes to read names in FASTQ file
+
+
 Version 0.5
 -----------
 
