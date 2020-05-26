@@ -21,35 +21,53 @@ def addbarcodes(cb_position, fq1, fq2, fq3=None, prefix="", suffix=""):
         Suffix to append to cell barcodes
     """
     barcodes = get_barcodes(f=fq1, bases=cb_position, prefix=prefix, suffix=suffix)
-    outf2 = fq2.strip("fastq.gz") + ".barcoded.fastq.gz"
-    add_barcodes(f=fq2, o=outf2, cb=barcodes)
+    add_barcodes(f=fq2, cb=barcodes)
     if fq3 is not None:
-        outf3 = fq3.strip("fastq.gz") + ".barcoded.fastq.gz"
-        add_barcodes(f=fq2, o=outf3, cb=barcodes)
+        add_barcodes(f=fq3, cb=barcodes)
 
 
 def get_barcodes(f, bases=12, prefix="", suffix=""):
     f_open = open_fastq(f)
+    if f.endswith(".gz"):
+        gz = True
+    else:
+        gz = False
     x = 0
     cb = []
     for i in f_open:
         if (x % 4 == 1):
-            cb.append(prefix + i.decode("utf-8")[:bases] + suffix)
+            if gz:
+                cb.append(prefix + i.decode("utf-8")[:bases] + suffix)
+            else:
+                cb.append(prefix + i[:bases] + suffix)
         x += 1
     f_open.close()
     return(cb)
 
 
-def add_barcodes(f, o, cb):
+def add_barcodes(f, cb):
     f_open = open_fastq(f)
-    outfile = gzip.GzipFile(o, mode = "wb")
+    if f.endswith(".gz"):
+        gz = True
+        o = f.replace(".fastq.gz", "").replace(".fq.gz") + ".barcoded.fastq.gz"
+        outfile = gzip.GzipFile(o, mode = "wb")
+    else:
+        gz = False
+        o = f.replace(".fastq", "").replace(".fq") + ".barcoded.fastq.gz"
+        outfile = open(o, "w+")
     x = 0
     y = 0
     for i in f_open:
         if (x % 4 ==0):
-            rdname = i.decode("utf-8")
+            if gz:
+                rdname = i.decode("utf-8")
+            else:
+                rdname = i
             rdname = "@" + cb[y] + ":" + rdname[1:]
-            outfile.write(rdname.encode("utf-8"))
+            if gz:
+                outfile.write(rdname.encode("utf-8"))
+            else:
+                outfile.write(rdname)
             y += 1
         else:
             outfile.write(i)
