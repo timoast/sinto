@@ -8,6 +8,12 @@ without breaking compatibility with previous versions.
 Version 0.6
 -----------
 
+0.6.1
+~~~~~
+
+- Bug fixes for ``barcode`` function
+- Allow running ``barcode`` on unzipped FASTQ files
+
 0.6.0
 ~~~~~
 

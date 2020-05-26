@@ -354,8 +354,9 @@ Add cell barcodes to FASTQ read names
 Cell barcodes from one FASTQ file can be added to the read names of another, or the same,
 FASTQ file using the ``barcode`` command. This is useful when processing raw single-cell
 sequencing data, as the cell barcode information can easily be propagated to the aligned
-BAM file by encoding the cell barcode in the read name. Only gzip-compressed FASTQ files
-are supported.
+BAM file by encoding the cell barcode in the read name. Both gzipped and uncompressed
+FASTQ files are supported as input. Running on uncompressed FASTQ is usually much faster
+than running on gzipped FASTQ files.
 
 Running this command will generate new gzipped FASTQ files with the read names modified to
 contain the cell barcode sequence at the beginning of the read name, separated from the
@@ -368,8 +369,7 @@ file with ``.barcoded.fastq.gz`` at the end of the file name.
                      [--read2 READ2] -b BASES [--prefix PREFIX]
                      [--suffix SUFFIX]
 
-    Add cell barcode sequences to read names in FASTQ file. FASTQ files must be
-    gzip-compressed and end in .gz.
+    Add cell barcode sequences to read names in FASTQ file.
 
     optional arguments:
     -h, --help            show this help message and exit
@@ -397,12 +397,12 @@ and use it as the cell barcode.
 Barcode read file: ``--barcode_fastq``
 ______________________________________
 
-Gzipped FASTQ file with reads containing the cell barcode sequence.
+FASTQ file with reads containing the cell barcode sequence.
 
 Read 1 and read 2: ``--read1`` and ``--read2``
 ______________________________________________
 
-Gzipped FASTQ files containing reads to which the cell barcode information will be
+FASTQ files containing reads to which the cell barcode information will be
 added. Note that these files must contain the same number of reads as the barcode-containing
 FASTQ file, and the reads must appear in the same order.
 
