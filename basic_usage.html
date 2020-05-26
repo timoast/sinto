@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>User guide &mdash; sinto 0.6.0 documentation</title>
+  <title>User guide &mdash; sinto 0.6.1 documentation</title>
   
 
   
@@ -495,8 +495,9 @@ optional arguments:
 <p>Cell barcodes from one FASTQ file can be added to the read names of another, or the same,
 FASTQ file using the <code class="docutils literal notranslate"><span class="pre">barcode</span></code> command. This is useful when processing raw single-cell
 sequencing data, as the cell barcode information can easily be propagated to the aligned
-BAM file by encoding the cell barcode in the read name. Only gzip-compressed FASTQ files
-are supported.</p>
+BAM file by encoding the cell barcode in the read name. Both gzipped and uncompressed
+FASTQ files are supported as input. Running on uncompressed FASTQ is usually much faster
+than running on gzipped FASTQ files.</p>
 <p>Running this command will generate new gzipped FASTQ files with the read names modified to
 contain the cell barcode sequence at the beginning of the read name, separated from the
 original read name by a <code class="docutils literal notranslate"><span class="pre">:</span></code> character. The output files will be the name of the input
@@ -505,8 +506,7 @@ file with <code class="docutils literal notranslate"><span class="pre">.barcoded
                  [--read2 READ2] -b BASES [--prefix PREFIX]
                  [--suffix SUFFIX]
 
-Add cell barcode sequences to read names in FASTQ file. FASTQ files must be
-gzip-compressed and end in .gz.
+Add cell barcode sequences to read names in FASTQ file.
 
 optional arguments:
 -h, --help            show this help message and exit
@@ -532,11 +532,11 @@ and use it as the cell barcode.</p>
 </div>
 <div class="section" id="barcode-read-file-barcode-fastq">
 <h4>Barcode read file: <code class="docutils literal notranslate"><span class="pre">--barcode_fastq</span></code><a class="headerlink" href="#barcode-read-file-barcode-fastq" title="Permalink to this headline">¶</a></h4>
-<p>Gzipped FASTQ file with reads containing the cell barcode sequence.</p>
+<p>FASTQ file with reads containing the cell barcode sequence.</p>
 </div>
 <div class="section" id="read-1-and-read-2-read1-and-read2">
 <h4>Read 1 and read 2: <code class="docutils literal notranslate"><span class="pre">--read1</span></code> and <code class="docutils literal notranslate"><span class="pre">--read2</span></code><a class="headerlink" href="#read-1-and-read-2-read1-and-read2" title="Permalink to this headline">¶</a></h4>
-<p>Gzipped FASTQ files containing reads to which the cell barcode information will be
+<p>FASTQ files containing reads to which the cell barcode information will be
 added. Note that these files must contain the same number of reads as the barcode-containing
 FASTQ file, and the reads must appear in the same order.</p>
 </div>
