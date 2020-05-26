@@ -53,7 +53,7 @@ def add_barcodes(f, cb):
         outfile = gzip.GzipFile(o, mode = "wb")
     else:
         gz = False
-        o = f.replace(".fastq", "").replace(".fq", "") + ".barcoded.fastq.gz"
+        o = f.replace(".fastq", "").replace(".fq", "") + ".barcoded.fastq"
         outfile = open(o, "w+")
     x = 0
     y = 0
