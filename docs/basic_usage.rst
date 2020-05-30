@@ -348,6 +348,61 @@ according to their cell barcode.
                             Output format. One of 't' (SAM), 'b' (BAM), or 'u'
                             (uncompressed BAM) ('t' default)
 
+Copy/move read tag to another read tag
+--------------------------------------
+
+Read tags can be renamed or copied to anthor read tag using the ``tagtotag`` command.
+Let's assume we have a SAM file called ``input.sam``
+with the following contents:
+
+.. code-block:: none
+
+    @HD	VN:1.5	SO:coordinate
+    @SQ	SN:20	LN:63025520
+    r002	0	20	9	30	3S6M1P1I4M	*	0	0	AAAAGATAAGGATA	*	CB:Z:AAAA-1
+    r003	0	20	9	30	3S6M1P1I4M	*	0	0	AAAAGATAAGGATA	*	CB:Z:CCCC-1
+
+We would like to rename the CB tag to another arbitrary tag, let's call it xx.
+If we run the following command:
+
+.. code-block::
+
+    sinto tagtotag --from CB --to xx --delete --bam - -o -
+
+This will print the following SAM file to screen:
+
+.. code-block::
+
+    @HD	VN:1.5	SO:coordinate
+    @SQ	SN:20	LN:63025520
+    r002	0	20	9	30	3S6M1P1I4M	*	0	0	AAAAGATAAGGATA	*	xx:Z:AAAA-1
+    r003	0	20	9	30	3S6M1P1I4M	*	0	0	AAAAGATAAGGATA	*	xx:Z:CCCC-1
+
+The two CB tags have been renamed to xx. If we wish to keep the original CB tag, then
+we can drop ``--delete`` from the command.
+
+.. code-block:: none
+
+    usage: sinto tagtotag [-h] -b BAM --from FROM_ --to TO [--delete] [-o OUTPUT]
+                          [-O OUTPUTFORMAT]
+
+    Copies BAM entries to a new file while copying a read tag to another read tag
+    and optionally deleting the originating tag.
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      -b BAM, --bam BAM     Input SAM/BAM file, '-' reads from stdin
+      --from FROM_          Read tag to copy from.
+      --to TO               Read tag to copy to.
+      --delete              Delete originating tag after copy (i.e. move).
+      -o OUTPUT, --output OUTPUT
+                            Output SAM/BAM file, '-' outputs to stdout (default
+                            '-')
+      -O OUTPUTFORMAT, --outputformat OUTPUTFORMAT
+                            Output format. One of 't' (SAM), 'b' (BAM), or 'u'
+                            (uncompressed BAM) ('t' default)
+
+
 Add cell barcodes to FASTQ read names
 -------------------------------------
 

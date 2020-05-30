@@ -1,4 +1,12 @@
-from sinto import utils, filterbarcodes, addtags, fragments, tagtorg, addbarcodes
+from sinto import (
+    utils,
+    filterbarcodes,
+    addtags,
+    fragments,
+    tagtorg,
+    addbarcodes,
+    tagtotag,
+)
 
 
 @utils.log_info
@@ -47,6 +55,7 @@ def run_fragments(options):
         chunksize=options.chunksize,
     )
 
+
 @utils.log_info
 def run_tagtorg(options):
     tagtorg.tagtorg(
@@ -57,6 +66,19 @@ def run_tagtorg(options):
         out_format=options.outputformat,
     )
 
+
+@utils.log_info
+def run_tagtotag(options):
+    tagtotag.tagtotag(
+        bam=options.bam,
+        from_tag=options.from_,
+        to_tag=options.to,
+        output=options.output,
+        delete=options.delete,
+        out_format=options.outputformat,
+    )
+
+
 @utils.log_info
 def run_barcode(options):
     addbarcodes.addbarcodes(
@@ -65,5 +87,5 @@ def run_barcode(options):
         fq2=options.read1,
         fq3=options.read2,
         prefix=options.prefix,
-        suffix=options.suffix
+        suffix=options.suffix,
     )
