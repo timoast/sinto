@@ -36,11 +36,7 @@ def tagtotag(
     assert len(from_tag) == 2
     assert len(to_tag) == 2
 
-    if bam.endswith(".bam"):
-        infile = pysam.AlignmentFile(bam, "rb")
-    else:
-        infile = pysam.AlignmentFile(bam, "r")
-    
+    infile = pysam.AlignmentFile(bam)
     outfile = pysam.AlignmentFile(
         output, "w" + OUT_FORMAT_CONVERSION[out_format], template=infile
     )

@@ -37,7 +37,7 @@ def tagtorg(bam, tag, output, tag_value_file, out_format="t"):
         One of "t" (SAM), "b" (BAM), or "u" (uncompressed BAM) ("t" default)
     """
 
-    infile = pysam.AlignmentFile(bam, "r")
+    infile = pysam.AlignmentFile(bam)
     with open(tag_value_file) as fh:
         tag_vals = {val.rstrip() for val in fh.readlines()}
     new_header = build_header(infile.header, tag_vals)
