@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>User guide &mdash; sinto 0.6.1 documentation</title>
+  <title>User guide &mdash; sinto 0.7.0 documentation</title>
   
 
   
@@ -101,6 +101,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#filter-cell-barcodes-from-bam-file">Filter cell barcodes from BAM file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#add-read-tags-to-bam-file">Add read tags to BAM file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#convert-read-tag-to-read-group">Convert read tag to read group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#copy-move-read-tag-to-another-read-tag">Copy/move read tag to another read tag</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#add-cell-barcodes-to-fastq-read-names">Add cell barcodes to FASTQ read names</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#additional-arguments-for-the-barcode-function">Additional arguments for the barcode function</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#bases-bases">Bases: <code class="docutils literal notranslate"><span class="pre">--bases</span></code></a></li>
@@ -483,6 +484,52 @@ optional arguments:
   -f TAGFILE, --tagfile TAGFILE
                         List of expected tag values. Reads with tag values
                         that are not in this list are not altered.
+  -o OUTPUT, --output OUTPUT
+                        Output SAM/BAM file, &#39;-&#39; outputs to stdout (default
+                        &#39;-&#39;)
+  -O OUTPUTFORMAT, --outputformat OUTPUTFORMAT
+                        Output format. One of &#39;t&#39; (SAM), &#39;b&#39; (BAM), or &#39;u&#39;
+                        (uncompressed BAM) (&#39;t&#39; default)
+</pre></div>
+</div>
+</div>
+<div class="section" id="copy-move-read-tag-to-another-read-tag">
+<h2>Copy/move read tag to another read tag<a class="headerlink" href="#copy-move-read-tag-to-another-read-tag" title="Permalink to this headline">¶</a></h2>
+<p>Read tags can be renamed or copied to anthor read tag using the <code class="docutils literal notranslate"><span class="pre">tagtotag</span></code> command.
+Let’s assume we have a SAM file called <code class="docutils literal notranslate"><span class="pre">input.sam</span></code>
+with the following contents:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>@HD VN:1.5  SO:coordinate
+@SQ SN:20   LN:63025520
+r002        0       20      9       30      3S6M1P1I4M      *       0       0       AAAAGATAAGGATA  *       CB:Z:AAAA-1
+r003        0       20      9       30      3S6M1P1I4M      *       0       0       AAAAGATAAGGATA  *       CB:Z:CCCC-1
+</pre></div>
+</div>
+<p>We would like to rename the CB tag to another arbitrary tag, let’s call it xx.
+If we run the following command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sinto tagtotag --from CB --to xx --delete --bam - -o -
+</pre></div>
+</div>
+<p>This will print the following SAM file to screen:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>@HD VN:1.5  SO:coordinate
+@SQ SN:20   LN:63025520
+r002        0       20      9       30      3S6M1P1I4M      *       0       0       AAAAGATAAGGATA  *       xx:Z:AAAA-1
+r003        0       20      9       30      3S6M1P1I4M      *       0       0       AAAAGATAAGGATA  *       xx:Z:CCCC-1
+</pre></div>
+</div>
+<p>The two CB tags have been renamed to xx. If we wish to keep the original CB tag, then
+we can drop <code class="docutils literal notranslate"><span class="pre">--delete</span></code> from the command.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>usage: sinto tagtotag [-h] -b BAM --from FROM_ --to TO [--delete] [-o OUTPUT]
+                      [-O OUTPUTFORMAT]
+
+Copies BAM entries to a new file while copying a read tag to another read tag
+and optionally deleting the originating tag.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -b BAM, --bam BAM     Input SAM/BAM file, &#39;-&#39; reads from stdin
+  --from FROM_          Read tag to copy from.
+  --to TO               Read tag to copy to.
+  --delete              Delete originating tag after copy (i.e. move).
   -o OUTPUT, --output OUTPUT
                         Output SAM/BAM file, &#39;-&#39; outputs to stdout (default
                         &#39;-&#39;)
