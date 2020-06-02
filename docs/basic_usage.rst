@@ -365,13 +365,13 @@ with the following contents:
 We would like to rename the CB tag to another arbitrary tag, let's call it xx.
 If we run the following command:
 
-.. code-block::
+.. code-block:: none
 
     sinto tagtotag --from CB --to xx --delete --bam - -o -
 
 This will print the following SAM file to screen:
 
-.. code-block::
+.. code-block:: none
 
     @HD	VN:1.5	SO:coordinate
     @SQ	SN:20	LN:63025520
