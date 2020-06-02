@@ -11,3 +11,4 @@ Report issues and view source code `here <https://github.com/timoast/sinto>`__.
 
    installation
    basic_usage
+   scatac

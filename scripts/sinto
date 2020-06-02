@@ -157,6 +157,56 @@ parser_tagtorg.add_argument(
 
 parser_tagtorg.set_defaults(func=cli.run_tagtorg)
 
+# tagtotag
+parser_tagtotag = subparsers.add_parser(
+    "tagtotag",
+    description="Copies BAM entries to a new file while copying a read tag"
+                " to another read tag"
+                " and optionally deleting the originating tag.",
+)
+parser_tagtotag.add_argument(
+    "-b",
+    "--bam",
+    help="Input SAM/BAM file, '-' reads from stdin",
+    required=True,
+    type=str,
+)
+parser_tagtotag.add_argument(
+    "--from",
+    help="Read tag to copy from.",
+    required=True,
+    dest='from_',
+    type=str,
+)
+parser_tagtotag.add_argument(
+    "--to",
+    help="Read tag to copy to.",
+    required=True,
+    type=str,
+)
+parser_tagtotag.add_argument(
+    "--delete",
+    help="Delete originating tag after copy (i.e. move).",
+    action='store_true',
+)
+parser_tagtotag.add_argument(
+    "-o",
+    "--output",
+    help="Output SAM/BAM file, '-' outputs to stdout (default '-')",
+    default="-",
+    type=str,
+)
+parser_tagtotag.add_argument(
+    "-O",
+    "--outputformat",
+    help="Output format. One of 't' (SAM), 'b' (BAM),"
+    " or 'u' (uncompressed BAM) ('t' default)",
+    default="t",
+)
+
+
+parser_tagtotag.set_defaults(func=cli.run_tagtotag)
+
 # fragments
 parser_fragments = subparsers.add_parser(
     "fragments", description="Create ATAC-seq fragment file from BAM file"
