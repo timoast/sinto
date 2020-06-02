@@ -5,6 +5,14 @@ Minor version changes indicate bug fixes or
 performance improvements to existing functionality
 without breaking compatibility with previous versions.
 
+Version 0.7
+-----------
+
+0.7.0
+~~~~~
+
+- New ``tagtotag`` function to copy or move read tags
+
 Version 0.6
 -----------
 
