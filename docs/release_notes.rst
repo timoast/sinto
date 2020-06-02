@@ -8,6 +8,11 @@ without breaking compatibility with previous versions.
 Version 0.7
 -----------
 
+0.7.1
+~~~~~
+
+- Code style update for ``tagtotag`` and ``tagtorg``
+
 0.7.0
 ~~~~~
 
