@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Sinto: single-cell analysis tools &mdash; sinto 0.7.0 documentation</title>
+  <title>Sinto: single-cell analysis tools &mdash; sinto 0.7.1 documentation</title>
   
 
   
@@ -157,6 +157,7 @@
 <li><p>Create a scATAC-seq fragments file from a BAM file</p></li>
 <li><p>Add read tags to a BAM file according to cell barcode information</p></li>
 <li><p>Add read groups based on read tags</p></li>
+<li><p>Copy or move read tags to another read tag</p></li>
 <li><p>Add cell barcodes to FASTQ read names</p></li>
 </ul>
 <p>Report issues and view source code <a class="reference external" href="https://github.com/timoast/sinto">here</a>.</p>
@@ -171,7 +172,9 @@ without breaking compatibility with previous versions.</p>
 <h3>0.7.1<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Code style update for <code class="docutils literal notranslate"><span class="pre">tagtotag</span></code> and <code class="docutils literal notranslate"><span class="pre">tagtorg</span></code></p></li>
+<li><p>Fix bug in <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code> and <code class="docutils literal notranslate"><span class="pre">addtags</span></code> that caused lines in</p></li>
 </ul>
+<p>BAM header to be duplicated (<a class="reference external" href="https://github.com/timoast/sinto/issues/15">https://github.com/timoast/sinto/issues/15</a>)</p>
 </div>
 <div class="section" id="id2">
 <h3>0.7.0<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
