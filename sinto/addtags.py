@@ -69,6 +69,11 @@ def addtags(bam, tagfile, output, sam=False, trim_suffix=True, mode="tag", nproc
     tags = utils.read_cell_barcode_tag_file(tagfile)
     inputBam = pysam.AlignmentFile(bam, "rb")
     intervals = utils.chunk_bam(inputBam, nproc)
+    # write sam header
+    headerfile = "".join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
+    tmpmerge = "".join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
+    header = pysam.AlignmentFile(headerfile, "w", header = inputBam.header)
+    header.close()
     inputBam.close()
     p = Pool(nproc)
     tempfiles = p.map_async(
@@ -84,10 +89,13 @@ def addtags(bam, tagfile, output, sam=False, trim_suffix=True, mode="tag", nproc
         intervals.values(),
     ).get(9999999)
     mergestring = (
-        "samtools merge -@ " + str(nproc) + " " + output + " " + " ".join(tempfiles)
+        "samtools merge -@ " + str(nproc) + " " + tmpmerge + " " + " ".join(tempfiles) + ";" +
+        "samtools reheader -P " + headerfile + " " + tmpmerge + " > " + output
     )
     call(mergestring, shell=True)
     if os.path.exists(output):
         [os.remove(i) for i in tempfiles]
+        os.remove(headerfile)
+        os.remove(tmpmerge)
     else:
         raise Exception("samtools merge failed, temp files not deleted")

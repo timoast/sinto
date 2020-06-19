@@ -38,19 +38,22 @@ def _iterate_reads(intervals, bam, cb, classes, trim_suffix, cellbarcode, readna
     return ident
 
 
-def mergeAll(idents, classes, nproc,  remove=True):
+def mergeAll(idents, classes, nproc,  header, remove=True):
     """Merge all temp files for each class
     If remove is True, remove temp files after
     successful merging"""
     for i in classes:
         allfiles = [i + "_" + x for x in idents]
         output = i + '.bam'
+        tmpmerge = i + ".tmp"
         mergestring = (
-            "samtools merge -@ " + str(nproc) + " " + output + " " + " ".join(allfiles)
+            "samtools merge -@ " + str(nproc) + " " + tmpmerge + " " + " ".join(allfiles) + ";" +
+            "samtools reheader -P " + header + " " + tmpmerge + " > " + output
         )
         call(mergestring, shell=True)
         if os.path.exists(output):
             [os.remove(i) for i in allfiles]
+            os.remove(tmpmerge)
         else:
             raise Exception("samtools merge failed, temp files not deleted")
 
@@ -92,6 +95,11 @@ def filterbarcodes(
     unique_classes = list(set(chain.from_iterable(cb.values())))
     inputBam = pysam.AlignmentFile(bam, "rb")
     intervals = utils.chunk_bam(inputBam, nproc)
+    # write sam header
+    ident = "".join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
+    headerfile = "./" + ident + ".sam"
+    header = pysam.AlignmentFile(headerfile, "w", header = inputBam.header)
+    header.close()
     inputBam.close()
     if readname_barcode is not None:
         readname_barcode = re.compile(readname_barcode)
@@ -108,4 +116,5 @@ def filterbarcodes(
         ),
         intervals.values(),
     ).get(9999999)
-    mergeAll(idents=idents, classes=unique_classes, nproc=nproc, remove=True)
+    mergeAll(idents=idents, classes=unique_classes, nproc=nproc, header = headerfile, remove=True)
+    os.remove(headerfile)

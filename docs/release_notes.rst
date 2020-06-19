@@ -12,6 +12,8 @@ Version 0.7
 ~~~~~
 
 - Code style update for ``tagtotag`` and ``tagtorg``
+- Fix bug in ``filterbarcodes`` and ``addtags`` that caused lines in
+BAM header to be duplicated (https://github.com/timoast/sinto/issues/15)
 
 0.7.0
 ~~~~~
