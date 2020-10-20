@@ -8,12 +8,17 @@ without breaking compatibility with previous versions.
 Version 0.7
 -----------
 
+0.7.2
+~~~~~
+
+- Added ``min_distance`` parameter to ``fragments``
+- Fixed bug in soft clipping for ``fragments`` function
+
 0.7.1
 ~~~~~
 
 - Code style update for ``tagtotag`` and ``tagtorg``
-- Fix bug in ``filterbarcodes`` and ``addtags`` that caused lines in
-BAM header to be duplicated (https://github.com/timoast/sinto/issues/15)
+- Fix bug in ``filterbarcodes`` and ``addtags`` that caused lines in BAM header to be duplicated (https://github.com/timoast/sinto/issues/15)
 
 0.7.0
 ~~~~~
