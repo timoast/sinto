@@ -52,6 +52,7 @@ def run_fragments(options):
         chromosomes=options.use_chrom,
         cells=options.cells,
         max_distance=options.max_distance,
+        min_distance=options.min_distance,
         chunksize=options.chunksize,
     )
 
