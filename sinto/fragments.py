@@ -9,6 +9,7 @@ import re
 import gc
 import tempfile
 import os
+import itertools
 
 
 def writeFragments(fragments, filepath):
@@ -151,6 +152,7 @@ def getFragments(
     readname_barcode=None,
     cells=None,
     max_distance=5000,
+    min_distance=10,
     chunksize=500000,
 ):
     """Extract ATAC fragments from BAM file
@@ -174,6 +176,10 @@ def getFragments(
         Maximum distance between integration sites for the fragment to be retained.
         Allows filtering of implausible fragments that likely result from incorrect 
         mapping positions. Default is 5000 bp.
+    min_distance : int, optional
+        Minimum distance between integration sites for the fragment to be retained.
+        Allows filtering of implausible fragments that likely result from incorrect 
+        mapping positions. Default is 10 bp.
     chunksize : int
         Number of BAM entries to read through before collapsing and writing
         fragments to disk. Higher chunksize will use more memory but will be 
@@ -195,6 +201,7 @@ def getFragments(
             readname_barcode=readname_barcode,
             cells=cells,
             max_dist=max_distance,
+            min_dist=min_distance
         )
         x += 1
         if x > chunksize:
@@ -268,7 +275,7 @@ def findCompleteFragments(fragments, max_dist, current_position, max_collapse_di
 
 
 def updateFragmentDict(
-    fragments, segment, min_mapq, cellbarcode, readname_barcode, cells, max_dist
+    fragments, segment, min_mapq, cellbarcode, readname_barcode, cells, max_dist, min_dist
 ):
     """Update dictionary of ATAC fragments
     Takes a new aligned segment and adds information to the dictionary,
@@ -295,6 +302,8 @@ def updateFragmentDict(
         List of cells to retain. If None, retain all cells found.
     max_dist : int
         Maximum allowed distance between fragment start and end sites
+    min_dist : int
+        Minimum allowed distance between fragment start and end sites
     """
     # because the cell barcode is not stored with each read pair (only one of the pair)
     # we need to look for each read separately rather than using the mate cigar / mate postion information
@@ -309,6 +318,7 @@ def updateFragmentDict(
     mapq = segment.mapping_quality
     if mapq < min_mapq:
         return fragments
+    cigar = segment.cigartuples
     chromosome = segment.reference_name
     qname = segment.query_name
     rstart = segment.reference_start
@@ -317,21 +327,23 @@ def updateFragmentDict(
     is_reverse = segment.is_reverse
     if (rend is None) or (rstart is None):
         return fragments
-    # correct for soft clipping
-    rstart = rstart + qstart
-    # correct for 9 bp Tn5 shift
+    # correct for soft clipping and 9 bp Tn5 shift
     if is_reverse:
+        suffix_clip = sum([x[1] for x in itertools.takewhile(lambda x: x[0] == 4, reversed(cigar))])
+        rend = rend + suffix_clip
         rend = rend - 5
     else:
+        prefix_clip = sum([x[1] for x in itertools.takewhile(lambda x: x[0] == 4, cigar)])
+        rstart = rstart - prefix_clip
         rstart = rstart + 4
     fragments = addToFragments(
-        fragments, qname, chromosome, rstart, rend, cell_barcode, is_reverse, max_dist
+        fragments, qname, chromosome, rstart, rend, cell_barcode, is_reverse, max_dist, min_dist
     )
     return fragments
 
 
 def addToFragments(
-    fragments, qname, chromosome, rstart, rend, cell_barcode, is_reverse, max_dist
+    fragments, qname, chromosome, rstart, rend, cell_barcode, is_reverse, max_dist, min_dist
 ):
     """Add new fragment information to dictionary
     
@@ -354,6 +366,8 @@ def addToFragments(
         Read is aligned to reverse strand
     max_dist : int
         Maximum allowed fragment size
+    min_dist : int
+        Minimum allowed fragment size
     """
     if qname in fragments.keys():
         if is_reverse:
@@ -361,7 +375,7 @@ def addToFragments(
             if current_coord is None:
                 # read aligned to the wrong strand, don't include
                 del fragments[qname]
-            elif ((rend - current_coord) > max_dist) or ((rend - current_coord) < 0):
+            elif ((rend - current_coord) > max_dist) or ((rend - current_coord) < min_dist):
                 # too far away, don't include
                 del fragments[qname]
             else:
@@ -378,7 +392,7 @@ def addToFragments(
             if current_coord is None:
                 del fragments[qname]
             elif ((current_coord - rstart) > max_dist) or (
-                (current_coord - rstart) < 0
+                (current_coord - rstart) < min_dist
             ):
                 del fragments[qname]
             else:
@@ -415,6 +429,7 @@ def fragments(
     readname_barcode=None,
     cells=None,
     max_distance=5000,
+    min_distance=10,
     chunksize=500000,
 ):
     """Create ATAC fragment file from BAM file
@@ -449,6 +464,10 @@ def fragments(
         Maximum distance between integration sites for the fragment to be retained.
         Allows filtering of implausible fragments that likely result from incorrect 
         mapping positions. Default is 5000 bp.
+    min_distance : int, optional
+        Minimum distance between integration sites for the fragment to be retained.
+        Allows filtering implausible fragments that likely result from incorrect
+        mapping positions. Default is 10 bp.
     chunksize : int
         Number of BAM entries to read through before collapsing and writing
         fragments to disk. Higher chunksize will use more memory but will be 
@@ -468,6 +487,7 @@ def fragments(
                 readname_barcode=readname_barcode,
                 cells=cells,
                 max_distance=max_distance,
+                min_distance=min_distance,
                 chunksize=chunksize,
             ),
             list(chrom.items()),
