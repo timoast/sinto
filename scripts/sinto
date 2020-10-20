@@ -1,10 +1,9 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 
 import sys
 from argparse import ArgumentParser
 import pkg_resources
 from sinto import cli
-import sys
 
 
 version = pkg_resources.require("sinto")[0].version
@@ -293,6 +292,17 @@ parser_fragments.add_argument(
     type=int,
 )
 parser_fragments.add_argument(
+    "--min_distance",
+    help="""
+    Minimum distance between integration sites for the fragment to be retained.
+    Allows filtering of implausible fragments that likely result from incorrect 
+    mapping positions. Default is 10 bp.
+    """,
+    required=False,
+    default=10,
+    type=int,
+)
+parser_fragments.add_argument(
     "--chunksize",
     help="""
     Number of BAM file entries to iterate over before collapsing the fragments and writing
@@ -304,7 +314,7 @@ parser_fragments.add_argument(
 )
 parser_fragments.set_defaults(func=cli.run_fragments)
 
-# fragments
+# barcodes
 parser_barcode = subparsers.add_parser(
     "barcode", description="Add cell barcode sequences to read names in FASTQ file."
 )
@@ -327,6 +337,7 @@ parser_barcode.add_argument(
     "--suffix", help="Suffix to add to cell barcodes", required=False, type=str, default=""
 )
 parser_barcode.set_defaults(func=cli.run_barcode)
+
 
 if len(sys.argv[1:]) == 0:
     parser.print_help()
