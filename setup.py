@@ -44,7 +44,7 @@ setuptools.setup(
     install_requires=[
         l.strip() for l in Path('requirements.txt').read_text('utf-8').splitlines()
     ],
-    scripts = ["scripts/sinto"],
+    entry_points = {'console_scripts': ['sinto = sinto.arguments:main']},
     author_email = 'tstuart@nygenome.org',
     url = 'https://github.com/timoast/sinto',
     packages = setuptools.find_packages(),
