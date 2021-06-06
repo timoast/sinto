@@ -8,6 +8,11 @@ without breaking compatibility with previous versions.
 Version 0.7
 -----------
 
+0.7.3
+~~~~~
+
+- Fixed error in soft clipping for ``fragments`` function (https://github.com/timoast/sinto/issues/29)
+
 0.7.2
 ~~~~~
 

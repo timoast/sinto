@@ -9,7 +9,6 @@ import re
 import gc
 import tempfile
 import os
-import itertools
 
 
 def writeFragments(fragments, filepath):
@@ -318,23 +317,17 @@ def updateFragmentDict(
     mapq = segment.mapping_quality
     if mapq < min_mapq:
         return fragments
-    cigar = segment.cigartuples
     chromosome = segment.reference_name
     qname = segment.query_name
     rstart = segment.reference_start
-    rend = segment.reference_end
-    qstart = segment.query_alignment_start
+    rend = segment.reference_end 
     is_reverse = segment.is_reverse
     if (rend is None) or (rstart is None):
         return fragments
-    # correct for soft clipping and 9 bp Tn5 shift
+    # correct for 9 bp Tn5 shift
     if is_reverse:
-        suffix_clip = sum([x[1] for x in itertools.takewhile(lambda x: x[0] == 4, reversed(cigar))])
-        rend = rend + suffix_clip
         rend = rend - 5
     else:
-        prefix_clip = sum([x[1] for x in itertools.takewhile(lambda x: x[0] == 4, cigar)])
-        rstart = rstart - prefix_clip
         rstart = rstart + 4
     fragments = addToFragments(
         fragments, qname, chromosome, rstart, rend, cell_barcode, is_reverse, max_dist, min_dist
