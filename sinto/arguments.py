@@ -1,5 +1,3 @@
-#! /usr/bin/env python3
-
 import sys
 from argparse import ArgumentParser
 import pkg_resources
@@ -338,11 +336,14 @@ parser_barcode.add_argument(
 )
 parser_barcode.set_defaults(func=cli.run_barcode)
 
+def main():
+    if len(sys.argv[1:]) == 0:
+        parser.print_help()
+        parser.exit()
+    else:
+        options = parser.parse_args()
+        sys.setrecursionlimit(10000)
+        options.func(options)
 
-if len(sys.argv[1:]) == 0:
-    parser.print_help()
-    parser.exit()
-else:
-    options = parser.parse_args()
-    sys.setrecursionlimit(10000)
-    options.func(options)
+if __name__ == "__main__":
+    main()
