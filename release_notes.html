@@ -5,10 +5,11 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Version 0.7 &mdash; sinto 0.7.2 documentation</title>
+  <title>Version 0.7 &mdash; sinto 0.7.3 documentation</title>
   
 
   
@@ -21,10 +22,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -33,6 +34,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
 </head>
@@ -151,138 +154,144 @@ or breaking changes to existing functionality.</p>
 <p>Minor version changes indicate bug fixes or
 performance improvements to existing functionality
 without breaking compatibility with previous versions.</p>
-<div class="section" id="version-0-7">
+<section id="version-0-7">
 <h1>Version 0.7<a class="headerlink" href="#version-0-7" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id1">
-<h2>0.7.2<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<section id="id1">
+<h2>0.7.3<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Fixed error in soft clipping for <code class="docutils literal notranslate"><span class="pre">fragments</span></code> function (<a class="reference external" href="https://github.com/timoast/sinto/issues/29">https://github.com/timoast/sinto/issues/29</a>)</p></li>
+</ul>
+</section>
+<section id="id2">
+<h2>0.7.2<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Added <code class="docutils literal notranslate"><span class="pre">min_distance</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">fragments</span></code></p></li>
 <li><p>Fixed bug in soft clipping for <code class="docutils literal notranslate"><span class="pre">fragments</span></code> function</p></li>
 </ul>
-</div>
-<div class="section" id="id2">
-<h2>0.7.1<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="id3">
+<h2>0.7.1<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Code style update for <code class="docutils literal notranslate"><span class="pre">tagtotag</span></code> and <code class="docutils literal notranslate"><span class="pre">tagtorg</span></code></p></li>
 <li><p>Fix bug in <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code> and <code class="docutils literal notranslate"><span class="pre">addtags</span></code> that caused lines in BAM header to be duplicated (<a class="reference external" href="https://github.com/timoast/sinto/issues/15">https://github.com/timoast/sinto/issues/15</a>)</p></li>
 </ul>
-</div>
-<div class="section" id="id3">
-<h2>0.7.0<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="id4">
+<h2>0.7.0<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>New <code class="docutils literal notranslate"><span class="pre">tagtotag</span></code> function to copy or move read tags</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="version-0-6">
+</section>
+</section>
+<section id="version-0-6">
 <h1>Version 0.6<a class="headerlink" href="#version-0-6" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id4">
-<h2>0.6.1<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<section id="id5">
+<h2>0.6.1<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Bug fixes for <code class="docutils literal notranslate"><span class="pre">barcode</span></code> function</p></li>
 <li><p>Allow running <code class="docutils literal notranslate"><span class="pre">barcode</span></code> on unzipped FASTQ files</p></li>
 </ul>
-</div>
-<div class="section" id="id5">
-<h2>0.6.0<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="id6">
+<h2>0.6.0<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>New <code class="docutils literal notranslate"><span class="pre">barcode</span></code> function to add cell barcodes to read names in FASTQ file</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="version-0-5">
+</section>
+</section>
+<section id="version-0-5">
 <h1>Version 0.5<a class="headerlink" href="#version-0-5" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id6">
-<h2>0.5.1<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<section id="id7">
+<h2>0.5.1<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Fix bug in <code class="docutils literal notranslate"><span class="pre">utils.read_cell_barcode_file</span></code> when same cell appears on multiple lines</p></li>
 </ul>
-</div>
-<div class="section" id="id7">
-<h2>0.5.0<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="id8">
+<h2>0.5.0<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Add <code class="docutils literal notranslate"><span class="pre">tagtorg</span></code> command to add read groups to BAM according to cell barcode.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="version-0-4">
+</section>
+</section>
+<section id="version-0-4">
 <h1>Version 0.4<a class="headerlink" href="#version-0-4" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id8">
-<h2>0.4.3<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<section id="id9">
+<h2>0.4.3<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Throw error if file is not present for <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code> and <code class="docutils literal notranslate"><span class="pre">addtags</span></code></p></li>
 </ul>
-</div>
-<div class="section" id="id9">
-<h2>0.4.2<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="id10">
+<h2>0.4.2<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Fix bug when cell barcode is None for <code class="docutils literal notranslate"><span class="pre">fragments</span></code> function.</p></li>
 </ul>
-</div>
-<div class="section" id="id10">
-<h2>0.4.1<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="id11">
+<h2>0.4.1<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Increase recursion limit to prevent error when running on genomes
 with &gt;1000 scaffolds.</p></li>
 </ul>
-</div>
-<div class="section" id="id11">
-<h2>0.4.0<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="id12">
+<h2>0.4.0<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Removed <code class="docutils literal notranslate"><span class="pre">sam</span></code> parameter from <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code></p></li>
 <li><p>Allow multiple groups of cells to be specified in <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code>.
 This will create a separate BAM file for each unique group of cells.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="version-0-3">
+</section>
+</section>
+<section id="version-0-3">
 <h1>Version 0.3<a class="headerlink" href="#version-0-3" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id12">
-<h2>0.3.4<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<section id="id13">
+<h2>0.3.4<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Memory improvements for <code class="docutils literal notranslate"><span class="pre">fragments</span></code> function</p></li>
 </ul>
-</div>
-<div class="section" id="id13">
-<h2>0.3.3<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="id14">
+<h2>0.3.3<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Bug fix for <code class="docutils literal notranslate"><span class="pre">fragments</span></code> function when using chromosome containing zero fragments</p></li>
 </ul>
-</div>
-<div class="section" id="id14">
-<h2>0.3.2<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="id15">
+<h2>0.3.2<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Added <code class="docutils literal notranslate"><span class="pre">--barcodetag</span></code> and <code class="docutils literal notranslate"><span class="pre">--barcode_regex</span></code> arguments to <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code></p></li>
 </ul>
-</div>
-<div class="section" id="id15">
-<h2>0.3.1<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="id16">
+<h2>0.3.1<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Better handling of BAM file opening/closing</p></li>
 <li><p>Add <code class="docutils literal notranslate"><span class="pre">max_distance</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">fragments</span></code> to remove fragments over a certain length</p></li>
 </ul>
-</div>
-<div class="section" id="id16">
-<h2>0.3.0<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="id17">
+<h2>0.3.0<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>added <code class="docutils literal notranslate"><span class="pre">fragments</span></code> function to create scATAC fragment file from BAM file</p></li>
 <li><p>removed use of versioneer for version tracking</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="version-0-2">
+</section>
+</section>
+<section id="version-0-2">
 <h1>Version 0.2<a class="headerlink" href="#version-0-2" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
 <li><p>added <code class="docutils literal notranslate"><span class="pre">addtags</span></code> function to add read tags to BAM file for different groups of cells</p></li>
 </ul>
-</div>
-<div class="section" id="version-0-1">
+</section>
+<section id="version-0-1">
 <h1>Version 0.1<a class="headerlink" href="#version-0-1" title="Permalink to this headline">¶</a></h1>
 <p>First release. Functionality:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code></p></li>
 </ul>
-</div>
+</section>
 
 
            </div>
