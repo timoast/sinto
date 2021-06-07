@@ -16,21 +16,6 @@ if mo:
 else:
     raise RuntimeError("Unable to find version string in %s." % (VERSIONFILE,))
 
-def samtools():
-    if (sys.version_info > (3, 0)):
-        v = subprocess.check_output(['samtools', '--version']).decode().split()[1].split('.')
-    else:
-        v = subprocess.check_output(['samtools', '--version']).split()[1].split('.')
-    major = int(v[0])
-    if major >= 1:
-        return True
-    return False
-
-
-if __name__ == "__main__":
-    if not samtools():
-        raise Exception("sinto requires samtools >= v1")
-
 with open("README.rst", "r") as fh:
     long_description = fh.read()
 
@@ -42,7 +27,9 @@ setuptools.setup(
     long_description_content_type = "text/x-rst",
     author = 'Tim Stuart',
     install_requires=[
-        l.strip() for l in Path('requirements.txt').read_text('utf-8').splitlines()
+        'pysam>=0.14',
+        'scipy',
+        'numpy'
     ],
     entry_points = {'console_scripts': ['sinto = sinto.arguments:main']},
     author_email = 'tstuart@nygenome.org',
