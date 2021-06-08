@@ -1,5 +1,5 @@
 .. include:: ../README.rst
-   :end-line: 16
+   :end-line: 17
 
 Report issues and view source code `here <https://github.com/timoast/sinto>`__.
 
