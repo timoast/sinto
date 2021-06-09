@@ -1,6 +1,12 @@
 Installation
 ============
 
+Install from conda:
+::
+
+    conda install sinto
+
+
 Install from PyPI:
 ::
     
