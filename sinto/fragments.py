@@ -9,6 +9,7 @@ import re
 import gc
 import tempfile
 import os
+import math
 
 
 def writeFragments(fragments, filepath):
@@ -215,12 +216,13 @@ def getFragments(
             writeFragments(fragments=collapsed, filepath=outname)
             x = 0
             gc.collect()
+    # end of chromosome
     # collapse and write the remaining fragments
     complete = findCompleteFragments(
         fragments=fragment_dict,
         max_dist=max_distance,
-        current_position=i.reference_start,
-        max_collapse_dist=-max_distance,  # make sure we get them all
+        current_position=math.inf, # ensure all fragments are collapsed
+        max_collapse_dist=-max_distance,
     )
     collapsed = collapseFragments(fragments=complete)
     writeFragments(fragments=collapsed, filepath=outname)
