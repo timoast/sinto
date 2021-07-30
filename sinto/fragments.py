@@ -309,7 +309,7 @@ def updateFragmentDict(
     # because the cell barcode is not stored with each read pair (only one of the pair)
     # we need to look for each read separately rather than using the mate cigar / mate postion information
     if readname_barcode is not None:
-        re_match = readname_barcode.match(segment.qname)
+        re_match = readname_barcode.search(segment.qname)
         cell_barcode = re_match.group()
     else:
         cell_barcode, _ = utils.scan_tags(segment.tags, cb=cellbarcode)
