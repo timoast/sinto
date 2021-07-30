@@ -342,7 +342,7 @@ def main():
         parser.exit()
     else:
         options = parser.parse_args()
-        sys.setrecursionlimit(10000)
+        sys.setrecursionlimit(200000)
         options.func(options)
 
 if __name__ == "__main__":
