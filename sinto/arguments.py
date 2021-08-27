@@ -271,7 +271,7 @@ parser_fragments.add_argument(
     "--use_chrom",
     help="""
     Regular expression used to match chromosomes to be included in output.
-    Default is "(?i)^chr" to match all chromosomes starting with "chr", 
+    Default is "(?i)^chr" to match all chromosomes starting with "chr",
     case insensitive
     """,
     required=False,
@@ -282,7 +282,7 @@ parser_fragments.add_argument(
     "--max_distance",
     help="""
     Maximum distance between integration sites for the fragment to be retained.
-    Allows filtering of implausible fragments that likely result from incorrect 
+    Allows filtering of implausible fragments that likely result from incorrect
     mapping positions. Default is 5000 bp.
     """,
     required=False,
@@ -293,7 +293,7 @@ parser_fragments.add_argument(
     "--min_distance",
     help="""
     Minimum distance between integration sites for the fragment to be retained.
-    Allows filtering of implausible fragments that likely result from incorrect 
+    Allows filtering of implausible fragments that likely result from incorrect
     mapping positions. Default is 10 bp.
     """,
     required=False,
@@ -308,6 +308,24 @@ parser_fragments.add_argument(
     """,
     required=False,
     default=500000,
+    type=int,
+)
+parser_fragments.add_argument(
+    "--shift_plus",
+    help="""
+    Number of bases to shift Tn5 insertion position by on the forward strand.
+    """,
+    required=False,
+    default=4,
+    type=int,
+)
+parser_fragments.add_argument(
+    "--shift_minus",
+    help="""
+    Number of bases to shift Tn5 insertion position by on the reverse strand.
+    """,
+    required=False,
+    default=-5,
     type=int,
 )
 parser_fragments.set_defaults(func=cli.run_fragments)

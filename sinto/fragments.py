@@ -30,7 +30,7 @@ def writeFragments(fragments, filepath):
 
 def createPositionLookup(frags, pos=1):
     """Create dictionary where key is subsetted fragment coords
-    (no start or no stop), value is the list of full fragments 
+    (no start or no stop), value is the list of full fragments
     that share the coordinates in the key.
     Only entries where >1 full fragments share the same coordinate
     are retained"""
@@ -154,6 +154,7 @@ def getFragments(
     max_distance=5000,
     min_distance=10,
     chunksize=500000,
+    shifts=[4, -5]
 ):
     """Extract ATAC fragments from BAM file
 
@@ -174,16 +175,19 @@ def getFragments(
         List of cell barocodes to retain
     max_distance : int, optional
         Maximum distance between integration sites for the fragment to be retained.
-        Allows filtering of implausible fragments that likely result from incorrect 
+        Allows filtering of implausible fragments that likely result from incorrect
         mapping positions. Default is 5000 bp.
     min_distance : int, optional
         Minimum distance between integration sites for the fragment to be retained.
-        Allows filtering of implausible fragments that likely result from incorrect 
+        Allows filtering of implausible fragments that likely result from incorrect
         mapping positions. Default is 10 bp.
     chunksize : int
         Number of BAM entries to read through before collapsing and writing
-        fragments to disk. Higher chunksize will use more memory but will be 
+        fragments to disk. Higher chunksize will use more memory but will be
         faster.
+    shifts : list
+        Fragment position shifts to apply. First element defines shift for + strand,
+        second element defines shift for - strand.
     """
     fragment_dict = dict()
     inputBam = pysam.AlignmentFile(bam, "rb")
@@ -201,7 +205,8 @@ def getFragments(
             readname_barcode=readname_barcode,
             cells=cells,
             max_dist=max_distance,
-            min_dist=min_distance
+            min_dist=min_distance,
+            shifts=shifts
         )
         x += 1
         if x > chunksize:
@@ -232,23 +237,23 @@ def getFragments(
 def findCompleteFragments(fragments, max_dist, current_position, max_collapse_dist=20):
     """Find complete fragments that are >max_dist bp away from
     the current BAM file position
-    
+
     Parameters
     ----------
     fragments : dict
         A dictionary containing ATAC fragment information
     max_dist : int
-        The maximum allowed distance between fragment start and 
+        The maximum allowed distance between fragment start and
         end positions
     current_position : int
         The current position being looked at in the position-sorted
         BAM file
     max_collapse_dist : int
-        Maximum allowed distance for fragments from the same cell 
-        barcode that share one Tn5 integration site (fragment 
-        start or end coordinate) to be collapsed into a single 
+        Maximum allowed distance for fragments from the same cell
+        barcode that share one Tn5 integration site (fragment
+        start or end coordinate) to be collapsed into a single
         fragment.
-    
+
     Moves completed fragments to a new dictionary
     Completed fragments will be deleted from the original dictionary
     """
@@ -276,15 +281,16 @@ def findCompleteFragments(fragments, max_dist, current_position, max_collapse_di
 
 
 def updateFragmentDict(
-    fragments, segment, min_mapq, cellbarcode, readname_barcode, cells, max_dist, min_dist
+    fragments, segment, min_mapq, cellbarcode, readname_barcode, cells, max_dist, min_dist,
+    shifts=[4, -5]
 ):
     """Update dictionary of ATAC fragments
     Takes a new aligned segment and adds information to the dictionary,
     returns a modified version of the dictionary
 
     Positions are 0-based
-    Reads aligned to the + strand are shifted +4 bp
-    Reads aligned to the - strand are shifted -5 bp
+    Reads aligned to the + strand are shifted +4 bp (configurable by shifts)
+    Reads aligned to the - strand are shifted -5 bp (configurable by shifts)
 
     Parameters
     ----------
@@ -305,6 +311,9 @@ def updateFragmentDict(
         Maximum allowed distance between fragment start and end sites
     min_dist : int
         Minimum allowed distance between fragment start and end sites
+    shifts : list
+        List of adjustments made to fragment position. First element defines + strand
+        shift, second element defines - strand shift.
     """
     # because the cell barcode is not stored with each read pair (only one of the pair)
     # we need to look for each read separately rather than using the mate cigar / mate postion information
@@ -322,15 +331,15 @@ def updateFragmentDict(
     chromosome = segment.reference_name
     qname = segment.query_name
     rstart = segment.reference_start
-    rend = segment.reference_end 
+    rend = segment.reference_end
     is_reverse = segment.is_reverse
     if (rend is None) or (rstart is None):
         return fragments
     # correct for 9 bp Tn5 shift
     if is_reverse:
-        rend = rend - 5
+        rend = rend + shifts[1]
     else:
-        rstart = rstart + 4
+        rstart = rstart + shifts[0]
     fragments = addToFragments(
         fragments, qname, chromosome, rstart, rend, cell_barcode, is_reverse, max_dist, min_dist
     )
@@ -341,7 +350,7 @@ def addToFragments(
     fragments, qname, chromosome, rstart, rend, cell_barcode, is_reverse, max_dist, min_dist
 ):
     """Add new fragment information to dictionary
-    
+
     Parameters
     ----------
 
@@ -426,6 +435,7 @@ def fragments(
     max_distance=5000,
     min_distance=10,
     chunksize=500000,
+    shifts=[4, -5],
 ):
     """Create ATAC fragment file from BAM file
 
@@ -449,15 +459,15 @@ def fragments(
         output file. Default is "(?i)^chr" (starts with "chr", case-insensitive).
         If None, use all chromosomes in the BAM file.
     readname_barcode : str, optional
-        Regular expression used to match cell barocde stored in read name. 
-        If None (default), use read tags instead. Use "[^:]*" to match all characters 
+        Regular expression used to match cell barocde stored in read name.
+        If None (default), use read tags instead. Use "[^:]*" to match all characters
         before the first colon (":").
     cells : str
         File containing list of cell barcodes to retain. If None (default), use all cell barcodes
         found in the BAM file.
     max_distance : int, optional
         Maximum distance between integration sites for the fragment to be retained.
-        Allows filtering of implausible fragments that likely result from incorrect 
+        Allows filtering of implausible fragments that likely result from incorrect
         mapping positions. Default is 5000 bp.
     min_distance : int, optional
         Minimum distance between integration sites for the fragment to be retained.
@@ -465,8 +475,11 @@ def fragments(
         mapping positions. Default is 10 bp.
     chunksize : int
         Number of BAM entries to read through before collapsing and writing
-        fragments to disk. Higher chunksize will use more memory but will be 
+        fragments to disk. Higher chunksize will use more memory but will be
         faster.
+    shifts : list
+        Fragment position shifts to apply. First element defines shift for + strand,
+        second element defines shift for - strand.
     """
     nproc = int(nproc)
     chrom = utils.get_chromosomes(bam, keep_contigs=chromosomes)
@@ -484,6 +497,7 @@ def fragments(
                 max_distance=max_distance,
                 min_distance=min_distance,
                 chunksize=chunksize,
+                shifts=shifts
             ),
             list(chrom.items()),
         )

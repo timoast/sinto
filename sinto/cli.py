@@ -54,6 +54,7 @@ def run_fragments(options):
         max_distance=options.max_distance,
         min_distance=options.min_distance,
         chunksize=options.chunksize,
+        shifts=[options.shift_plus, options.shift_minus]
     )
 
 

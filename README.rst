@@ -21,4 +21,3 @@ Sinto is a toolkit for processing aligned single-cell data. Sinto includes funct
 
 Read the documentation at https://timoast.github.io/sinto
 
-
