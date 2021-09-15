@@ -8,6 +8,16 @@ without breaking compatibility with previous versions.
 Version 0.7
 -----------
 
+0.7.5
+~~~~~
+
+- Added ``--shift_plus`` and ``--shift_minus`` parameters to configure Tn5 shift applied in ``fragments`` function (https://github.com/timoast/sinto/issues/33)
+
+0.7.4
+~~~~~
+
+- Fixed bug causing some fragments at the end of contigs to be dropped (https://github.com/timoast/sinto/issues/31)
+
 0.7.3
 ~~~~~
 
