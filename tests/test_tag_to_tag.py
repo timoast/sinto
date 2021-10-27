@@ -62,11 +62,10 @@ def test_copies_CB_tag_to_cb_from_bam(tmpdir):
         fh.write(sam)
     with open(in_tag_file, "w") as fh:
         fh.write("AAAA-1")
-    subprocess.run(f"samtools view {in_sam_file} -OBAM -o {in_sam_file}.binary-sam", shell=True)
+    subprocess.run(f"samtools view {in_sam_file} -OBAM -o {in_sam_file}.binary-sam --no-PG", shell=True)
 
     # when
-    cmd = f"sinto tagtotag --from CB --to xx --bam - -o -"
-    cmd += f" < {in_sam_file}.binary-sam > {output}"
+    cmd = f"sinto tagtotag --from CB --to xx --bam {in_sam_file}.binary-sam -o {output}"
     subprocess.run(cmd, shell=True)
 
     # then
