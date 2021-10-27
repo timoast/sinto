@@ -10,18 +10,19 @@ jobs:
   build-linux:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    strategy:
-      max-parallel: 5
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.8
+    - uses: conda-incubator/setup-miniconda@v2
+      with:
+          auto-update-conda: true
+    - name: Set up Python
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
     - name: Install dependencies
       run: |
-        $CONDA/bin/conda install -c bioconda samtools
+        conda install -c bioconda samtools
         python -m pip install --upgrade pip
         python -m pip install --upgrade build
         pip install flake8 pytest
