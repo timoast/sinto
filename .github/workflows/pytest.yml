@@ -16,6 +16,8 @@ jobs:
     defaults:
       run:
         shell: bash -l {0}
+    env:
+      HTSLIB_CONFIGURE_OPTIONS: "--disable-libcurl"
 
     steps:
     - name: Checkout sinto
@@ -27,15 +29,10 @@ jobs:
           auto-activate-base: false
           activate-environment: testenv
           use-only-tar-bz2: true
-          
-    - name: Set up Conda and Python ${{ matrix.python-version }}
-      run: |
-        conda config --add channels bioconda --add channels conda-forge
-        conda install python=${{ matrix.python-version }} cython
         
     - name: Install dependencies
       run: |
-        conda install -c bioconda samtools
+        conda install -c bioconda samtools htslib
         conda install -c anaconda flake8 pytest
         python -m pip install --upgrade pip
         python -m pip install --upgrade build
