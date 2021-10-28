@@ -10,30 +10,47 @@ jobs:
   build-linux:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    strategy:
+      matrix:
+        python-version: ['3.7', '3.8', '3.9']
+    defaults:
+      run:
+        shell: bash -l {0}
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout sinto
+      uses: actions/checkout@v2
+      
     - uses: conda-incubator/setup-miniconda@v2
       with:
           auto-update-conda: true
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.8
+          auto-activate-base: false
+          channel-priority: strict
+          activate-environment: testenv
+          use-only-tar-bz2: true
+          
+    - name: Set up Conda and Python ${{ matrix.python-version }}
+      run: |
+        conda config --add channels bioconda --add channels conda-forge
+        conda install python=${{ matrix.python-version }} cython
+        
     - name: Install dependencies
       run: |
         conda install -c bioconda samtools
+        conda install -c anaconda flake8 pytest
         python -m pip install --upgrade pip
         python -m pip install --upgrade build
-        pip install flake8 pytest
-    - name: Install package
+        
+    - name: Build and install package
       run: |
         python -m build
         pip install .
+        
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        
     - name: Test with pytest
       run: |
-        pytest
+        REF_PATH=':' pytest
