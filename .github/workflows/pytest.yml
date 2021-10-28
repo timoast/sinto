@@ -25,7 +25,6 @@ jobs:
       with:
           auto-update-conda: true
           auto-activate-base: false
-          channel-priority: strict
           activate-environment: testenv
           use-only-tar-bz2: true
           
