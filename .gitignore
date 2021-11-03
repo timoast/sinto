@@ -13,3 +13,6 @@ docs/_build
 docs/.buildinfo
 docs/_sources
 .vscode/
+testdata/
+.ipynb_checkpoints/
+_static/
