@@ -1,6 +1,9 @@
 Sinto: single-cell analysis tools
 =================================
 
+.. image:: https://github.com/timoast/sinto/workflows/pytest/badge.svg
+   :target: https://github.com/timoast/sinto/actions
+
 .. image:: https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat
    :target: http://bioconda.github.io/recipes/sinto/README.html
 
