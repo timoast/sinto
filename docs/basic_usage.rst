@@ -84,27 +84,28 @@ How the fragment file is generated
 
 Generating the fragment file involves the following steps in order:
 
-1. Remove soft-clipped bases from the alignment position.
-2. Extract cell barcode sequence associated with the fragment.
-3. Adjust alignment positions for the 9 bp Tn5 shift by
+1. Extract cell barcode sequence associated with the fragment.
+2. Adjust alignment positions for the 9 bp Tn5 shift by
    applying +4/-5 to the start and end position of the paired reads.
-4. Remove fragments where either read has a MAPQ score less than
+3. Remove fragments where either read has a MAPQ score less than
    the specified cutoff.
-5. Remove fragments where the fragment size is greater than the 
+4. Remove fragments where the fragment size is greater than the 
    specified maximum.
-6. Collapse PCR duplicates:
+5. Collapse PCR duplicates:
 
     1. Count the frequency of each fragment for each cell barcode.
-    2. Within a cell barocode, collapse fragments that share 
+    2. Within a cell barcode, collapse fragments that share 
        a start or end coordinate on the same chromosome.
     3. Across all cell barcodes, collapse fragments that share 
        the exact start and end coordinates on the same chromosome.
     4. Assign the fragment to the most abundant cell barcode.
     5. Record the read count for the collapsed fragment.
 
-7. Write fragments to file. Note that fragments are not sorted
+6. Write fragments to file. Note that fragments are not sorted
    or compressed.
 
+Note that setting the ``--collapse_within`` parameter will change how step 5
+is handled.
 
 Additional arguments for the fragments function
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
