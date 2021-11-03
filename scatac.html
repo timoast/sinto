@@ -1,24 +1,33 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
   
-  <title>Processing scATAC-seq data &mdash; sinto 0.7.5 documentation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-
-  
-  
-  
+  <title>Processing scATAC-seq data &mdash; sinto 0.7.6 documentation</title>
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -30,12 +39,6 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="User guide" href="basic_usage.html" /> 
@@ -75,6 +78,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -99,6 +103,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -133,18 +138,20 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Processing scATAC-seq data</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/scatac.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -158,11 +165,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="processing-scatac-seq-data">
+  <div class="section" id="processing-scatac-seq-data">
 <h1>Processing scATAC-seq data<a class="headerlink" href="#processing-scatac-seq-data" title="Permalink to this headline">¶</a></h1>
 <p>In this tutorial we’ll demonstrate a simple pipeline for processing scATAC-seq data using Sinto,
 <a class="reference external" href="https://github.com/lh3/bwa">bwa</a>, <a class="reference external" href="https://github.com/samtools/htslib">tabix</a>, and <a class="reference external" href="https://github.com/jsh58/Genrich">Genrich</a>.</p>
-<section id="download-data">
+<div class="section" id="download-data">
 <h2>Download data<a class="headerlink" href="#download-data" title="Permalink to this headline">¶</a></h2>
 <p>For this example we’ll download scATAC-seq data from
 <a class="reference external" href="https://www.nature.com/articles/s41587-019-0290-0">Chen, Lake, and Zhang (2019)</a>
@@ -175,8 +182,8 @@ wget https://sra-pub-src-1.s3.amazonaws.com/SRR9672090/SC_20190509A_AdMsBrain_SN
 wget https://sra-pub-src-1.s3.amazonaws.com/SRR9672090/SC_20190509A_AdMsBrain_SNARE_chromatin_S16_R3_001.fastq.gz.1
 </pre></div>
 </div>
-</section>
-<section id="attach-cell-barcodes">
+</div>
+<div class="section" id="attach-cell-barcodes">
 <h2>Attach cell barcodes<a class="headerlink" href="#attach-cell-barcodes" title="Permalink to this headline">¶</a></h2>
 <p>In this experiment the cell barcodes were sequenced using the first 12 bp of read 1,
 and the paired-end genomic DNA reads sequenced using read 2 and read 3. We can use the
@@ -208,8 +215,8 @@ func        &lt;function run_barcode at 0x7f28c93714c0&gt;
 Function completed in  8.0 m 13.35 s
 </pre></div>
 </div>
-</section>
-<section id="map">
+</div>
+<div class="section" id="map">
 <h2>Map<a class="headerlink" href="#map" title="Permalink to this headline">¶</a></h2>
 <p>We can map the paired-end genomic reads using any aligner we like. In this example we’ll use
 bwa mem. First we need to download the fasta file for the mm10 genome and create a genome index for bwa:</p>
@@ -237,8 +244,8 @@ AACCTCCAACTG:D00611:698:CDN4HANXX:5:1106:1580:94969 137     chr1    3000052 0   
 TCCGCCGGAAAC:D00611:697:CD0V6ANXX:7:2116:7385:7732  117     chr1    3000098 0       *       =       3000098 0       AAGACGGCATACGAGATTCGCCTTAGTCTCGTGGGCTCGGAGATGTGTATAAGAGACATATACACTCAGCTTTAT     FFFFFFFFFFFFFFFFFFFFFFFFFFFF&lt;FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBBBBB     MC:Z:33M42S     AS:i:0  XS:i:0
 </pre></div>
 </div>
-</section>
-<section id="create-a-fragment-file">
+</div>
+<div class="section" id="create-a-fragment-file">
 <h2>Create a fragment file<a class="headerlink" href="#create-a-fragment-file" title="Permalink to this headline">¶</a></h2>
 <p>Finally we create a fragment file for the dataset using <code class="docutils literal notranslate"><span class="pre">sinto</span> <span class="pre">fragments</span></code></p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sinto fragments -b aln.sort.bam -p <span class="m">8</span> -f fragments.bed --barcode_regex <span class="s2">&quot;[^:]*&quot;</span>
@@ -285,8 +292,8 @@ chr1        3019505 3019588 CACGCTCGTCTT    1
 chr1        3021571 3021620 GTATTCGTCGGG    9
 </pre></div>
 </div>
-</section>
-<section id="call-peaks">
+</div>
+<div class="section" id="call-peaks">
 <h2>Call peaks<a class="headerlink" href="#call-peaks" title="Permalink to this headline">¶</a></h2>
 <p>We can call peaks using all cells combined using the mapped bam file and <a class="reference external" href="https://github.com/jsh58/Genrich">Genrich</a>.
 Genrich requires reads to be sorted by queryname, so we first re-sort the bam file and
@@ -311,40 +318,41 @@ chr1        3360973 3361167 peak_8  1000    .       262.217590      3.911148    
 chr1        3369527 3369829 peak_9  1000    .       373.499207      4.094081        -1      149
 </pre></div>
 </div>
-</section>
-<section id="downstream-analysis">
+</div>
+<div class="section" id="downstream-analysis">
 <h2>Downstream analysis<a class="headerlink" href="#downstream-analysis" title="Permalink to this headline">¶</a></h2>
 <p>Downstream analysis steps, including quantifying counts in each peak for each cell,
 can be performed using <a class="reference external" href="https://satijalab.org/signac">Signac</a>.</p>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-      
-        <a href="basic_usage.html" class="btn btn-neutral float-left" title="User guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="basic_usage.html" class="btn btn-neutral float-left" title="User guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Tim Stuart, Warren W. Kretzschmar
+        &#169; Copyright 2020, Tim Stuart, Warren W. Kretzschmar.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -352,7 +360,6 @@ can be performed using <a class="reference external" href="https://satijalab.org
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
