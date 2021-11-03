@@ -73,7 +73,7 @@ def collapseOverlapFragments(counts, pos=1):
     return counts
 
 
-def collapseFragments(fragments):
+def collapseFragments(fragments, collapse_within):
     """Collapse duplicate fragments
     """
     fraglist = list(fragments.values())
@@ -90,6 +90,14 @@ def collapseFragments(fragments):
     # collapse counts from the same cell barcode with partial overlap
     counts = collapseOverlapFragments(counts, pos=1)
     counts = collapseOverlapFragments(counts, pos=2)
+    
+    # if collapsing within barcodes, we skip the following steps
+    if collapse_within:
+        counts = list(counts.items())
+        cv = [x[0].split("|") for x in counts]
+        for i in range(0, len(counts)):
+            cv[i].append(counts[i][1])
+        return cv
 
     # get list of barcode index and fragment index from counts
     row = []
@@ -154,7 +162,8 @@ def getFragments(
     max_distance=5000,
     min_distance=10,
     chunksize=500000,
-    shifts=[4, -5]
+    shifts=[4, -5],
+    collapse_within=False
 ):
     """Extract ATAC fragments from BAM file
 
@@ -162,6 +171,8 @@ def getFragments(
 
     Parameters
     ----------
+    interval : list
+        Genomic coordinates to iterate over. Must be a single region.
     bam : str
         Path to BAM file
     min_mapq : int
@@ -188,6 +199,10 @@ def getFragments(
     shifts : list
         Fragment position shifts to apply. First element defines shift for + strand,
         second element defines shift for - strand.
+    collapse_within : bool
+        Only collapse fragments containing the same start and end coordinate within the
+        same cell barcode. Setting to True will only collapse duplicates if the cell barcode
+        is the same (allows same fragment coordinates with different cell barcode)
     """
     fragment_dict = dict()
     inputBam = pysam.AlignmentFile(bam, "rb")
@@ -210,6 +225,7 @@ def getFragments(
         )
         x += 1
         if x > chunksize:
+
             current_position = i.reference_start
             complete = findCompleteFragments(
                 fragments=fragment_dict,
@@ -217,7 +233,7 @@ def getFragments(
                 current_position=current_position,
                 max_collapse_dist=20,
             )
-            collapsed = collapseFragments(fragments=complete)
+            collapsed = collapseFragments(fragments=complete, collapse_within=collapse_within)
             writeFragments(fragments=collapsed, filepath=outname)
             x = 0
             gc.collect()
@@ -229,7 +245,7 @@ def getFragments(
         current_position=math.inf, # ensure all fragments are collapsed
         max_collapse_dist=-max_distance,
     )
-    collapsed = collapseFragments(fragments=complete)
+    collapsed = collapseFragments(fragments=complete, collapse_within=collapse_within)
     writeFragments(fragments=collapsed, filepath=outname)
     return outname
 
@@ -436,6 +452,7 @@ def fragments(
     min_distance=10,
     chunksize=500000,
     shifts=[4, -5],
+    collapse_within=False
 ):
     """Create ATAC fragment file from BAM file
 
@@ -480,6 +497,10 @@ def fragments(
     shifts : list
         Fragment position shifts to apply. First element defines shift for + strand,
         second element defines shift for - strand.
+    collapse_within : bool
+        Only collapse fragments containing the same start and end coordinate within the
+        same cell barcode. Setting to True will only collapse duplicates if the cell barcode
+        is the same (allows same fragment coordinates with different cell barcode)
     """
     nproc = int(nproc)
     chrom = utils.get_chromosomes(bam, keep_contigs=chromosomes)
@@ -497,7 +518,8 @@ def fragments(
                 max_distance=max_distance,
                 min_distance=min_distance,
                 chunksize=chunksize,
-                shifts=shifts
+                shifts=shifts,
+                collapse_within=collapse_within
             ),
             list(chrom.items()),
         )

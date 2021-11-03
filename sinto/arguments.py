@@ -328,6 +328,16 @@ parser_fragments.add_argument(
     default=-5,
     type=int,
 )
+parser_fragments.add_argument(
+    "--collapse_within",
+    help="""
+    Take cell barcode into account when collapsing duplicate fragments. Setting this
+    flag means that fragments with the same coordinates can be identified provided 
+    they originate from a different cell barcode.
+    """,
+    action="store_true",
+    default=False,
+)
 parser_fragments.set_defaults(func=cli.run_fragments)
 
 # barcodes
