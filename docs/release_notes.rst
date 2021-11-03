@@ -8,6 +8,12 @@ without breaking compatibility with previous versions.
 Version 0.7
 -----------
 
+0.7.6
+~~~~~
+
+- Added ``--collapse_within`` parameter to ``fragments`` function to enable only collapsing PCR duplicates if the cell barcode is the same (https://github.com/timoast/sinto/issues/36)
+- Added tests for ``fragments`` function and associated small test dataset
+
 0.7.5
 ~~~~~
 

@@ -11,51 +11,42 @@ PCR duplicates are collapsed.
 
 .. code-block:: none
     
-    sinto fragments [-h] -b BAM -f FRAGMENTS [-m MIN_MAPQ] [-p NPROC]
-                       [-t BARCODETAG] [-c CELLS]
-                       [--barcode_regex BARCODE_REGEX] [--use_chrom USE_CHROM]
-                       [--max_distance MAX_DISTANCE]
+    sinto fragments [-h] -b BAM -f FRAGMENTS [-m MIN_MAPQ] [-p NPROC] [-t BARCODETAG] [-c CELLS] [--barcode_regex BARCODE_REGEX] [--use_chrom USE_CHROM] [--max_distance MAX_DISTANCE]
+                       [--min_distance MIN_DISTANCE] [--chunksize CHUNKSIZE] [--shift_plus SHIFT_PLUS] [--shift_minus SHIFT_MINUS] [--collapse_within]
 
     Create ATAC-seq fragment file from BAM file
 
     optional arguments:
-    -h, --help            show this help message and exit
-    -b BAM, --bam BAM     Input bam file (must be indexed)
-    -f FRAGMENTS, --fragments FRAGMENTS
-                            Name and path for output fragments file. Note that the
-                            output is not sorted or compressed. To sort the output
-                            file use sort -k 1,1 -k2,2n
-    -m MIN_MAPQ, --min_mapq MIN_MAPQ
-                            Minimum MAPQ required to retain fragment (default =
-                            30)
-    -p NPROC, --nproc NPROC
+      -h, --help            show this help message and exit
+      -b BAM, --bam BAM     Input bam file (must be indexed)
+      -f FRAGMENTS, --fragments FRAGMENTS
+                            Name and path for output fragments file. Note that the output is not sorted or compressed. To sort the output file use sort -k 1,1 -k2,2n
+      -m MIN_MAPQ, --min_mapq MIN_MAPQ
+                            Minimum MAPQ required to retain fragment (default = 30)
+      -p NPROC, --nproc NPROC
                             Number of processors (default = 1)
-    -t BARCODETAG, --barcodetag BARCODETAG
-                            Read tag storing cell barcode information (default =
-                            "CB")
-    -c CELLS, --cells CELLS
-                            Path to file containing cell barcodes to retain, or a
-                            comma-separated list of cell barcodes. If None
-                            (default), use all cell barocodes present in the BAM
-                            file.
-    --barcode_regex BARCODE_REGEX
-                            Regular expression used to extract cell barcode from
-                            read name. If None (default), extract cell barcode
-                            from read tag. Use "[^:]*" to match all characters up
-                            to the first colon.
-    --use_chrom USE_CHROM
-                            Regular expression used to match chromosomes to be
-                            included in output. Default is "(?i)^chr" to match all
-                            chromosomes starting with "chr", case insensitive
-    --max_distance MAX_DISTANCE
-                            Maximum distance between integration sites for the
-                            fragment to be retained. Allows filtering of
-                            implausible fragments that likely result from
-                            incorrect mapping positions. Default is 5000 bp.
-   --chunksize CHUNKSIZE
-                           Number of BAM file entries to iterate over before
-                           collapsing the fragments and writing to disk. Higher
-                           chunksize will use more memory but will be faster.
+      -t BARCODETAG, --barcodetag BARCODETAG
+                            Read tag storing cell barcode information (default = "CB")
+      -c CELLS, --cells CELLS
+                            Path to file containing cell barcodes to retain, or a comma-separated list of cell barcodes. If None (default), use all cell barocodes present in the BAM file.
+      --barcode_regex BARCODE_REGEX
+                            Regular expression used to extract cell barcode from read name. If None (default), extract cell barcode from read tag. Use "[^:]*" to match all characters up to the first colon.
+      --use_chrom USE_CHROM
+                            Regular expression used to match chromosomes to be included in output. Default is "(?i)^chr" to match all chromosomes starting with "chr", case insensitive
+      --max_distance MAX_DISTANCE
+                            Maximum distance between integration sites for the fragment to be retained. Allows filtering of implausible fragments that likely result from incorrect mapping positions. Default
+                            is 5000 bp.
+      --min_distance MIN_DISTANCE
+                            Minimum distance between integration sites for the fragment to be retained. Allows filtering of implausible fragments that likely result from incorrect mapping positions. Default
+                            is 10 bp.
+      --chunksize CHUNKSIZE
+                            Number of BAM file entries to iterate over before collapsing the fragments and writing to disk. Higher chunksize will use more memory but will be faster.
+      --shift_plus SHIFT_PLUS
+                            Number of bases to shift Tn5 insertion position by on the forward strand.
+      --shift_minus SHIFT_MINUS
+                            Number of bases to shift Tn5 insertion position by on the reverse strand.
+      --collapse_within     Take cell barcode into account when collapsing duplicate fragments. Setting this flag means that fragments with the same coordinates can be identified provided they originate
+                            from a different cell barcode.
 
 Fragment file format
 ~~~~~~~~~~~~~~~~~~~~~
@@ -179,6 +170,23 @@ be PCR-collapsed. Sinto performs this step in chunks to balance speed and memory
 use. The ``--chunksize`` parameter controls how many fragments are able to be 
 held in memory before they get collapsed and written to a file. Setting a larger
 value should require more memory but the function will complete faster.
+
+Change the Tn5 shift applied: ``--shift_plus`` and ``--shift_minus``
+____________________________________________________________________
+
+The fragments algorithm adjusts Tn5 integration positions based on the 9 bp 
+stagger that is introduced when Tn5 integrates into the DNA. By default, a +4/-5 
+bp shift is applied to account for this. Different shifts can be applied by
+setting these parameters.
+
+Change PCR duplicate removal strategy: ``--collapse_within``
+
+PCR duplicates are identified as fragments that share the same start and end
+coordinates. By default (and for mostly historical reasons), the cell barcode
+is not taken into account when collapsing PCR duplicates. To only consider
+fragments as duplicates if they share the same start and end coordinate and
+originate from the same cell barcode, the ``--collapse_within`` parameter can
+be used.
 
 Filter cell barcodes from BAM file
 ----------------------------------
