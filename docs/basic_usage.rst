@@ -180,6 +180,7 @@ bp shift is applied to account for this. Different shifts can be applied by
 setting these parameters.
 
 Change PCR duplicate removal strategy: ``--collapse_within``
+____________________________________________________________
 
 PCR duplicates are identified as fragments that share the same start and end
 coordinates. By default (and for mostly historical reasons), the cell barcode
