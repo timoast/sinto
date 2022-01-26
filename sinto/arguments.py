@@ -364,6 +364,89 @@ parser_barcode.add_argument(
 )
 parser_barcode.set_defaults(func=cli.run_barcode)
 
+# tagtoname
+parser_tagtoname = subparsers.add_parser(
+    "tagtoname",
+    description="""
+    Copy cell barcode sequences from tag to read names. Cell barcodes will be added
+    as a readname prefix, followed by ":"
+    """
+)
+parser_tagtoname.add_argument(
+    "-b",
+    "--bam",
+    help="Input SAM/BAM file, '-' reads from stdin",
+    required=True,
+    type=str,
+)
+parser_tagtoname.add_argument(
+    "-o",
+    "--output",
+    help="Output SAM/BAM file, '-' outputs to stdout (default '-')",
+    default="-",
+    type=str,
+)
+parser_tagtoname.add_argument(
+    "-O",
+    "--outputformat",
+    help="Output format. One of 't' (SAM), 'b' (BAM),"
+    " or 'u' (uncompressed BAM) ('t' default)",
+    default="t",
+)
+parser_tagtoname.add_argument(
+    "--tag",
+    help="Read tag to copy from.",
+    required=False,
+    default="CB",
+    type=str,
+)
+parser_tagtoname.set_defaults(func=cli.run_tagtoname)
+
+# nametotag
+parser_nametotag = subparsers.add_parser(
+    "nametotag", description="Copy cell barcode sequences from read name to read tag"
+)
+parser_nametotag.add_argument(
+    "-b",
+    "--bam",
+    help="Input SAM/BAM file, '-' reads from stdin",
+    required=True,
+    type=str,
+)
+parser_nametotag.add_argument(
+    "-o",
+    "--output",
+    help="Output SAM/BAM file, '-' outputs to stdout (default '-')",
+    default="-",
+    type=str,
+)
+parser_nametotag.add_argument(
+    "-O",
+    "--outputformat",
+    help="Output format. One of 't' (SAM), 'b' (BAM),"
+    " or 'u' (uncompressed BAM) ('t' default)",
+    default="t",
+)
+parser_nametotag.add_argument(
+    "--barcode_regex",
+    help="""
+    Regular expression used to extract cell barcode from read name.
+    Default ("[^:]*") matches all characters up to the first colon.
+    """,
+    required=False,
+    type=str,
+    default="[^:]*",
+)
+parser_nametotag.add_argument(
+    "--tag",
+    help="Read tag to copy to.",
+    required=False,
+    default="CB",
+    type=str,
+)
+parser_nametotag.set_defaults(func=cli.run_nametotag)
+
+
 def main():
     if len(sys.argv[1:]) == 0:
         parser.print_help()

@@ -6,6 +6,7 @@ from sinto import (
     tagtorg,
     addbarcodes,
     tagtotag,
+    tagtoname
 )
 
 
@@ -91,4 +92,25 @@ def run_barcode(options):
         fq3=options.read2,
         prefix=options.prefix,
         suffix=options.suffix,
+    )
+
+@utils.log_info
+def run_tagtoname(options):
+    tagtoname.move(
+        bam=options.bam,
+        output=options.output,
+        cb_tag=options.tag,
+        out_format=options.outputformat,
+        from_tag=True
+    )
+
+@utils.log_info
+def run_nametotag(options):
+    tagtoname.move(
+        bam=options.bam,
+        output=options.output,
+        cb_tag=options.tag,
+        out_format=options.outputformat,
+        from_tag=False,
+        cb_regex=options.barcode_regex
     )
