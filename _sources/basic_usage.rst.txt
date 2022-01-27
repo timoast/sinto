@@ -430,6 +430,69 @@ we can drop ``--delete`` from the command.
                             Output format. One of 't' (SAM), 'b' (BAM), or 'u'
                             (uncompressed BAM) ('t' default)
 
+Copy cell barcode to/from read names/tags
+------------------------------------
+
+Cell barcodes can be copied from the read names to a read tag, or from a read tag to
+the read names using the ``tagtoname`` and ``nametotag`` commands.
+
+Assume we have a SAM file called ``tag.sam`` with the following contents:
+
+.. code-block:: none
+
+    @HD	VN:1.5	SO:coordinate
+    @SQ	SN:20	LN:63025520
+    r002	0	20	9	30	3S6M1P1I4M	*	0	0	AAAAGATAAGGATA	*	CB:Z:AAAA-1
+    r003	0	20	9	30	3S6M1P1I4M	*	0	0	AAAAGATAAGGATA	*	CB:Z:CCCC-1
+
+To copy the cell barcode stored under the ``CB`` tag to the read name we can run:
+
+.. code-block:: none
+
+    sinto tagtoname -b tag.sam
+
+This will print the following SAM file to screen:
+
+.. code-block:: none
+
+    @HD	VN:1.5	SO:coordinate
+    @SQ	SN:20	LN:63025520
+    AAAA-1:r002	0	20	9	30	3S6M1P1I4M	*	0	0	AAAAGATAAGGATA	*	CB:Z:AAAA-1
+    CCCC-1:r003	0	20	9	30	3S6M1P1I4M	*	0	0	AAAAGATAAGGATA	*	CB:Z:CCCC-1
+
+Assume we have a SAM file, ``read.sam`` that instead has the cell barcodes in the read names and 
+we want to copy those to a read tag, for example:
+
+.. code-block:: none
+
+    @HD	VN:1.5	SO:coordinate
+    @SQ	SN:20	LN:63025520
+    AAAA-1:r002	0	20	9	30	3S6M1P1I4M	*	0	0	AAAAGATAAGGATA	*
+    CCCC-1:r003	0	20	9	30	3S6M1P1I4M	*	0	0	AAAAGATAAGGATA	*
+
+We run the ``nametotag`` command:
+
+.. code-block:: none
+
+    sinto nametotag -b read.sam
+
+.. code-block:: none
+
+    @HD	VN:1.5	SO:coordinate
+    @SQ	SN:20	LN:63025520
+    AAAA-1:r002	0	20	9	30	3S6M1P1I4M	*	0	0	AAAAGATAAGGATA	*	CB:Z:AAAA-1
+    CCCC-1:r003	0	20	9	30	3S6M1P1I4M	*	0	0	AAAAGATAAGGATA	*	CB:Z:CCCC-1
+
+It can be faster to pipe reads using in/out of samtools to allow a separate process
+to handle the BAM compression/decompression, for example:
+
+.. code-block:: none
+
+    samtools view -h input.bam \
+      | sinto nametotag -b - \
+      | samtools view -b - \
+      > output.bam
+
 
 Add cell barcodes to FASTQ read names
 -------------------------------------
