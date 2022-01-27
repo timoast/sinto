@@ -5,6 +5,14 @@ Minor version changes indicate bug fixes or
 performance improvements to existing functionality
 without breaking compatibility with previous versions.
 
+Version 0.8
+-----------
+
+0.8.0
+~~~~~
+
+- Added ``tagtoname`` and ``nametotag`` commands to copy cell barcodes to/from read tags or read names
+
 Version 0.7
 -----------
 
