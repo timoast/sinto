@@ -36,7 +36,7 @@ def move(
     
     inputBam = pysam.AlignmentFile(bam)
     outputBam = pysam.AlignmentFile(
-        output, "w" + OUT_FORMAT_CONVERSION[out_format], template=infile
+        output, "w" + OUT_FORMAT_CONVERSION[out_format], template=inputBam
     )
     readname_barcode = re.compile(cb_regex)
     with closing(inputBam) as inputBam:
