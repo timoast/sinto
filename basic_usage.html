@@ -1,70 +1,34 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>User guide &mdash; sinto 0.7.5 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-
-  
-  
-  
-  
-
-  
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Processing scATAC-seq data" href="scatac.html" />
     <link rel="prev" title="Installation" href="installation.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="index.html" class="icon icon-home"> sinto
-          
-
-          
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -72,17 +36,7 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">User guide</a><ul>
@@ -123,72 +77,34 @@
 <li class="toctree-l1"><a class="reference internal" href="scatac.html">Processing scATAC-seq data</a></li>
 </ul>
 
-            
-          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">sinto</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html">Docs</a> &raquo;</li>
-        
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
       <li>User guide</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="_sources/basic_usage.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   <section id="user-guide">
-<h1>User guide<a class="headerlink" href="#user-guide" title="Permalink to this headline">¶</a></h1>
+<h1>User guide<a class="headerlink" href="#user-guide" title="Permalink to this headline"></a></h1>
 <section id="create-scatac-seq-fragments-file">
-<h2>Create scATAC-seq fragments file<a class="headerlink" href="#create-scatac-seq-fragments-file" title="Permalink to this headline">¶</a></h2>
+<h2>Create scATAC-seq fragments file<a class="headerlink" href="#create-scatac-seq-fragments-file" title="Permalink to this headline"></a></h2>
 <p>An ATAC-seq fragment file can be created from a BAM file using the <code class="docutils literal notranslate"><span class="pre">fragments</span></code> command.
 The fragment file contains the position of each Tn5 integration site, the cell barcode
 associated with the fragment, and the number of times the fragment was sequenced.
@@ -251,7 +167,7 @@ optional arguments:
 </pre></div>
 </div>
 <section id="fragment-file-format">
-<h3>Fragment file format<a class="headerlink" href="#fragment-file-format" title="Permalink to this headline">¶</a></h3>
+<h3>Fragment file format<a class="headerlink" href="#fragment-file-format" title="Permalink to this headline"></a></h3>
 <p>The fragment file is a BED format file containing the positions of Tn5 integration
 sites, the cell barcode that the DNA fragment originated from, and the number
 of times the fragment was sequenced. See the <a class="reference external" href="https://support.10xgenomics.com/single-cell-atac/software/pipelines/latest/output/fragments">10x Genomics</a>
@@ -268,7 +184,7 @@ tabix -p bed frags.sort.bed
 </div>
 </section>
 <section id="how-the-fragment-file-is-generated">
-<h3>How the fragment file is generated<a class="headerlink" href="#how-the-fragment-file-is-generated" title="Permalink to this headline">¶</a></h3>
+<h3>How the fragment file is generated<a class="headerlink" href="#how-the-fragment-file-is-generated" title="Permalink to this headline"></a></h3>
 <p>Generating the fragment file involves the following steps in order:</p>
 <ol class="arabic">
 <li><p>Extract cell barcode sequence associated with the fragment.</p></li>
@@ -298,16 +214,16 @@ or compressed.</p></li>
 is handled.</p>
 </section>
 <section id="additional-arguments-for-the-fragments-function">
-<h3>Additional arguments for the fragments function<a class="headerlink" href="#additional-arguments-for-the-fragments-function" title="Permalink to this headline">¶</a></h3>
+<h3>Additional arguments for the fragments function<a class="headerlink" href="#additional-arguments-for-the-fragments-function" title="Permalink to this headline"></a></h3>
 <section id="number-of-processors-nproc">
-<h4>Number of processors: <code class="docutils literal notranslate"><span class="pre">--nproc</span></code><a class="headerlink" href="#number-of-processors-nproc" title="Permalink to this headline">¶</a></h4>
+<h4>Number of processors: <code class="docutils literal notranslate"><span class="pre">--nproc</span></code><a class="headerlink" href="#number-of-processors-nproc" title="Permalink to this headline"></a></h4>
 <p>Multiple cores can be used by specifying the <code class="docutils literal notranslate"><span class="pre">--nproc</span></code> argument.
 Specifying multiple processors will parallelize across chromosomes. Currently,
 at most one thread is used per chromosome, so there is no point specifiying
 more processors than the number of chromosomes.</p>
 </section>
 <section id="minimum-mapping-quality-min-mapq">
-<h4>Minimum mapping quality: <code class="docutils literal notranslate"><span class="pre">--min_mapq</span></code><a class="headerlink" href="#minimum-mapping-quality-min-mapq" title="Permalink to this headline">¶</a></h4>
+<h4>Minimum mapping quality: <code class="docutils literal notranslate"><span class="pre">--min_mapq</span></code><a class="headerlink" href="#minimum-mapping-quality-min-mapq" title="Permalink to this headline"></a></h4>
 <p>The minimum allowed mapping quality (MAPQ) can be set using <code class="docutils literal notranslate"><span class="pre">--min_mapq</span></code>.
 Depending on the aligner used, the MAPQ value can mean different <a class="reference external" href="https://sequencing.qcfail.com/articles/mapq-values-are-really-useful-but-their-implementation-is-a-mess/">things</a>.
 Cellranger-atac uses <code class="docutils literal notranslate"><span class="pre">bwa-mem</span></code> for alignment, which follows the SAM spec and
@@ -319,7 +235,7 @@ mapping quality is not available.</p>
 </div></blockquote>
 </section>
 <section id="cell-barcode-tag-barcodetag">
-<h4>Cell barcode tag: <code class="docutils literal notranslate"><span class="pre">--barcodetag</span></code><a class="headerlink" href="#cell-barcode-tag-barcodetag" title="Permalink to this headline">¶</a></h4>
+<h4>Cell barcode tag: <code class="docutils literal notranslate"><span class="pre">--barcodetag</span></code><a class="headerlink" href="#cell-barcode-tag-barcodetag" title="Permalink to this headline"></a></h4>
 <p>Different methods may use different tags to store the cell barcode.
 Cellranger uses the <code class="docutils literal notranslate"><span class="pre">CB</span></code> tag, which is set as the default for Sinto.
 Other methods may use different tags, for example SNARE-seq uses the <code class="docutils literal notranslate"><span class="pre">XC</span></code> tag.
@@ -327,7 +243,7 @@ You can work out what tag is used by looking at part of the BAM file:
 <code class="docutils literal notranslate"><span class="pre">samtools</span> <span class="pre">view</span> <span class="pre">aln.bam</span> <span class="pre">|</span> <span class="pre">head</span></code>.</p>
 </section>
 <section id="cell-barcode-regex-barcode-regex">
-<h4>Cell barcode regex: <code class="docutils literal notranslate"><span class="pre">--barcode_regex</span></code><a class="headerlink" href="#cell-barcode-regex-barcode-regex" title="Permalink to this headline">¶</a></h4>
+<h4>Cell barcode regex: <code class="docutils literal notranslate"><span class="pre">--barcode_regex</span></code><a class="headerlink" href="#cell-barcode-regex-barcode-regex" title="Permalink to this headline"></a></h4>
 <p>Some methods store the cell barcode in the read name rather than under a read tag.
 If this is the case, you can use a regular expression to extract the cell barcode
 from the read name. For example, if the first section of your read name
@@ -335,7 +251,7 @@ up until the first <code class="docutils literal notranslate"><span class="pre">
 you can specify <code class="docutils literal notranslate"><span class="pre">--barcode_regex</span> <span class="pre">[^:]*</span></code> to correcly match the cell barcodes.</p>
 </section>
 <section id="choosing-chromosomes-to-include-use-chrom">
-<h4>Choosing chromosomes to include: <code class="docutils literal notranslate"><span class="pre">--use_chrom</span></code><a class="headerlink" href="#choosing-chromosomes-to-include-use-chrom" title="Permalink to this headline">¶</a></h4>
+<h4>Choosing chromosomes to include: <code class="docutils literal notranslate"><span class="pre">--use_chrom</span></code><a class="headerlink" href="#choosing-chromosomes-to-include-use-chrom" title="Permalink to this headline"></a></h4>
 <p>Often a genome build might contain several scaffolds that are not typically used in
 downstream analysis. This option allows you to specify a regular expression to
 match chromosome names that will be retained in the output. By default,
@@ -343,7 +259,7 @@ all chromosomes starting with “chr” are retained, case insensitive (ie,
 “Chr”, and “CHR” are also retained).</p>
 </section>
 <section id="set-the-maximum-distance-between-tn5-integration-sites-max-distance">
-<h4>Set the maximum distance between Tn5 integration sites: <code class="docutils literal notranslate"><span class="pre">--max_distance</span></code><a class="headerlink" href="#set-the-maximum-distance-between-tn5-integration-sites-max-distance" title="Permalink to this headline">¶</a></h4>
+<h4>Set the maximum distance between Tn5 integration sites: <code class="docutils literal notranslate"><span class="pre">--max_distance</span></code><a class="headerlink" href="#set-the-maximum-distance-between-tn5-integration-sites-max-distance" title="Permalink to this headline"></a></h4>
 <p>Incorrect alignment can sometimes generate implausible fragment coordinates.
 Since we known there is an upper limit to the size of a DNA molecule that
 can be sequenced on the Illumina platform, very large fragments over 5 kb
@@ -353,7 +269,7 @@ by setting the <code class="docutils literal notranslate"><span class="pre">--ma
 this value will not be included in the output file.</p>
 </section>
 <section id="set-the-maximum-number-of-fragments-to-hold-in-memory-before-collapsing-chunksize">
-<h4>Set the maximum number of fragments to hold in memory before collapsing: <code class="docutils literal notranslate"><span class="pre">--chunksize</span></code><a class="headerlink" href="#set-the-maximum-number-of-fragments-to-hold-in-memory-before-collapsing-chunksize" title="Permalink to this headline">¶</a></h4>
+<h4>Set the maximum number of fragments to hold in memory before collapsing: <code class="docutils literal notranslate"><span class="pre">--chunksize</span></code><a class="headerlink" href="#set-the-maximum-number-of-fragments-to-hold-in-memory-before-collapsing-chunksize" title="Permalink to this headline"></a></h4>
 <p>The fragments algorithm iterates through a position-sorted BAM file and stores
 fragment information as it iterates through the paired reads. Once all the
 reads at a genomic locus have been read, the fragments covering that locus can
@@ -363,14 +279,14 @@ held in memory before they get collapsed and written to a file. Setting a larger
 value should require more memory but the function will complete faster.</p>
 </section>
 <section id="change-the-tn5-shift-applied-shift-plus-and-shift-minus">
-<h4>Change the Tn5 shift applied: <code class="docutils literal notranslate"><span class="pre">--shift_plus</span></code> and <code class="docutils literal notranslate"><span class="pre">--shift_minus</span></code><a class="headerlink" href="#change-the-tn5-shift-applied-shift-plus-and-shift-minus" title="Permalink to this headline">¶</a></h4>
+<h4>Change the Tn5 shift applied: <code class="docutils literal notranslate"><span class="pre">--shift_plus</span></code> and <code class="docutils literal notranslate"><span class="pre">--shift_minus</span></code><a class="headerlink" href="#change-the-tn5-shift-applied-shift-plus-and-shift-minus" title="Permalink to this headline"></a></h4>
 <p>The fragments algorithm adjusts Tn5 integration positions based on the 9 bp
 stagger that is introduced when Tn5 integrates into the DNA. By default, a +4/-5
 bp shift is applied to account for this. Different shifts can be applied by
 setting these parameters.</p>
 </section>
 <section id="change-pcr-duplicate-removal-strategy-collapse-within">
-<h4>Change PCR duplicate removal strategy: <code class="docutils literal notranslate"><span class="pre">--collapse_within</span></code><a class="headerlink" href="#change-pcr-duplicate-removal-strategy-collapse-within" title="Permalink to this headline">¶</a></h4>
+<h4>Change PCR duplicate removal strategy: <code class="docutils literal notranslate"><span class="pre">--collapse_within</span></code><a class="headerlink" href="#change-pcr-duplicate-removal-strategy-collapse-within" title="Permalink to this headline"></a></h4>
 <p>PCR duplicates are identified as fragments that share the same start and end
 coordinates. By default (and for mostly historical reasons), the cell barcode
 is not taken into account when collapsing PCR duplicates. To only consider
@@ -381,7 +297,7 @@ be used.</p>
 </section>
 </section>
 <section id="filter-cell-barcodes-from-bam-file">
-<h2>Filter cell barcodes from BAM file<a class="headerlink" href="#filter-cell-barcodes-from-bam-file" title="Permalink to this headline">¶</a></h2>
+<h2>Filter cell barcodes from BAM file<a class="headerlink" href="#filter-cell-barcodes-from-bam-file" title="Permalink to this headline"></a></h2>
 <p>Reads for a subset of cells can be extracted from a BAM file using the <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code> command.
 This requires a position-sorted, indexed BAM file, and a file containing a list of cell barcodes to retain.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span> sinto filterbarcodes [-h] -b BAM -c CELLS -o OUTPUT [-t] [-s]
@@ -431,7 +347,7 @@ named <code class="docutils literal notranslate"><span class="pre">A.bam</span><
 would appear in both <code class="docutils literal notranslate"><span class="pre">B.bam</span></code> and <code class="docutils literal notranslate"><span class="pre">A.bam</span></code>.</p>
 </section>
 <section id="add-read-tags-to-bam-file">
-<h2>Add read tags to BAM file<a class="headerlink" href="#add-read-tags-to-bam-file" title="Permalink to this headline">¶</a></h2>
+<h2>Add read tags to BAM file<a class="headerlink" href="#add-read-tags-to-bam-file" title="Permalink to this headline"></a></h2>
 <p>Read tags can be added to a BAM file according to which cell the read belongs to using the <code class="docutils literal notranslate"><span class="pre">addtags</span></code> command.
 This requires a position-sorted and indexed BAM file, and a file specifying the tags to be added to each cell, for example:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>TGGCAATGTTGAAGCG-1  CI      A
@@ -468,7 +384,7 @@ optional arguments:
 <p>This will add a <code class="docutils literal notranslate"><span class="pre">CI</span></code> tag, with the tag set to A, B, or C depending on the cell barcode sequence.</p>
 </section>
 <section id="convert-read-tag-to-read-group">
-<h2>Convert read tag to read group<a class="headerlink" href="#convert-read-tag-to-read-group" title="Permalink to this headline">¶</a></h2>
+<h2>Convert read tag to read group<a class="headerlink" href="#convert-read-tag-to-read-group" title="Permalink to this headline"></a></h2>
 <p>Read groups can be added to a SAM/BAM file based on an arbitrary read tag using the
 <code class="docutils literal notranslate"><span class="pre">tagtorg</span></code> command. Let’s assume we have a SAM file called <code class="docutils literal notranslate"><span class="pre">input.sam</span></code>
 with the following contents:</p>
@@ -527,7 +443,7 @@ optional arguments:
 </div>
 </section>
 <section id="copy-move-read-tag-to-another-read-tag">
-<h2>Copy/move read tag to another read tag<a class="headerlink" href="#copy-move-read-tag-to-another-read-tag" title="Permalink to this headline">¶</a></h2>
+<h2>Copy/move read tag to another read tag<a class="headerlink" href="#copy-move-read-tag-to-another-read-tag" title="Permalink to this headline"></a></h2>
 <p>Read tags can be renamed or copied to anthor read tag using the <code class="docutils literal notranslate"><span class="pre">tagtotag</span></code> command.
 Let’s assume we have a SAM file called <code class="docutils literal notranslate"><span class="pre">input.sam</span></code>
 with the following contents:</p>
@@ -573,7 +489,7 @@ optional arguments:
 </div>
 </section>
 <section id="copy-cell-barcode-to-from-read-names-tags">
-<h2>Copy cell barcode to/from read names/tags<a class="headerlink" href="#copy-cell-barcode-to-from-read-names-tags" title="Permalink to this headline">¶</a></h2>
+<h2>Copy cell barcode to/from read names/tags<a class="headerlink" href="#copy-cell-barcode-to-from-read-names-tags" title="Permalink to this headline"></a></h2>
 <p>Cell barcodes can be copied from the read names to a read tag, or from a read tag to
 the read names using the <code class="docutils literal notranslate"><span class="pre">tagtoname</span></code> and <code class="docutils literal notranslate"><span class="pre">nametotag</span></code> commands.</p>
 <p>Assume we have a SAM file called <code class="docutils literal notranslate"><span class="pre">tag.sam</span></code> with the following contents:</p>
@@ -622,7 +538,7 @@ to handle the BAM compression/decompression, for example:</p>
 </div>
 </section>
 <section id="add-cell-barcodes-to-fastq-read-names">
-<h2>Add cell barcodes to FASTQ read names<a class="headerlink" href="#add-cell-barcodes-to-fastq-read-names" title="Permalink to this headline">¶</a></h2>
+<h2>Add cell barcodes to FASTQ read names<a class="headerlink" href="#add-cell-barcodes-to-fastq-read-names" title="Permalink to this headline"></a></h2>
 <p>Cell barcodes from one FASTQ file can be added to the read names of another, or the same,
 FASTQ file using the <code class="docutils literal notranslate"><span class="pre">barcode</span></code> command. This is useful when processing raw single-cell
 sequencing data, as the cell barcode information can easily be propagated to the aligned
@@ -653,27 +569,27 @@ optional arguments:
 </pre></div>
 </div>
 <section id="additional-arguments-for-the-barcode-function">
-<h3>Additional arguments for the barcode function<a class="headerlink" href="#additional-arguments-for-the-barcode-function" title="Permalink to this headline">¶</a></h3>
+<h3>Additional arguments for the barcode function<a class="headerlink" href="#additional-arguments-for-the-barcode-function" title="Permalink to this headline"></a></h3>
 <section id="bases-bases">
-<h4>Bases: <code class="docutils literal notranslate"><span class="pre">--bases</span></code><a class="headerlink" href="#bases-bases" title="Permalink to this headline">¶</a></h4>
+<h4>Bases: <code class="docutils literal notranslate"><span class="pre">--bases</span></code><a class="headerlink" href="#bases-bases" title="Permalink to this headline"></a></h4>
 <p>This controls how many bases from the read containing the cell barcode are used.
 Bases are counted from the beginning of the read sequence in the FASTQ file. For
 example, <code class="docutils literal notranslate"><span class="pre">--bases</span> <span class="pre">12</span></code> will extract the first 12 sequenced bases from the read
 and use it as the cell barcode.</p>
 </section>
 <section id="barcode-read-file-barcode-fastq">
-<h4>Barcode read file: <code class="docutils literal notranslate"><span class="pre">--barcode_fastq</span></code><a class="headerlink" href="#barcode-read-file-barcode-fastq" title="Permalink to this headline">¶</a></h4>
+<h4>Barcode read file: <code class="docutils literal notranslate"><span class="pre">--barcode_fastq</span></code><a class="headerlink" href="#barcode-read-file-barcode-fastq" title="Permalink to this headline"></a></h4>
 <p>FASTQ file with reads containing the cell barcode sequence.</p>
 </section>
 <section id="read-1-and-read-2-read1-and-read2">
-<h4>Read 1 and read 2: <code class="docutils literal notranslate"><span class="pre">--read1</span></code> and <code class="docutils literal notranslate"><span class="pre">--read2</span></code><a class="headerlink" href="#read-1-and-read-2-read1-and-read2" title="Permalink to this headline">¶</a></h4>
+<h4>Read 1 and read 2: <code class="docutils literal notranslate"><span class="pre">--read1</span></code> and <code class="docutils literal notranslate"><span class="pre">--read2</span></code><a class="headerlink" href="#read-1-and-read-2-read1-and-read2" title="Permalink to this headline"></a></h4>
 <p>FASTQ files containing reads to which the cell barcode information will be
 added. Note that these files must contain the same number of reads as the barcode-containing
 FASTQ file, and the reads must appear in the same order.</p>
 </section>
 </section>
 <section id="example">
-<h3>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this headline"></a></h3>
 <p>Take the following two FASTQ files as an example. The first contains cell barcode sequences
 and the second we want to add those sequences to the read name.</p>
 <p><code class="docutils literal notranslate"><span class="pre">barocde_file.fastq.gz</span></code>:</p>
@@ -722,51 +638,33 @@ TAATACATGACGGTGTCTTAGTAGCACTTACTATGCACAGGTTAAGACCTGTCTCTTATACACATCTCCGAGCCC
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="scatac.html" class="btn btn-neutral float-right" title="Processing scATAC-seq data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="scatac.html" class="btn btn-neutral float-right" title="Processing scATAC-seq data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2020, Tim Stuart, Warren W. Kretzschmar
-
-    </p>
+    <p>&#169; Copyright 2020, Tim Stuart, Warren W. Kretzschmar.</p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>
