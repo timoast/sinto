@@ -446,6 +446,27 @@ parser_nametotag.add_argument(
 )
 parser_nametotag.set_defaults(func=cli.run_nametotag)
 
+# sort
+parser_sort = subparsers.add_parser(
+    "sort", description="Coordinate-sort fragment file. This is runs the unix sort command, but preserves and updates the fragment file header."
+)
+parser_sort.add_argument(
+    "-i",
+    "--input",
+    help="Input fragment file, '-' reads from stdin",
+    required=True,
+    type=str
+)
+parser_sort.add_argument(
+    "-o",
+    "--output",
+    help="Output file name, '-' outputs to stdout (default)",
+    required=False,
+    default="-",
+    type=str
+)
+parser_sort.set_defaults(func=cli.run_sort)
+
 
 def main():
     if len(sys.argv[1:]) == 0:

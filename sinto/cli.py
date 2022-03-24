@@ -6,7 +6,8 @@ from sinto import (
     tagtorg,
     addbarcodes,
     tagtotag,
-    tagtoname
+    tagtoname,
+    sort
 )
 
 
@@ -113,4 +114,11 @@ def run_nametotag(options):
         out_format=options.outputformat,
         from_tag=False,
         cb_regex=options.barcode_regex
+    )
+
+@utils.log_info
+def run_sort(options):
+    sort.sort_frags(
+        infile=options.input,
+        outfile=options.output
     )
