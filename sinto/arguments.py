@@ -453,7 +453,7 @@ parser_sort = subparsers.add_parser(
 parser_sort.add_argument(
     "-i",
     "--input",
-    help="Input fragment file, '-' reads from stdin",
+    help="Input fragment file",
     required=True,
     type=str
 )
