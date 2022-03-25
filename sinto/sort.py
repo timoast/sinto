@@ -41,8 +41,7 @@ def update_header(header):
     pg = {
         'key': '#PG',
         'ID': 'sinto',
-        'PN': 'sinto',
-        'PP': 'sinto',
+        'PN': 'sinto.sort',
         'VN': version,
         'CL': ' '.join(sys.argv)
     }
