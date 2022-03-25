@@ -10,6 +10,8 @@ import gc
 import tempfile
 import os
 import math
+import pkg_resources
+import sys
 
 
 def writeFragments(fragments, filepath):
@@ -439,6 +441,30 @@ def addToFragments(
     return fragments
 
 
+def createFragmentHeader(bam):
+    """Create header for fragment file"""
+    FRAG_VERSION = '0.1'
+    version = pkg_resources.require("sinto")[0].version
+    PG = "#PG\tID:sinto\tPN:sinto.fragments\tVN:" + str(version) + "\tCL:" + ' '.join(sys.argv) + "\n"
+    aln = pysam.AlignmentFile(bam, 'r')
+    header = aln.header.to_dict()
+    keys_keep = ['SQ', 'PG']
+    out_header = "#HD\tVN:" + FRAG_VERSION + "\tSO:unsorted\n"
+    dup_counter = 1
+    for i in keys_keep:
+        for j in header[i]:
+            if i == "PG":
+                if 'ID' in j.keys():
+                    if j['ID'] == 'sinto':
+                        j['ID'] == 'sinto.' + str(dup_counter)
+                        j['PP'] = 'sinto'
+                        dup_counter += 1
+            ss = [str(x[0]) + ":" + str(x[1]) for x in j.items()]
+            out_header += "#" + i + "\t" + "\t".join(ss) + "\n"
+    out_header += PG
+    return(out_header)
+
+
 def fragments(
     bam,
     fragment_path,
@@ -527,6 +553,9 @@ def fragments(
     filenames = [res.get() for res in frag_lists]
     # cat files and write to output
     with open(fragment_path, "w") as outfile:
+        # write header first
+        header = createFragmentHeader(bam)
+        outfile.write(header)
         for i in filenames:
             for j in i:
                 with open(j, "r") as infile:
