@@ -14,7 +14,7 @@ import pkg_resources
 import sys
 
 
-def writeFragments(fragments, filepath):
+def writeFragments(fragments, filepath, version=0):
     """Write fragments to file
 
     Parameters
@@ -27,6 +27,8 @@ def writeFragments(fragments, filepath):
     with open(filepath, "a") as outf:
         for i in fragments:
             outstr = "\t".join(map(str, i))
+            if version >= 1:
+                outstr = outstr + "\t."
             outf.write(outstr + "\n")
 
 
@@ -165,7 +167,8 @@ def getFragments(
     min_distance=10,
     chunksize=500000,
     shifts=[4, -5],
-    collapse_within=False
+    collapse_within=False,
+    version=0
 ):
     """Extract ATAC fragments from BAM file
 
@@ -205,6 +208,8 @@ def getFragments(
         Only collapse fragments containing the same start and end coordinate within the
         same cell barcode. Setting to True will only collapse duplicates if the cell barcode
         is the same (allows same fragment coordinates with different cell barcode)
+    version : int
+        Fragment file format version
     """
     fragment_dict = dict()
     inputBam = pysam.AlignmentFile(bam, "rb")
@@ -248,7 +253,7 @@ def getFragments(
         max_collapse_dist=-max_distance,
     )
     collapsed = collapseFragments(fragments=complete, collapse_within=collapse_within)
-    writeFragments(fragments=collapsed, filepath=outname)
+    writeFragments(fragments=collapsed, filepath=outname, version=version)
     return outname
 
 
@@ -462,7 +467,7 @@ def createFragmentHeader(bam):
             ss = [str(x[0]) + ":" + str(x[1]) for x in j.items()]
             out_header += "#" + i + "\t" + "\t".join(ss) + "\n"
     out_header += PG
-    return(out_header)
+    return out_header
 
 
 def fragments(
@@ -478,7 +483,8 @@ def fragments(
     min_distance=10,
     chunksize=500000,
     shifts=[4, -5],
-    collapse_within=False
+    collapse_within=False,
+    version=0
 ):
     """Create ATAC fragment file from BAM file
 
@@ -527,8 +533,11 @@ def fragments(
         Only collapse fragments containing the same start and end coordinate within the
         same cell barcode. Setting to True will only collapse duplicates if the cell barcode
         is the same (allows same fragment coordinates with different cell barcode)
+    version : int
+        Fragment file format version
     """
     nproc = int(nproc)
+    version = int(version)
     chrom = utils.get_chromosomes(bam, keep_contigs=chromosomes)
     cells = utils.read_cells(cells)
     p = Pool(nproc)
@@ -545,7 +554,8 @@ def fragments(
                 min_distance=min_distance,
                 chunksize=chunksize,
                 shifts=shifts,
-                collapse_within=collapse_within
+                collapse_within=collapse_within,
+                version=version
             ),
             list(chrom.items()),
         )
@@ -554,8 +564,9 @@ def fragments(
     # cat files and write to output
     with open(fragment_path, "w") as outfile:
         # write header first
-        header = createFragmentHeader(bam)
-        outfile.write(header)
+        if version >= 1:
+            header = createFragmentHeader(bam)
+            outfile.write(header)
         for i in filenames:
             for j in i:
                 with open(j, "r") as infile:

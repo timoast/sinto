@@ -57,7 +57,8 @@ def run_fragments(options):
         min_distance=options.min_distance,
         chunksize=options.chunksize,
         shifts=[options.shift_plus, options.shift_minus],
-        collapse_within=options.collapse_within
+        collapse_within=options.collapse_within,
+        version=options.version
     )
 
 

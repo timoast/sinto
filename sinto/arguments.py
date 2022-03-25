@@ -338,6 +338,17 @@ parser_fragments.add_argument(
     action="store_true",
     default=False,
 )
+parser_fragments.add_argument(
+    "--version",
+    help="""
+    Fragment file format version to produce. Use 0 for the original fragment file
+    format (no header, 5 columns), or 1 for the updated file format (defined header,
+    6 columns)
+    """,
+    required=False,
+    default=0,
+    type=int,
+)
 parser_fragments.set_defaults(func=cli.run_fragments)
 
 # barcodes

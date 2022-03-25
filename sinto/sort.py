@@ -24,7 +24,7 @@ def get_header(infile):
                 header.append(kv)
             else:
                 break
-    return(header)
+    return header
 
 
 def update_header(header):
@@ -32,7 +32,7 @@ def update_header(header):
     Add information to header
     """
     if len(header) == 0:
-        return(header) # no header
+        return header # no header
     else:
         if header[0]['key'] == "#HD":
             header[0]['SO'] = 'coordinate'
@@ -54,7 +54,7 @@ def update_header(header):
                 i['PP'] = 'sinto'
                 counter += 1
     header.append(pg)
-    return(header)
+    return header
 
 
 def write_header(header, outfile):
