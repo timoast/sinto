@@ -17,6 +17,7 @@ Sinto is a toolkit for processing aligned single-cell data. Sinto includes funct
 
 - Subset reads from a BAM file by cell barcode
 - Create a scATAC-seq fragments file from a BAM file
+- Sort a fragment file
 - Add read tags to a BAM file according to cell barcode information
 - Add read groups based on read tags
 - Copy or move read tags to another read tag
