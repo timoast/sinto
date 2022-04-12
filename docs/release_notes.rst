@@ -8,6 +8,12 @@ without breaking compatibility with previous versions.
 Version 0.8
 -----------
 
+0.8.1
+~~~~~
+
+- Fix bug in ``nametotag`` when cell barcode in the middle of the read name (https://github.com/timoast/sinto/issues/46)
+- Remove need for samtools in path (https://github.com/timoast/sinto/issues/41)
+
 0.8.0
 ~~~~~
 
