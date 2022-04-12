@@ -4,7 +4,6 @@ import functools
 import random
 import string
 from sinto import utils
-from subprocess import call
 import re
 import os
 from itertools import chain
@@ -45,15 +44,9 @@ def mergeAll(idents, classes, nproc,  header, remove=True):
     for i in classes:
         allfiles = [i + "_" + x for x in idents]
         output = i + '.bam'
-        tmpmerge = i + ".tmp"
-        mergestring = (
-            "samtools merge -@ " + str(nproc) + " " + tmpmerge + " " + " ".join(allfiles) + ";" +
-            "samtools reheader -P " + header + " " + tmpmerge + " > " + output
-        )
-        call(mergestring, shell=True)
+        pysam.merge('-@', str(nproc), '--no-PG', output, *allfiles)
         if os.path.exists(output):
             [os.remove(i) for i in allfiles]
-            os.remove(tmpmerge)
         else:
             raise Exception("samtools merge failed, temp files not deleted")
 
