@@ -21,6 +21,8 @@ def run_filterbarcodes(options):
         nproc=options.nproc,
         readname_barcode=options.barcode_regex,
         cellbarcode=options.barcodetag,
+        outdir=options.outdir,
+        sam=options.sam
     )
 
 
