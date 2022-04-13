@@ -57,6 +57,21 @@ parser_filterbarcodes.add_argument(
     type=str,
     default="CB",
 )
+parser_filterbarcodes.add_argument(
+    "--outdir",
+    help='Output file directory',
+    required=False,
+    type=str,
+    default='.',
+)
+parser_filterbarcodes.add_argument(
+    "-s",
+    "--sam",
+    help="Output sam format (default bam output)",
+    required=False,
+    action="store_true",
+    default=False,
+)
 parser_filterbarcodes.set_defaults(func=cli.run_filterbarcodes)
 
 # addtags

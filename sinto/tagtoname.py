@@ -47,7 +47,7 @@ def move(
                     cell_barcode, _ = utils.scan_tags(tags, cb=cb_tag)
                     r.query_name = cell_barcode + ":" + r.query_name
                 else:
-                    re_match = readname_barcode.match(r.query_name)
+                    re_match = readname_barcode.search(r.query_name)
                     cell_barcode = re_match.group()
                     r.set_tag(cb_tag, cell_barcode, value_type="Z", replace=True)
                 outputBam.write(r)
