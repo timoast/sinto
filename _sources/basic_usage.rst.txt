@@ -66,8 +66,9 @@ PCR duplicates are collapsed.
                             Setting this flag means that fragments with the same coordinates
                             can be identified provided they originate from a different cell
                             barcode.
+
 Fragment file format
-~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 
 The fragment file is a BED format file containing the positions of Tn5 integration
 sites, the cell barcode that the DNA fragment originated from, and the number
@@ -431,7 +432,7 @@ we can drop ``--delete`` from the command.
                             (uncompressed BAM) ('t' default)
 
 Copy cell barcode to/from read names/tags
-------------------------------------
+-----------------------------------------
 
 Cell barcodes can be copied from the read names to a read tag, or from a read tag to
 the read names using the ``tagtoname`` and ``nametotag`` commands.
