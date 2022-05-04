@@ -32,7 +32,7 @@ def _iterate_reads(
     for i in intervals:
         for r in inputBam.fetch(i[0], i[1], i[2]):
             if readname_barcode is not None:
-                re_match = readname_barcode.match(r.qname)
+                re_match = readname_barcode.search(r.qname)
                 cell_barcode = re_match.group()
             else:
                 cell_barcode, _ = utils.scan_tags(r.tags, cb=cellbarcode)

@@ -8,6 +8,11 @@ without breaking compatibility with previous versions.
 Version 0.8
 -----------
 
+0.8.2
+~~~~~
+
+- Fixed bug in ``filterbarcodes`` when cell barcode in the middle of the read name (https://github.com/timoast/sinto/issues/46)
+
 0.8.1
 ~~~~~
 
