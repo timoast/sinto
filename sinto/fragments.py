@@ -241,7 +241,7 @@ def getFragments(
                 max_collapse_dist=20,
             )
             collapsed = collapseFragments(fragments=complete, collapse_within=collapse_within)
-            writeFragments(fragments=collapsed, filepath=outname)
+            writeFragments(fragments=collapsed, filepath=outname, version=version)
             x = 0
             gc.collect()
     # end of chromosome
