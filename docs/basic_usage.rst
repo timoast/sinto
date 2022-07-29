@@ -66,6 +66,9 @@ PCR duplicates are collapsed.
                             Setting this flag means that fragments with the same coordinates
                             can be identified provided they originate from a different cell
                             barcode.
+      --version VERSION     Fragment file format version to produce. Use 0 for the original
+                            fragment file format (no header, 5 columns), or 1 for the updated
+                            file format (defined header, 6 columns)
 
 Fragment file format
 ~~~~~~~~~~~~~~~~~~~~
@@ -209,6 +212,16 @@ is not taken into account when collapsing PCR duplicates. To only consider
 fragments as duplicates if they share the same start and end coordinate and
 originate from the same cell barcode, the ``--collapse_within`` parameter can
 be used.
+
+Change the fragment file version: ``--version``
+____________________________________________________________
+
+The original fragment file format did not contain a header section or a strand
+column. These fields were added later, in a more formally defined format
+specification recorded `here <https://github.com/timoast/frag-spec>`. By default,
+we still output the original file format that does not contain a header. This will
+change in a future sinto release. To output the new fragment file format, set
+``--version 1``.
 
 Sort a fragment file
 --------------------
