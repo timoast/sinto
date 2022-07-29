@@ -76,8 +76,6 @@ def run_tagtorg(options):
 
 @utils.log_info
 def run_blocks(options):
-    """Wraps the sinto.blocks function for use on the command line
-    """
     blocks.blocks(
         bam=options.bam,
         block_path=options.blocks,
@@ -87,7 +85,7 @@ def run_blocks(options):
         umibarcode=options.umitag,
         readname_barcode=options.barcode_regex,
         cells=options.cells
-
+    )
 
 @utils.log_info
 def run_tagtotag(options):
