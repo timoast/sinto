@@ -1,4 +1,14 @@
-from sinto import utils, filterbarcodes, addtags, fragments, tagtorg, blocks
+from sinto import (
+    utils,
+    filterbarcodes,
+    addtags,
+    fragments,
+    tagtorg,
+    addbarcodes,
+    tagtotag,
+    tagtoname,
+    blocks
+)
 
 
 @utils.log_info
@@ -12,6 +22,8 @@ def run_filterbarcodes(options):
         nproc=options.nproc,
         readname_barcode=options.barcode_regex,
         cellbarcode=options.barcodetag,
+        outdir=options.outdir,
+        sam=options.sam
     )
 
 
@@ -44,7 +56,10 @@ def run_fragments(options):
         chromosomes=options.use_chrom,
         cells=options.cells,
         max_distance=options.max_distance,
+        min_distance=options.min_distance,
         chunksize=options.chunksize,
+        shifts=[options.shift_plus, options.shift_minus],
+        collapse_within=options.collapse_within
     )
 
 
@@ -72,4 +87,48 @@ def run_blocks(options):
         umibarcode=options.umitag,
         readname_barcode=options.barcode_regex,
         cells=options.cells
+
+
+@utils.log_info
+def run_tagtotag(options):
+    tagtotag.tagtotag(
+        bam=options.bam,
+        from_tag=options.from_,
+        to_tag=options.to,
+        output=options.output,
+        delete=options.delete,
+        out_format=options.outputformat,
+    )
+
+
+@utils.log_info
+def run_barcode(options):
+    addbarcodes.addbarcodes(
+        cb_position=options.bases,
+        fq1=options.barcode_fastq,
+        fq2=options.read1,
+        fq3=options.read2,
+        prefix=options.prefix,
+        suffix=options.suffix,
+    )
+
+@utils.log_info
+def run_tagtoname(options):
+    tagtoname.move(
+        bam=options.bam,
+        output=options.output,
+        cb_tag=options.tag,
+        out_format=options.outputformat,
+        from_tag=True
+    )
+
+@utils.log_info
+def run_nametotag(options):
+    tagtoname.move(
+        bam=options.bam,
+        output=options.output,
+        cb_tag=options.tag,
+        out_format=options.outputformat,
+        from_tag=False,
+        cb_regex=options.barcode_regex
     )

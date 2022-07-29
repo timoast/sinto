@@ -5,13 +5,92 @@ Minor version changes indicate bug fixes or
 performance improvements to existing functionality
 without breaking compatibility with previous versions.
 
+Version 0.9
+-----------
+
+0.9.0
+~~~~~
+
+- Add ``blocks`` command to create block file from BAM file.
+
+Version 0.8
+-----------
+
+0.8.2
+~~~~~
+
+- Fixed bug in ``filterbarcodes`` when cell barcode in the middle of the read name (https://github.com/timoast/sinto/issues/46)
+
+0.8.1
+~~~~~
+
+- Fixed bug in ``nametotag`` when cell barcode in the middle of the read name (https://github.com/timoast/sinto/issues/46)
+- Remove need for samtools in path (https://github.com/timoast/sinto/issues/41)
+- Added ``--outdir`` parameter to ``filterbarcodes``
+- Added ``--sam`` parameter to ``filterbarcodes``
+- Fixed bug in ``filterbarcodes`` and ``addtags`` causing read groups to be modified (https://github.com/timoast/sinto/issues/17)
+
+0.8.0
+~~~~~
+
+- Added ``tagtoname`` and ``nametotag`` commands to copy cell barcodes to/from read tags or read names
+
+Version 0.7
+-----------
+
+0.7.6
+~~~~~
+
+- Added ``--collapse_within`` parameter to ``fragments`` function to enable only collapsing PCR duplicates if the cell barcode is the same (https://github.com/timoast/sinto/issues/36)
+- Added tests for ``fragments`` function and associated small test dataset
+
+0.7.5
+~~~~~
+
+- Added ``--shift_plus`` and ``--shift_minus`` parameters to configure Tn5 shift applied in ``fragments`` function (https://github.com/timoast/sinto/issues/33)
+
+0.7.4
+~~~~~
+
+- Fixed bug causing some fragments at the end of contigs to be dropped (https://github.com/timoast/sinto/issues/31)
+
+0.7.3
+~~~~~
+
+- Fixed error in soft clipping for ``fragments`` function (https://github.com/timoast/sinto/issues/29)
+
+0.7.2
+~~~~~
+
+- Added ``min_distance`` parameter to ``fragments``
+- Fixed bug in soft clipping for ``fragments`` function
+
+0.7.1
+~~~~~
+
+- Code style update for ``tagtotag`` and ``tagtorg``
+- Fix bug in ``filterbarcodes`` and ``addtags`` that caused lines in BAM header to be duplicated (https://github.com/timoast/sinto/issues/15)
+
+0.7.0
+~~~~~
+
+- New ``tagtotag`` function to copy or move read tags
+
 Version 0.6
 -----------
+
+0.6.1
+~~~~~
+
+- Bug fixes for ``barcode`` function
+- Allow running ``barcode`` on unzipped FASTQ files
 
 0.6.0
 ~~~~~
 
-- Add ``blocks`` command to create block file from BAM file.
+- New ``barcode`` function to add cell barcodes to read names in FASTQ file
+
+>>>>>>> develop
 
 Version 0.5
 -----------

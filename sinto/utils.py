@@ -4,6 +4,7 @@ import gzip
 import os
 import pysam
 import re
+import sys
 
 
 def log_info(func):
@@ -13,15 +14,17 @@ def log_info(func):
     @functools.wraps(func)
     def wrapper(args):
         print(
-            "Function {} called with the following arguments:\n".format(func.__name__)
+            "Function {} called with the following arguments:\n".format(func.__name__),
+            file=sys.stderr
         )
         for arg in vars(args):
-            print(str(arg) + "\t" + str(getattr(args, arg)))
+            print(str(arg) + "\t" + str(getattr(args, arg)), file=sys.stderr)
         t1 = time.time()
         func(args)
         t2 = time.time()
         elapsed = [round(x, 2) for x in divmod(t2 - t1, 60)]
-        print("\nFunction completed in  {} m {} s\n".format(elapsed[0], elapsed[1]))
+        print("\nFunction completed in  {} m {} s\n".format(elapsed[0], elapsed[1]),
+             file=sys.stderr)
 
     return wrapper
 

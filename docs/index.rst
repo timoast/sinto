@@ -1,5 +1,5 @@
 .. include:: ../README.rst
-   :end-line: 15
+   :end-line: 25
 
 Report issues and view source code `here <https://github.com/timoast/sinto>`__.
 
@@ -11,3 +11,4 @@ Report issues and view source code `here <https://github.com/timoast/sinto>`__.
 
    installation
    basic_usage
+   scatac

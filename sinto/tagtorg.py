@@ -2,6 +2,7 @@ import sys
 from contextlib import closing
 
 import pysam
+from sinto.constants import OUT_FORMAT_CONVERSION
 
 
 def header_line_to_str(line):
@@ -17,13 +18,6 @@ def build_header(header, tag_vals):
             rg["ID"] += f":{val}"
             new_rg_lines.append("@RG\t" + header_line_to_str(rg))
     return str(header) + "\n".join(new_rg_lines) + "\n"
-
-
-OUT_FORMAT_CONVERSION = {
-    "t": "",
-    "b": "b",
-    "u": "bu",
-}
 
 
 def tagtorg(bam, tag, output, tag_value_file, out_format="t"):
@@ -43,7 +37,7 @@ def tagtorg(bam, tag, output, tag_value_file, out_format="t"):
         One of "t" (SAM), "b" (BAM), or "u" (uncompressed BAM) ("t" default)
     """
 
-    infile = pysam.AlignmentFile(bam, "r")
+    infile = pysam.AlignmentFile(bam)
     with open(tag_value_file) as fh:
         tag_vals = {val.rstrip() for val in fh.readlines()}
     new_header = build_header(infile.header, tag_vals)

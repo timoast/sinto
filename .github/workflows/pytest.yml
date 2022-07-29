@@ -1,0 +1,52 @@
+name: pytest
+
+on:
+  push:
+    branches: ["master", "develop"]
+  pull_request:
+    branches: ["master", "develop"]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        python-version: ['3.7', '3.8', '3.9']
+    defaults:
+      run:
+        shell: bash -l {0}
+    env:
+      HTSLIB_CONFIGURE_OPTIONS: "--disable-libcurl"
+
+    steps:
+    - name: Checkout sinto
+      uses: actions/checkout@v2
+      
+    - uses: conda-incubator/setup-miniconda@v2
+      with:
+          auto-update-conda: true
+          auto-activate-base: false
+          activate-environment: testenv
+          use-only-tar-bz2: true
+        
+    - name: Install dependencies
+      run: |
+        conda install -c bioconda samtools htslib
+        conda install -c anaconda flake8 pytest
+        python -m pip install --upgrade pip
+        python -m pip install --upgrade build
+        
+    - name: Build and install package
+      run: |
+        python -m build
+        pip install .
+        
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        
+    - name: Test with pytest
+      run: |
+        REF_PATH=':' pytest

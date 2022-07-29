@@ -6,18 +6,17 @@ import random
 import string
 import os
 from sinto import utils
-from subprocess import call
 
 
 def _add_read_tags(intervals, bam, sam, output, cb, trim_suffix, mode):
     inputBam = pysam.AlignmentFile(bam, "rb")
+    header = inputBam.header.to_dict()
+    newhead = dict((k, header[k]) for k in ("HD", "SQ", "RG"))
     ident = "".join(
         random.choice(string.ascii_uppercase + string.digits) for _ in range(6)
     )
-    if sam:
-        outputBam = pysam.AlignmentFile(output + ident, "w", template=inputBam)
-    else:
-        outputBam = pysam.AlignmentFile(output + ident, "wb", template=inputBam)
+    outfmt = 'w' if sam else 'wb'
+    outputBam = pysam.AlignmentFile(output + ident, outfmt, header=newhead)
     for i in intervals:
         for r in inputBam.fetch(i[0], i[1], i[2]):
             if mode == "tag":
@@ -83,10 +82,7 @@ def addtags(bam, tagfile, output, sam=False, trim_suffix=True, mode="tag", nproc
         ),
         intervals.values(),
     ).get(9999999)
-    mergestring = (
-        "samtools merge -@ " + str(nproc) + " " + output + " " + " ".join(tempfiles)
-    )
-    call(mergestring, shell=True)
+    pysam.merge('-@', str(nproc), '--no-PG', '-h', bam, '-c', output, *tempfiles)
     if os.path.exists(output):
         [os.remove(i) for i in tempfiles]
     else:

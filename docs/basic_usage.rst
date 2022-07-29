@@ -11,54 +11,64 @@ PCR duplicates are collapsed.
 
 .. code-block:: none
     
-    sinto fragments [-h] -b BAM -f FRAGMENTS [-m MIN_MAPQ] [-p NPROC]
-                       [-t BARCODETAG] [-c CELLS]
-                       [--barcode_regex BARCODE_REGEX] [--use_chrom USE_CHROM]
-                       [--max_distance MAX_DISTANCE]
+    sinto fragments [-h] -b BAM -f FRAGMENTS [-m MIN_MAPQ] [-p NPROC] [-t BARCODETAG]
+                       [-c CELLS] [--barcode_regex BARCODE_REGEX] [--use_chrom USE_CHROM]
+                       [--max_distance MAX_DISTANCE] [--min_distance MIN_DISTANCE]
+                       [--chunksize CHUNKSIZE] [--shift_plus SHIFT_PLUS]
+                       [--shift_minus SHIFT_MINUS] [--collapse_within]
 
     Create ATAC-seq fragment file from BAM file
 
     optional arguments:
-    -h, --help            show this help message and exit
-    -b BAM, --bam BAM     Input bam file (must be indexed)
-    -f FRAGMENTS, --fragments FRAGMENTS
-                            Name and path for output fragments file. Note that the
-                            output is not sorted or compressed. To sort the output
-                            file use sort -k 1,1 -k2,2n
-    -m MIN_MAPQ, --min_mapq MIN_MAPQ
-                            Minimum MAPQ required to retain fragment (default =
-                            30)
-    -p NPROC, --nproc NPROC
+      -h, --help            show this help message and exit
+      -b BAM, --bam BAM     Input bam file (must be indexed)
+      -f FRAGMENTS, --fragments FRAGMENTS
+                            Name and path for output fragments file. Note that the output is
+                            not sorted or compressed. To sort the output file use sort -k 1,1
+                            -k2,2n
+      -m MIN_MAPQ, --min_mapq MIN_MAPQ
+                            Minimum MAPQ required to retain fragment (default = 30)
+      -p NPROC, --nproc NPROC
                             Number of processors (default = 1)
-    -t BARCODETAG, --barcodetag BARCODETAG
-                            Read tag storing cell barcode information (default =
-                            "CB")
-    -c CELLS, --cells CELLS
-                            Path to file containing cell barcodes to retain, or a
-                            comma-separated list of cell barcodes. If None
-                            (default), use all cell barocodes present in the BAM
-                            file.
-    --barcode_regex BARCODE_REGEX
-                            Regular expression used to extract cell barcode from
-                            read name. If None (default), extract cell barcode
-                            from read tag. Use "[^:]*" to match all characters up
-                            to the first colon.
-    --use_chrom USE_CHROM
-                            Regular expression used to match chromosomes to be
-                            included in output. Default is "(?i)^chr" to match all
-                            chromosomes starting with "chr", case insensitive
-    --max_distance MAX_DISTANCE
-                            Maximum distance between integration sites for the
-                            fragment to be retained. Allows filtering of
-                            implausible fragments that likely result from
-                            incorrect mapping positions. Default is 5000 bp.
-   --chunksize CHUNKSIZE
-                           Number of BAM file entries to iterate over before
-                           collapsing the fragments and writing to disk. Higher
-                           chunksize will use more memory but will be faster.
+      -t BARCODETAG, --barcodetag BARCODETAG
+                            Read tag storing cell barcode information (default = "CB")
+      -c CELLS, --cells CELLS
+                            Path to file containing cell barcodes to retain, or a comma-
+                            separated list of cell barcodes. If None (default), use all cell
+                            barocodes present in the BAM file.
+      --barcode_regex BARCODE_REGEX
+                            Regular expression used to extract cell barcode from read name. If
+                            None (default), extract cell barcode from read tag. Use "[^:]*" to
+                            match all characters up to the first colon.
+      --use_chrom USE_CHROM
+                            Regular expression used to match chromosomes to be included in
+                            output. Default is "(?i)^chr" to match all chromosomes starting
+                            with "chr", case insensitive
+      --max_distance MAX_DISTANCE
+                            Maximum distance between integration sites for the fragment to be
+                            retained. Allows filtering of implausible fragments that likely
+                            result from incorrect mapping positions. Default is 5000 bp.
+      --min_distance MIN_DISTANCE
+                            Minimum distance between integration sites for the fragment to be
+                            retained. Allows filtering of implausible fragments that likely
+                            result from incorrect mapping positions. Default is 10 bp.
+      --chunksize CHUNKSIZE
+                            Number of BAM file entries to iterate over before collapsing the
+                            fragments and writing to disk. Higher chunksize will use more
+                            memory but will be faster.
+      --shift_plus SHIFT_PLUS
+                            Number of bases to shift Tn5 insertion position by on the forward
+                            strand.
+      --shift_minus SHIFT_MINUS
+                            Number of bases to shift Tn5 insertion position by on the reverse
+                            strand.
+      --collapse_within     Take cell barcode into account when collapsing duplicate fragments.
+                            Setting this flag means that fragments with the same coordinates
+                            can be identified provided they originate from a different cell
+                            barcode.
 
 Fragment file format
-~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 
 The fragment file is a BED format file containing the positions of Tn5 integration
 sites, the cell barcode that the DNA fragment originated from, and the number
@@ -84,27 +94,28 @@ How the fragment file is generated
 
 Generating the fragment file involves the following steps in order:
 
-1. Remove soft-clipped bases from the alignment position.
-2. Extract cell barcode sequence associated with the fragment.
-3. Adjust alignment positions for the 9 bp Tn5 shift by
+1. Extract cell barcode sequence associated with the fragment.
+2. Adjust alignment positions for the 9 bp Tn5 shift by
    applying +4/-5 to the start and end position of the paired reads.
-4. Remove fragments where either read has a MAPQ score less than
+3. Remove fragments where either read has a MAPQ score less than
    the specified cutoff.
-5. Remove fragments where the fragment size is greater than the 
+4. Remove fragments where the fragment size is greater than the 
    specified maximum.
-6. Collapse PCR duplicates:
+5. Collapse PCR duplicates:
 
     1. Count the frequency of each fragment for each cell barcode.
-    2. Within a cell barocode, collapse fragments that share 
+    2. Within a cell barcode, collapse fragments that share 
        a start or end coordinate on the same chromosome.
     3. Across all cell barcodes, collapse fragments that share 
        the exact start and end coordinates on the same chromosome.
     4. Assign the fragment to the most abundant cell barcode.
     5. Record the read count for the collapsed fragment.
 
-7. Write fragments to file. Note that fragments are not sorted
+6. Write fragments to file. Note that fragments are not sorted
    or compressed.
 
+Note that setting the ``--collapse_within`` parameter will change how step 5
+is handled.
 
 Additional arguments for the fragments function
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -113,11 +124,9 @@ Number of processors: ``--nproc``
 _________________________________
 
 Multiple cores can be used by specifying the ``--nproc`` argument.
-Note that each process will load fragments from a single chromosome into 
-memory, so the more processors used the more memory required.
-At a minimum, enough memory to fragments from the largest chromosome into memory is required.
-The amount of memory this corresponds to will depend on sequencing depth and the genome
-size. There is no point specifiying more processors than the number of chromosomes.
+Specifying multiple processors will parallelize across chromosomes. Currently,
+at most one thread is used per chromosome, so there is no point specifiying
+more processors than the number of chromosomes.
 
 Minimum mapping quality: ``--min_mapq``
 _______________________________________
@@ -180,6 +189,24 @@ be PCR-collapsed. Sinto performs this step in chunks to balance speed and memory
 use. The ``--chunksize`` parameter controls how many fragments are able to be 
 held in memory before they get collapsed and written to a file. Setting a larger
 value should require more memory but the function will complete faster.
+
+Change the Tn5 shift applied: ``--shift_plus`` and ``--shift_minus``
+____________________________________________________________________
+
+The fragments algorithm adjusts Tn5 integration positions based on the 9 bp 
+stagger that is introduced when Tn5 integrates into the DNA. By default, a +4/-5 
+bp shift is applied to account for this. Different shifts can be applied by
+setting these parameters.
+
+Change PCR duplicate removal strategy: ``--collapse_within``
+____________________________________________________________
+
+PCR duplicates are identified as fragments that share the same start and end
+coordinates. By default (and for mostly historical reasons), the cell barcode
+is not taken into account when collapsing PCR duplicates. To only consider
+fragments as duplicates if they share the same start and end coordinate and
+originate from the same cell barcode, the ``--collapse_within`` parameter can
+be used.
 
 Filter cell barcodes from BAM file
 ----------------------------------
@@ -349,3 +376,232 @@ according to their cell barcode.
       -O OUTPUTFORMAT, --outputformat OUTPUTFORMAT
                             Output format. One of 't' (SAM), 'b' (BAM), or 'u'
                             (uncompressed BAM) ('t' default)
+
+Copy/move read tag to another read tag
+--------------------------------------
+
+Read tags can be renamed or copied to anthor read tag using the ``tagtotag`` command.
+Let's assume we have a SAM file called ``input.sam``
+with the following contents:
+
+.. code-block:: none
+
+    @HD	VN:1.5	SO:coordinate
+    @SQ	SN:20	LN:63025520
+    r002	0	20	9	30	3S6M1P1I4M	*	0	0	AAAAGATAAGGATA	*	CB:Z:AAAA-1
+    r003	0	20	9	30	3S6M1P1I4M	*	0	0	AAAAGATAAGGATA	*	CB:Z:CCCC-1
+
+We would like to rename the CB tag to another arbitrary tag, let's call it xx.
+If we run the following command:
+
+.. code-block:: none
+
+    sinto tagtotag --from CB --to xx --delete --bam - -o -
+
+This will print the following SAM file to screen:
+
+.. code-block:: none
+
+    @HD	VN:1.5	SO:coordinate
+    @SQ	SN:20	LN:63025520
+    r002	0	20	9	30	3S6M1P1I4M	*	0	0	AAAAGATAAGGATA	*	xx:Z:AAAA-1
+    r003	0	20	9	30	3S6M1P1I4M	*	0	0	AAAAGATAAGGATA	*	xx:Z:CCCC-1
+
+The two CB tags have been renamed to xx. If we wish to keep the original CB tag, then
+we can drop ``--delete`` from the command.
+
+.. code-block:: none
+
+    usage: sinto tagtotag [-h] -b BAM --from FROM_ --to TO [--delete] [-o OUTPUT]
+                          [-O OUTPUTFORMAT]
+
+    Copies BAM entries to a new file while copying a read tag to another read tag
+    and optionally deleting the originating tag.
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      -b BAM, --bam BAM     Input SAM/BAM file, '-' reads from stdin
+      --from FROM_          Read tag to copy from.
+      --to TO               Read tag to copy to.
+      --delete              Delete originating tag after copy (i.e. move).
+      -o OUTPUT, --output OUTPUT
+                            Output SAM/BAM file, '-' outputs to stdout (default
+                            '-')
+      -O OUTPUTFORMAT, --outputformat OUTPUTFORMAT
+                            Output format. One of 't' (SAM), 'b' (BAM), or 'u'
+                            (uncompressed BAM) ('t' default)
+
+Copy cell barcode to/from read names/tags
+-----------------------------------------
+
+Cell barcodes can be copied from the read names to a read tag, or from a read tag to
+the read names using the ``tagtoname`` and ``nametotag`` commands.
+
+Assume we have a SAM file called ``tag.sam`` with the following contents:
+
+.. code-block:: none
+
+    @HD	VN:1.5	SO:coordinate
+    @SQ	SN:20	LN:63025520
+    r002	0	20	9	30	3S6M1P1I4M	*	0	0	AAAAGATAAGGATA	*	CB:Z:AAAA-1
+    r003	0	20	9	30	3S6M1P1I4M	*	0	0	AAAAGATAAGGATA	*	CB:Z:CCCC-1
+
+To copy the cell barcode stored under the ``CB`` tag to the read name we can run:
+
+.. code-block:: none
+
+    sinto tagtoname -b tag.sam
+
+This will print the following SAM file to screen:
+
+.. code-block:: none
+
+    @HD	VN:1.5	SO:coordinate
+    @SQ	SN:20	LN:63025520
+    AAAA-1:r002	0	20	9	30	3S6M1P1I4M	*	0	0	AAAAGATAAGGATA	*	CB:Z:AAAA-1
+    CCCC-1:r003	0	20	9	30	3S6M1P1I4M	*	0	0	AAAAGATAAGGATA	*	CB:Z:CCCC-1
+
+Assume we have a SAM file, ``read.sam`` that instead has the cell barcodes in the read names and 
+we want to copy those to a read tag, for example:
+
+.. code-block:: none
+
+    @HD	VN:1.5	SO:coordinate
+    @SQ	SN:20	LN:63025520
+    AAAA-1:r002	0	20	9	30	3S6M1P1I4M	*	0	0	AAAAGATAAGGATA	*
+    CCCC-1:r003	0	20	9	30	3S6M1P1I4M	*	0	0	AAAAGATAAGGATA	*
+
+We run the ``nametotag`` command:
+
+.. code-block:: none
+
+    sinto nametotag -b read.sam
+
+.. code-block:: none
+
+    @HD	VN:1.5	SO:coordinate
+    @SQ	SN:20	LN:63025520
+    AAAA-1:r002	0	20	9	30	3S6M1P1I4M	*	0	0	AAAAGATAAGGATA	*	CB:Z:AAAA-1
+    CCCC-1:r003	0	20	9	30	3S6M1P1I4M	*	0	0	AAAAGATAAGGATA	*	CB:Z:CCCC-1
+
+It can be faster to pipe reads using in/out of samtools to allow a separate process
+to handle the BAM compression/decompression, for example:
+
+.. code-block:: none
+
+    samtools view -h input.bam \
+      | sinto nametotag -b - \
+      | samtools view -b - \
+      > output.bam
+
+
+Add cell barcodes to FASTQ read names
+-------------------------------------
+
+Cell barcodes from one FASTQ file can be added to the read names of another, or the same,
+FASTQ file using the ``barcode`` command. This is useful when processing raw single-cell
+sequencing data, as the cell barcode information can easily be propagated to the aligned
+BAM file by encoding the cell barcode in the read name. Both gzipped and uncompressed
+FASTQ files are supported as input. Running on uncompressed FASTQ is usually much faster
+than running on gzipped FASTQ files.
+
+Running this command will generate new gzipped FASTQ files with the read names modified to
+contain the cell barcode sequence at the beginning of the read name, separated from the
+original read name by a ``:`` character. The output files will be the name of the input
+file with ``.barcoded.fastq.gz`` at the end of the file name.
+
+.. code-block:: none
+
+    sinto barcode [-h] --barcode_fastq BARCODE_FASTQ --read1 READ1
+                     [--read2 READ2] -b BASES [--prefix PREFIX]
+                     [--suffix SUFFIX]
+
+    Add cell barcode sequences to read names in FASTQ file.
+
+    optional arguments:
+    -h, --help            show this help message and exit
+    --barcode_fastq BARCODE_FASTQ
+                            FASTQ file containing cell barcode sequences
+    --read1 READ1         FASTQ file containing read 1
+    --read2 READ2         FASTQ file containing read 2
+    -b BASES, --bases BASES
+                            Number of bases to extract from barcode-containing
+                            FASTQ
+    --prefix PREFIX       Prefix to add to cell barcodes
+    --suffix SUFFIX       Suffix to add to cell barcodes
+
+Additional arguments for the barcode function
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Bases: ``--bases``
+__________________
+
+This controls how many bases from the read containing the cell barcode are used.
+Bases are counted from the beginning of the read sequence in the FASTQ file. For
+example, ``--bases 12`` will extract the first 12 sequenced bases from the read 
+and use it as the cell barcode.
+
+Barcode read file: ``--barcode_fastq``
+______________________________________
+
+FASTQ file with reads containing the cell barcode sequence.
+
+Read 1 and read 2: ``--read1`` and ``--read2``
+______________________________________________
+
+FASTQ files containing reads to which the cell barcode information will be
+added. Note that these files must contain the same number of reads as the barcode-containing
+FASTQ file, and the reads must appear in the same order.
+
+Example
+~~~~~~~
+
+Take the following two FASTQ files as an example. The first contains cell barcode sequences
+and the second we want to add those sequences to the read name.
+
+``barocde_file.fastq.gz``:
+
+.. code-block:: none
+
+    @D00611:697:CD0V6ANXX:5:2301:1176:2478 1:N:0:TATCCTCT
+    CAATACACTATATGGGAGACGTTTTTTTTT
+    +
+    BBBBBFFFFFFFFFFFFFFFFFFFFFFFFF
+    @D00611:697:CD0V6ANXX:5:2301:1480:2408 1:N:0:TATCCTCT
+    CAGAGACGTAAACAATGGCGGTTTTTTTTT
+    +
+    B<BBBFFFFFFFFFFFFFFFFFFFFFFFFF
+    @D00611:697:CD0V6ANXX:5:2301:1361:2447 1:N:0:TATCCTAT
+    AGTCTCGCCACATGGGGGGGATTTTTTTTT
+
+``read1.fastq.gz``:
+
+.. code-block:: none
+
+    @D00611:697:CD0V6ANXX:5:2301:1176:2478 2:N:0:TATCCTCT
+    GATTTACACAGATGATATGTTTCTATTGCCTGCTTGGGATGGGGGTGGGAGGCAGAGTCCATCTACCTCTCTAAC
+    +
+    BBBBBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    @D00611:697:CD0V6ANXX:5:2301:1480:2408 2:N:0:TATCCTCT
+    GTGCCTTTGACTTTAGCTAGGCGACAGGGGACGAGTCCATTAGCATACNNNGTAAATTGCTGTTGTCTGTTTTTG
+    +
+    <////////B/B/////<//////<///////////<///////////###////////////<///////////
+    @D00611:697:CD0V6ANXX:5:2301:1361:2447 2:N:0:TATCCTAT
+    TAATACATGACGGTGTCTTAGTAGCACTTACTATGCACAGGTTAAGACCTGTCTCTTATACACATCTCCGAGCCC
+
+After running ``sinto barcode`` with ``-b 12`` to extract the first 12 bases of the barcode sequence
+we have a new file called ``read1.barcoded.fastq.gz``:
+
+.. code-block:: none
+
+    @CAATACACTATA:D00611:697:CD0V6ANXX:5:2301:1176:2478 2:N:0:TATCCTCT
+    GATTTACACAGATGATATGTTTCTATTGCCTGCTTGGGATGGGGGTGGGAGGCAGAGTCCATCTACCTCTCTAAC
+    +
+    BBBBBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    @CAGAGACGTAAA:D00611:697:CD0V6ANXX:5:2301:1480:2408 2:N:0:TATCCTCT
+    GTGCCTTTGACTTTAGCTAGGCGACAGGGGACGAGTCCATTAGCATACNNNGTAAATTGCTGTTGTCTGTTTTTG
+    +
+    <////////B/B/////<//////<///////////<///////////###////////////<///////////
+    @AGTCTCGCCACA:D00611:697:CD0V6ANXX:5:2301:1361:2447 2:N:0:TATCCTAT
+    TAATACATGACGGTGTCTTAGTAGCACTTACTATGCACAGGTTAAGACCTGTCTCTTATACACATCTCCGAGCCC
+
