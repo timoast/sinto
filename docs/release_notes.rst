@@ -90,8 +90,6 @@ Version 0.6
 
 - New ``barcode`` function to add cell barcodes to read names in FASTQ file
 
->>>>>>> develop
-
 Version 0.5
 -----------
 
