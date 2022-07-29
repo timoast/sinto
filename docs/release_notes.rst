@@ -8,6 +8,11 @@ without breaking compatibility with previous versions.
 Version 0.8
 -----------
 
+0.8.3
+~~~~~
+
+- Fixed bug in BAM file chunking that caused some entries to be duplicated (https://github.com/timoast/sinto/issues/51)
+
 0.8.2
 ~~~~~
 
