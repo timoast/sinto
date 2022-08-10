@@ -22,7 +22,8 @@ def _iterate_reads(
 ):
     inputBam = pysam.AlignmentFile(bam, "rb")
     header = inputBam.header.to_dict()
-    newhead = dict((k, header[k]) for k in ("HD", "SQ", "RG"))
+    validKeys = [x for x in ["HD", "SQ", "RG"] if x in header.keys()]
+    newhead = dict((k, header[k]) for k in validKeys)
     ident = "".join(
         random.choice(string.ascii_uppercase + string.digits) for _ in range(6)
     )
@@ -32,7 +33,7 @@ def _iterate_reads(
     for i in intervals:
         for r in inputBam.fetch(i[0], i[1], i[2]):
             if readname_barcode is not None:
-                re_match = readname_barcode.match(r.qname)
+                re_match = readname_barcode.search(r.qname)
                 cell_barcode = re_match.group()
             else:
                 cell_barcode, _ = utils.scan_tags(r.tags, cb=cellbarcode)

@@ -5,6 +5,7 @@ import os
 import pysam
 import re
 import sys
+import math
 
 
 def log_info(func):
@@ -34,7 +35,7 @@ def chunk_bam(bamfile, nproc):
     chunk file into n chunks for multicore
     """
     chrom_lengths = bamfile.lengths
-    chunksize = sum(chrom_lengths) / int(nproc)
+    chunksize = int(sum(chrom_lengths) / int(nproc))
     intervals = []
     for x in range(1, nproc + 1):
         position = chunksize * x
