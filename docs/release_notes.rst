@@ -13,6 +13,7 @@ Version 0.8
 
 - Fixed bug in BAM file chunking that caused some entries to be duplicated (https://github.com/timoast/sinto/issues/51)
 - Properly set minimum Python version (https://github.com/timoast/sinto/issues/53)
+- Fix bug in ``filterbarcodes`` when no ``RG`` tags in BAM file (https://github.com/timoast/sinto/issues/52)
 
 0.8.2
 ~~~~~

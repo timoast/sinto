@@ -22,7 +22,8 @@ def _iterate_reads(
 ):
     inputBam = pysam.AlignmentFile(bam, "rb")
     header = inputBam.header.to_dict()
-    newhead = dict((k, header[k]) for k in ("HD", "SQ", "RG"))
+    validKeys = [x for x in ["HD", "SQ", "RG"] if x in header.keys()]
+    newhead = dict((k, header[k]) for k in validKeys)
     ident = "".join(
         random.choice(string.ascii_uppercase + string.digits) for _ in range(6)
     )
