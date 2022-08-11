@@ -7,6 +7,7 @@ from sinto import utils
 import re
 import os
 from itertools import chain
+from pathlib import Path
 
 
 def _iterate_reads(
@@ -106,6 +107,7 @@ def filterbarcodes(
     intervals = utils.chunk_bam(inputBam, nproc)
     ident = "".join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
     inputBam.close()
+    Path(outdir).mkdir(parents=True, exist_ok=True)
     if readname_barcode is not None:
         readname_barcode = re.compile(readname_barcode)
     p = Pool(nproc)
