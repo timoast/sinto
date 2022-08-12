@@ -8,6 +8,18 @@ without breaking compatibility with previous versions.
 Version 0.8
 -----------
 
+0.8.3
+~~~~~
+
+- Fixed bug in BAM file chunking that caused some entries to be duplicated (https://github.com/timoast/sinto/issues/51)
+- Properly set minimum Python version (https://github.com/timoast/sinto/issues/53)
+- Fix bug in ``filterbarcodes`` when no ``RG`` tags in BAM file (https://github.com/timoast/sinto/issues/52)
+
+0.8.2
+~~~~~
+
+- Fixed bug in ``filterbarcodes`` when cell barcode in the middle of the read name (https://github.com/timoast/sinto/issues/46)
+
 0.8.1
 ~~~~~
 
