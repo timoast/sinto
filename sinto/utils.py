@@ -30,7 +30,7 @@ def log_info(func):
     return wrapper
 
 
-def chunk_bam(bamfile, nproc):
+def chunk_bam(bamfile, nproc, unmapped=False):
     """
     chunk file into n chunks for multicore
     """
@@ -40,7 +40,10 @@ def chunk_bam(bamfile, nproc):
     for x in range(1, nproc + 1):
         position = chunksize * x
         intervals.append(find_chromosome_break(position, chrom_lengths, 0))
-    return add_start_coords(intervals, chrom_lengths, bamfile)
+    intervals = add_start_coords(intervals, chrom_lengths, bamfile)
+    if unmapped:
+        intervals[len(intervals)].append(("*", 1, 2))
+    return intervals
 
 
 def add_start_coords(intervals, chrom_lengths, bamfile):

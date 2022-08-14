@@ -104,7 +104,7 @@ def filterbarcodes(
     cb = utils.read_cell_barcode_file(cells)
     unique_classes = list(set(chain.from_iterable(cb.values())))
     inputBam = pysam.AlignmentFile(bam, "rb")
-    intervals = utils.chunk_bam(inputBam, nproc)
+    intervals = utils.chunk_bam(inputBam, nproc, unmapped=True)
     ident = "".join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
     inputBam.close()
     Path(outdir).mkdir(parents=True, exist_ok=True)

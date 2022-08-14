@@ -68,7 +68,7 @@ def addtags(bam, tagfile, output, sam=False, trim_suffix=True, mode="tag", nproc
     nproc = int(nproc)
     tags = utils.read_cell_barcode_tag_file(tagfile)
     inputBam = pysam.AlignmentFile(bam, "rb")
-    intervals = utils.chunk_bam(inputBam, nproc)
+    intervals = utils.chunk_bam(inputBam, nproc, unmapped=True)
     inputBam.close()
     p = Pool(nproc)
     tempfiles = p.map_async(
