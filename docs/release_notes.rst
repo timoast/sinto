@@ -8,6 +8,11 @@ without breaking compatibility with previous versions.
 Version 0.8
 -----------
 
+0.8.4
+~~~~~
+
+- Include unmapped reads in output of ``filterbarcodes`` (https://github.com/timoast/sinto/issues/55)
+
 0.8.3
 ~~~~~
 
