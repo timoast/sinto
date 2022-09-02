@@ -425,6 +425,14 @@ parser_blocks.add_argument(
     type=str,
     default=None,
 )
+parser_blocks.add_argument(
+    "--strand",
+    help="""
+    Include strand information in output file
+    """,
+    action="store_true",
+    default=False
+)
 parser_blocks.set_defaults(func=cli.run_blocks)
 
 # barcodes

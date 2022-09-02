@@ -14,7 +14,8 @@ def getBlocks(
     cellbarcode="CB",
     umibarcode="UB",
     readname_barcode=None,
-    cells=None
+    cells=None,
+    include_strand=False
 ):
     inputBam = pysam.AlignmentFile(bam, "rb")
     outfile = tempfile.NamedTemporaryFile(delete=False)
@@ -34,10 +35,13 @@ def getBlocks(
                 continue
             if (cells is not None) and (cell_barcode not in cells):
                 continue
-            blocks = r.blocks
+            blocks = r.get_blocks()
             chrom = r.reference_name
+            strand = "-" if r.is_reverse else "+"
             for i in blocks:
                 outstr = "\t".join(map(str, [chrom, i[0], i[1], cell_barcode, umi]))
+                if include_strand:
+                    outstr += "\t" + strand
                 outf.write(outstr + "\n")
     outf.close()
     inputBam.close()
@@ -53,6 +57,7 @@ def blocks(
     umibarcode="UB",
     readname_barcode=None,
     cells=None,
+    include_strand=False,
 ):
     """Create scRNA-seq block file from BAM file
 
@@ -82,10 +87,12 @@ def blocks(
     cells : str
         File containing list of cell barcodes to retain. If None (default), use all cell barcodes
         found in the BAM file.
+    include_strand : bool
+        Include strand information
     """
     nproc = int(nproc)
     inputBam = pysam.AlignmentFile(bam, "rb")
-    intervals = utils.chunk_bam(inputBam, nproc)
+    intervals = utils.chunk_bam(inputBam, nproc, unmapped=False)
     inputBam.close()
     if readname_barcode is not None:
         readname_barcode = re.compile(readname_barcode)
@@ -100,7 +107,8 @@ def blocks(
                 cellbarcode=cellbarcode,
                 umibarcode=umibarcode,
                 readname_barcode=readname_barcode,
-                cells=cells
+                cells=cells,
+                include_strand=include_strand,
             ),
             intervals.values(),
         )

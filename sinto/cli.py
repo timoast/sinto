@@ -84,7 +84,8 @@ def run_blocks(options):
         cellbarcode=options.barcodetag,
         umibarcode=options.umitag,
         readname_barcode=options.barcode_regex,
-        cells=options.cells
+        cells=options.cells,
+        include_strand=options.strand,
     )
 
 @utils.log_info
