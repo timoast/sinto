@@ -216,30 +216,32 @@ This requires a position-sorted, indexed BAM file, and a file containing a list 
 
 .. code-block:: none
 
-    sinto filterbarcodes [-h] -b BAM -c CELLS -o OUTPUT [-t] [-s]
-                            [-p NPROC] [--barcode_regex BARCODE_REGEX]
-                            [--barcodetag BARCODETAG]
+    sinto filterbarcodes [-h] -b BAM -c CELLS [-t] [-p NPROC]
+                            [--barcode_regex BARCODE_REGEX]
+                            [--barcodetag BARCODETAG] [--outdir OUTDIR] [-s]
 
-   Filter reads based on input list of cell barcodes
+    Filter reads based on input list of cell barcodes
 
-   optional arguments:
-   -h, --help            show this help message and exit
-   -b BAM, --bam BAM     Input bam file (must be indexed)
-   -c CELLS, --cells CELLS
-                           File or comma-separated list of cell barcodes. Can be
-                           gzip compressed
-   -t, --trim_suffix     Remove trail 2 characters from cell barcode in BAM
-                           file
-   -p NPROC, --nproc NPROC
-                           Number of processors (default = 1)
-   --barcode_regex BARCODE_REGEX
-                           Regular expression used to extract cell barcode from
-                           read name. If None (default), extract cell barcode
-                           from read tag. Use "[^:]*" to match all characters up
-                           to the first colon.
-   --barcodetag BARCODETAG
-                           Read tag storing cell barcode information (default =
-                           "CB")
+    optional arguments:
+    -h, --help            show this help message and exit
+    -b BAM, --bam BAM     Input bam file (must be indexed)
+    -c CELLS, --cells CELLS
+                            File or comma-separated list of cell barcodes. Can be
+                            gzip compressed
+    -t, --trim_suffix     Remove trail 2 characters from cell barcode in BAM
+                            file
+    -p NPROC, --nproc NPROC
+                            Number of processors (default = 1)
+    --barcode_regex BARCODE_REGEX
+                            Regular expression used to extract cell barcode from
+                            read name. If None (default), extract cell barcode
+                            from read tag. Use "[^:]*" to match all characters up
+                            to the first colon.
+    --barcodetag BARCODETAG
+                            Read tag storing cell barcode information (default =
+                            "CB")
+    --outdir OUTDIR       Output file directory
+    -s, --sam             Output sam format (default bam output)
 
 The input "cells" file should be a tab-delimited text file with cell barcodes in 
 the first column and the groups the cell belongs to in the second column. This 

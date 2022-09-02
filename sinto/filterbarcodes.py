@@ -7,6 +7,7 @@ from sinto import utils
 import re
 import os
 from itertools import chain
+from pathlib import Path
 
 
 def _iterate_reads(
@@ -22,7 +23,8 @@ def _iterate_reads(
 ):
     inputBam = pysam.AlignmentFile(bam, "rb")
     header = inputBam.header.to_dict()
-    newhead = dict((k, header[k]) for k in ("HD", "SQ", "RG"))
+    validKeys = [x for x in ["HD", "SQ", "RG"] if x in header.keys()]
+    newhead = dict((k, header[k]) for k in validKeys)
     ident = "".join(
         random.choice(string.ascii_uppercase + string.digits) for _ in range(6)
     )
@@ -102,9 +104,10 @@ def filterbarcodes(
     cb = utils.read_cell_barcode_file(cells)
     unique_classes = list(set(chain.from_iterable(cb.values())))
     inputBam = pysam.AlignmentFile(bam, "rb")
-    intervals = utils.chunk_bam(inputBam, nproc)
+    intervals = utils.chunk_bam(inputBam, nproc, unmapped=True)
     ident = "".join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
     inputBam.close()
+    Path(outdir).mkdir(parents=True, exist_ok=True)
     if readname_barcode is not None:
         readname_barcode = re.compile(readname_barcode)
     p = Pool(nproc)

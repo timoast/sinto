@@ -11,7 +11,8 @@ from sinto import utils
 def _add_read_tags(intervals, bam, sam, output, cb, trim_suffix, mode):
     inputBam = pysam.AlignmentFile(bam, "rb")
     header = inputBam.header.to_dict()
-    newhead = dict((k, header[k]) for k in ("HD", "SQ", "RG"))
+    validKeys = [x for x in ["HD", "SQ", "RG"] if x in header.keys()]
+    newhead = dict((k, header[k]) for k in validKeys)
     ident = "".join(
         random.choice(string.ascii_uppercase + string.digits) for _ in range(6)
     )
@@ -67,7 +68,7 @@ def addtags(bam, tagfile, output, sam=False, trim_suffix=True, mode="tag", nproc
     nproc = int(nproc)
     tags = utils.read_cell_barcode_tag_file(tagfile)
     inputBam = pysam.AlignmentFile(bam, "rb")
-    intervals = utils.chunk_bam(inputBam, nproc)
+    intervals = utils.chunk_bam(inputBam, nproc, unmapped=True)
     inputBam.close()
     p = Pool(nproc)
     tempfiles = p.map_async(
