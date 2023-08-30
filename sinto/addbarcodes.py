@@ -1,8 +1,28 @@
 import gzip
 import os
 
+def hamming(a, b):
+    if len(a) != len(b):
+        return 100000
+    return sum([a[x] != b[x] for x in range(len(a))])
 
-def addbarcodes(cb_position, fq1, fq2, fq3=None, prefix="", suffix=""):
+def correct_barcodes(barcodes, whitelist):
+    # uniquify and remove spurious entries
+    whitelist = list(set([x for x in whitelist if not 'N' in x]))
+    corrected = dict.fromkeys(barcodes)
+    for bc in corrected.keys():
+        if corrected[bc] is None:
+            # avoid recompute
+            H = [hamming(bc, x) for x in whitelist]
+            m = min(H)
+            if m < 2:
+                corrected[bc] = [wl[x] for x in range(len(whitelist)) if H[x] == m][0]
+            else:
+                # no bc in whitelist, keep this
+                corrected[bc] = bc
+    return [corrected[bc] for bc in barcodes]
+
+def addbarcodes(cb_position, fq1, fq2, fq3=None, prefix="", suffix="", wl=None):
     """Add cell barcode to read names
 
     Parameters
@@ -20,14 +40,17 @@ def addbarcodes(cb_position, fq1, fq2, fq3=None, prefix="", suffix=""):
     suffix : str
         Suffix to append to cell barcodes
     """
-    barcodes = get_barcodes(f=fq1, bases=cb_position, prefix=prefix, suffix=suffix)
+    barcodes, whitelist = get_barcodes(f=fq1, bases=cb_position, prefix=prefix, suffix=suffix, wl=None)
+    if len(whitelist) > 0:
+        barcodes = correct_barcodes(barcodes, whitelist)
     add_barcodes(f=fq2, cb=barcodes)
     if fq3 is not None:
         add_barcodes(f=fq3, cb=barcodes)
 
 
-def get_barcodes(f, bases=12, prefix="", suffix=""):
+def get_barcodes(f, bases=12, prefix="", suffix="", wl=None):
     f_open = open_fastq(f)
+    whitelist = []
     if f.endswith(".gz"):
         gz = True
     else:
@@ -42,8 +65,11 @@ def get_barcodes(f, bases=12, prefix="", suffix=""):
                 cb.append(prefix + i[:bases] + suffix)
         x += 1
     f_open.close()
-    return(cb)
-
+    if wl is not None:
+        for line in open(wl):
+            fields = line.split()
+            whitelist.append(fields[0])
+    return(cb, whitelist)
 
 def add_barcodes(f, cb):
     f_open = open_fastq(f)

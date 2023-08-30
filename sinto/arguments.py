@@ -457,6 +457,9 @@ parser_barcode.add_argument(
 parser_barcode.add_argument(
     "--suffix", help="Suffix to add to cell barcodes", required=False, type=str, default=""
 )
+parser_barcode.add_argument(
+    "--whitelist", help="Text file containing barcode whitelist", required=False, type=str, default=None
+)
 parser_barcode.set_defaults(func=cli.run_barcode)
 
 # tagtoname
