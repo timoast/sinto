@@ -40,7 +40,7 @@ def addbarcodes(cb_position, fq1, fq2, fq3=None, prefix="", suffix="", wl=None):
     suffix : str
         Suffix to append to cell barcodes
     """
-    barcodes, whitelist = get_barcodes(f=fq1, bases=cb_position, prefix=prefix, suffix=suffix, wl=None)
+    barcodes, whitelist = get_barcodes(f=fq1, bases=cb_position, prefix=prefix, suffix=suffix, wl=wl)
     if len(whitelist) > 0:
         barcodes = correct_barcodes(barcodes, whitelist)
     add_barcodes(f=fq2, cb=barcodes)
