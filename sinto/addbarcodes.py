@@ -16,7 +16,7 @@ def correct_barcodes(barcodes, whitelist):
             H = [hamming(bc, x) for x in whitelist]
             m = min(H)
             if m < 2:
-                corrected[bc] = [wl[x] for x in range(len(whitelist)) if H[x] == m][0]
+                corrected[bc] = [whitelist[x] for x in range(len(whitelist)) if H[x] == m][0]
             else:
                 # no bc in whitelist, keep this
                 corrected[bc] = bc
