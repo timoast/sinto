@@ -1,25 +1,36 @@
 import gzip
 import os
 
-def hamming(a, b):
-    if len(a) != len(b):
-        return 100000
-    return sum([a[x] != b[x] for x in range(len(a))])
+def a2b(s, inverse=False):
+    if inverse:
+        return s.decode('ascii')
+    return bytes(s, encoding='ascii')
 
 def correct_barcodes(barcodes, whitelist):
-    # uniquify and remove spurious entries
-    whitelist = list(set([x for x in whitelist if not 'N' in x]))
+    from umi_tools import UMIClusterer
+
+    counts = dict()
+
+    for bc in set(barcodes):
+        # add every barcode
+        # convert to bytes as UMIClusterer expects
+        counts[a2b(bc)] = 1
+
+    # add whitelist to the counter, making it the most abundant so that
+    # UMIClusterer makes them the "top"
+    for bc in whitelist:
+        if not 'N' in bc:
+            counts[a2b(bc)] = 10000000000
+    clusterer = UMIClusterer(cluster_method='directional')
+    
     corrected = dict.fromkeys(barcodes)
-    for bc in corrected.keys():
-        if corrected[bc] is None:
-            # avoid recompute
-            H = [hamming(bc, x) for x in whitelist]
-            m = min(H)
-            if m < 2:
-                corrected[bc] = [whitelist[x] for x in range(len(whitelist)) if H[x] == m][0]
-            else:
-                # no bc in whitelist, keep this
-                corrected[bc] = bc
+    
+    for entry in clusterer(counts, threshold=1):
+        for bc in entry:
+            # assign every sequence the first in the list
+            corrected[a2b(bc, inverse=True)] = a2b(entry[0], inverse=True)
+
+    # return the list of corrected
     return [corrected[bc] for bc in barcodes]
 
 def addbarcodes(cb_position, fq1, fq2, fq3=None, prefix="", suffix="", wl=None):
