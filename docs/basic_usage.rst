@@ -516,7 +516,7 @@ file with ``.barcoded.fastq.gz`` at the end of the file name.
 
     sinto barcode [-h] --barcode_fastq BARCODE_FASTQ --read1 READ1
                      [--read2 READ2] -b BASES [--prefix PREFIX]
-                     [--suffix SUFFIX]
+                     [--suffix SUFFIX] [--whitelist WHITELIST]
 
     Add cell barcode sequences to read names in FASTQ file.
 
@@ -531,6 +531,8 @@ file with ``.barcoded.fastq.gz`` at the end of the file name.
                             FASTQ
     --prefix PREFIX       Prefix to add to cell barcodes
     --suffix SUFFIX       Suffix to add to cell barcodes
+    --whitelist WHITELIST
+                          Text file containing barcode whitelist
 
 Additional arguments for the barcode function
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
