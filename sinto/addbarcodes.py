@@ -1,11 +1,13 @@
 import gzip
 import os
 
+
 def a2b(s, inverse=False):
     # just a silly function to convert ascii <-> binary
     if inverse:
         return s.decode('ascii')
     return bytes(s, encoding='ascii')
+
 
 def correct_barcodes(barcodes, whitelist):
     """
@@ -131,7 +133,10 @@ def get_barcodes(f, bases=12, prefix="", suffix="", wl=None):
                 whitelist[fields[0]] = fields[1].split(',')
             else:
                 whitelist.append(fields[0])
+    else:
+        whitelist = None
     return(cb, whitelist)
+
 
 def add_barcodes(f, cb):
     f_open = open_fastq(f)
