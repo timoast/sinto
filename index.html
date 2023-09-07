@@ -1,164 +1,78 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Sinto: single-cell analysis tools &mdash; sinto 0.9.0 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
+  <title>Sinto: single-cell analysis tools &mdash; sinto 0.10.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=82662543"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Installation" href="installation.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="#" class="icon icon-home"> sinto
           
-
-          
+          <a href="#" class="icon icon-home">
+            sinto
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="basic_usage.html">User guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scatac.html">Processing scATAC-seq data</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="#">sinto</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
-        
-      <li>Sinto: single-cell analysis tools</li>
-    
-    
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Sinto: single-cell analysis tools</li>
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="sinto-single-cell-analysis-tools">
-<h1>Sinto: single-cell analysis tools<a class="headerlink" href="#sinto-single-cell-analysis-tools" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="sinto-single-cell-analysis-tools">
+<h1>Sinto: single-cell analysis tools<a class="headerlink" href="#sinto-single-cell-analysis-tools" title="Link to this heading"></a></h1>
 <a class="reference external image-reference" href="https://github.com/timoast/sinto/actions"><img alt="https://github.com/timoast/sinto/workflows/pytest/badge.svg" src="https://github.com/timoast/sinto/workflows/pytest/badge.svg" /></a>
 <a class="reference external image-reference" href="http://bioconda.github.io/recipes/sinto/README.html"><img alt="https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat" src="https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat" /></a>
 <a class="reference external image-reference" href="https://badge.fury.io/py/sinto"><img alt="https://badge.fury.io/py/sinto.svg" src="https://badge.fury.io/py/sinto.svg" /></a>
@@ -179,39 +93,48 @@ or breaking changes to existing functionality.</p>
 <p>Minor version changes indicate bug fixes or
 performance improvements to existing functionality
 without breaking compatibility with previous versions.</p>
-<div class="section" id="version-0-9">
-<h2>Version 0.9<a class="headerlink" href="#version-0-9" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id1">
-<h3>0.9.0<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<section id="version-0-10">
+<h2>Version 0.10<a class="headerlink" href="#version-0-10" title="Link to this heading"></a></h2>
+<section id="id1">
+<h3>0.10.0<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Add ability to perform barcode correction in <code class="docutils literal notranslate"><span class="pre">barcode</span></code> (<a class="reference external" href="https://github.com/timoast/sinto/pull/61">https://github.com/timoast/sinto/pull/61</a>; &#64;dawe)</p></li>
+</ul>
+</section>
+</section>
+<section id="version-0-9">
+<h2>Version 0.9<a class="headerlink" href="#version-0-9" title="Link to this heading"></a></h2>
+<section id="id2">
+<h3>0.9.0<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Add <code class="docutils literal notranslate"><span class="pre">blocks</span></code> command to create block file from BAM file.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="version-0-8">
-<h2>Version 0.8<a class="headerlink" href="#version-0-8" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id2">
-<h3>0.8.4<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="version-0-8">
+<h2>Version 0.8<a class="headerlink" href="#version-0-8" title="Link to this heading"></a></h2>
+<section id="id3">
+<h3>0.8.4<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Include unmapped reads in output of <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code> (<a class="reference external" href="https://github.com/timoast/sinto/issues/55">https://github.com/timoast/sinto/issues/55</a>)</p></li>
 </ul>
-</div>
-<div class="section" id="id3">
-<h3>0.8.3<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id4">
+<h3>0.8.3<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Fixed bug in BAM file chunking that caused some entries to be duplicated (<a class="reference external" href="https://github.com/timoast/sinto/issues/51">https://github.com/timoast/sinto/issues/51</a>)</p></li>
 <li><p>Properly set minimum Python version (<a class="reference external" href="https://github.com/timoast/sinto/issues/53">https://github.com/timoast/sinto/issues/53</a>)</p></li>
 <li><p>Fix bug in <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code> when no <code class="docutils literal notranslate"><span class="pre">RG</span></code> tags in BAM file (<a class="reference external" href="https://github.com/timoast/sinto/issues/52">https://github.com/timoast/sinto/issues/52</a>)</p></li>
 </ul>
-</div>
-<div class="section" id="id4">
-<h3>0.8.2<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id5">
+<h3>0.8.2<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Fixed bug in <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code> when cell barcode in the middle of the read name (<a class="reference external" href="https://github.com/timoast/sinto/issues/46">https://github.com/timoast/sinto/issues/46</a>)</p></li>
 </ul>
-</div>
-<div class="section" id="id5">
-<h3>0.8.1<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id6">
+<h3>0.8.1<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Fixed bug in <code class="docutils literal notranslate"><span class="pre">nametotag</span></code> when cell barcode in the middle of the read name (<a class="reference external" href="https://github.com/timoast/sinto/issues/46">https://github.com/timoast/sinto/issues/46</a>)</p></li>
 <li><p>Remove need for samtools in path (<a class="reference external" href="https://github.com/timoast/sinto/issues/41">https://github.com/timoast/sinto/issues/41</a>)</p></li>
@@ -219,220 +142,203 @@ without breaking compatibility with previous versions.</p>
 <li><p>Added <code class="docutils literal notranslate"><span class="pre">--sam</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code></p></li>
 <li><p>Fixed bug in <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code> and <code class="docutils literal notranslate"><span class="pre">addtags</span></code> causing read groups to be modified (<a class="reference external" href="https://github.com/timoast/sinto/issues/17">https://github.com/timoast/sinto/issues/17</a>)</p></li>
 </ul>
-</div>
-<div class="section" id="id6">
-<h3>0.8.0<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id7">
+<h3>0.8.0<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Added <code class="docutils literal notranslate"><span class="pre">tagtoname</span></code> and <code class="docutils literal notranslate"><span class="pre">nametotag</span></code> commands to copy cell barcodes to/from read tags or read names</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="version-0-7">
-<h2>Version 0.7<a class="headerlink" href="#version-0-7" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id7">
-<h3>0.7.6<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="version-0-7">
+<h2>Version 0.7<a class="headerlink" href="#version-0-7" title="Link to this heading"></a></h2>
+<section id="id8">
+<h3>0.7.6<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Added <code class="docutils literal notranslate"><span class="pre">--collapse_within</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">fragments</span></code> function to enable only collapsing PCR duplicates if the cell barcode is the same (<a class="reference external" href="https://github.com/timoast/sinto/issues/36">https://github.com/timoast/sinto/issues/36</a>)</p></li>
 <li><p>Added tests for <code class="docutils literal notranslate"><span class="pre">fragments</span></code> function and associated small test dataset</p></li>
 </ul>
-</div>
-<div class="section" id="id8">
-<h3>0.7.5<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id9">
+<h3>0.7.5<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Added <code class="docutils literal notranslate"><span class="pre">--shift_plus</span></code> and <code class="docutils literal notranslate"><span class="pre">--shift_minus</span></code> parameters to configure Tn5 shift applied in <code class="docutils literal notranslate"><span class="pre">fragments</span></code> function (<a class="reference external" href="https://github.com/timoast/sinto/issues/33">https://github.com/timoast/sinto/issues/33</a>)</p></li>
 </ul>
-</div>
-<div class="section" id="id9">
-<h3>0.7.4<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id10">
+<h3>0.7.4<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Fixed bug causing some fragments at the end of contigs to be dropped (<a class="reference external" href="https://github.com/timoast/sinto/issues/31">https://github.com/timoast/sinto/issues/31</a>)</p></li>
 </ul>
-</div>
-<div class="section" id="id10">
-<h3>0.7.3<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id11">
+<h3>0.7.3<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Fixed error in soft clipping for <code class="docutils literal notranslate"><span class="pre">fragments</span></code> function (<a class="reference external" href="https://github.com/timoast/sinto/issues/29">https://github.com/timoast/sinto/issues/29</a>)</p></li>
 </ul>
-</div>
-<div class="section" id="id11">
-<h3>0.7.2<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id12">
+<h3>0.7.2<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Added <code class="docutils literal notranslate"><span class="pre">min_distance</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">fragments</span></code></p></li>
 <li><p>Fixed bug in soft clipping for <code class="docutils literal notranslate"><span class="pre">fragments</span></code> function</p></li>
 </ul>
-</div>
-<div class="section" id="id12">
-<h3>0.7.1<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id13">
+<h3>0.7.1<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Code style update for <code class="docutils literal notranslate"><span class="pre">tagtotag</span></code> and <code class="docutils literal notranslate"><span class="pre">tagtorg</span></code></p></li>
 <li><p>Fix bug in <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code> and <code class="docutils literal notranslate"><span class="pre">addtags</span></code> that caused lines in BAM header to be duplicated (<a class="reference external" href="https://github.com/timoast/sinto/issues/15">https://github.com/timoast/sinto/issues/15</a>)</p></li>
 </ul>
-</div>
-<div class="section" id="id13">
-<h3>0.7.0<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id14">
+<h3>0.7.0<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>New <code class="docutils literal notranslate"><span class="pre">tagtotag</span></code> function to copy or move read tags</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="version-0-6">
-<h2>Version 0.6<a class="headerlink" href="#version-0-6" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id14">
-<h3>0.6.1<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="version-0-6">
+<h2>Version 0.6<a class="headerlink" href="#version-0-6" title="Link to this heading"></a></h2>
+<section id="id15">
+<h3>0.6.1<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Bug fixes for <code class="docutils literal notranslate"><span class="pre">barcode</span></code> function</p></li>
 <li><p>Allow running <code class="docutils literal notranslate"><span class="pre">barcode</span></code> on unzipped FASTQ files</p></li>
 </ul>
-</div>
-<div class="section" id="id15">
-<h3>0.6.0<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id16">
+<h3>0.6.0<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>New <code class="docutils literal notranslate"><span class="pre">barcode</span></code> function to add cell barcodes to read names in FASTQ file</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="version-0-5">
-<h2>Version 0.5<a class="headerlink" href="#version-0-5" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id16">
-<h3>0.5.1<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="version-0-5">
+<h2>Version 0.5<a class="headerlink" href="#version-0-5" title="Link to this heading"></a></h2>
+<section id="id17">
+<h3>0.5.1<a class="headerlink" href="#id17" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Fix bug in <code class="docutils literal notranslate"><span class="pre">utils.read_cell_barcode_file</span></code> when same cell appears on multiple lines</p></li>
 </ul>
-</div>
-<div class="section" id="id17">
-<h3>0.5.0<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id18">
+<h3>0.5.0<a class="headerlink" href="#id18" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Add <code class="docutils literal notranslate"><span class="pre">tagtorg</span></code> command to add read groups to BAM according to cell barcode.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="version-0-4">
-<h2>Version 0.4<a class="headerlink" href="#version-0-4" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id18">
-<h3>0.4.3<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="version-0-4">
+<h2>Version 0.4<a class="headerlink" href="#version-0-4" title="Link to this heading"></a></h2>
+<section id="id19">
+<h3>0.4.3<a class="headerlink" href="#id19" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Throw error if file is not present for <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code> and <code class="docutils literal notranslate"><span class="pre">addtags</span></code></p></li>
 </ul>
-</div>
-<div class="section" id="id19">
-<h3>0.4.2<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id20">
+<h3>0.4.2<a class="headerlink" href="#id20" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Fix bug when cell barcode is None for <code class="docutils literal notranslate"><span class="pre">fragments</span></code> function.</p></li>
 </ul>
-</div>
-<div class="section" id="id20">
-<h3>0.4.1<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id21">
+<h3>0.4.1<a class="headerlink" href="#id21" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Increase recursion limit to prevent error when running on genomes
 with &gt;1000 scaffolds.</p></li>
 </ul>
-</div>
-<div class="section" id="id21">
-<h3>0.4.0<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id22">
+<h3>0.4.0<a class="headerlink" href="#id22" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Removed <code class="docutils literal notranslate"><span class="pre">sam</span></code> parameter from <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code></p></li>
 <li><p>Allow multiple groups of cells to be specified in <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code>.
 This will create a separate BAM file for each unique group of cells.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="version-0-3">
-<h2>Version 0.3<a class="headerlink" href="#version-0-3" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id22">
-<h3>0.3.4<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="version-0-3">
+<h2>Version 0.3<a class="headerlink" href="#version-0-3" title="Link to this heading"></a></h2>
+<section id="id23">
+<h3>0.3.4<a class="headerlink" href="#id23" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Memory improvements for <code class="docutils literal notranslate"><span class="pre">fragments</span></code> function</p></li>
 </ul>
-</div>
-<div class="section" id="id23">
-<h3>0.3.3<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id24">
+<h3>0.3.3<a class="headerlink" href="#id24" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Bug fix for <code class="docutils literal notranslate"><span class="pre">fragments</span></code> function when using chromosome containing zero fragments</p></li>
 </ul>
-</div>
-<div class="section" id="id24">
-<h3>0.3.2<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id25">
+<h3>0.3.2<a class="headerlink" href="#id25" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Added <code class="docutils literal notranslate"><span class="pre">--barcodetag</span></code> and <code class="docutils literal notranslate"><span class="pre">--barcode_regex</span></code> arguments to <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code></p></li>
 </ul>
-</div>
-<div class="section" id="id25">
-<h3>0.3.1<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id26">
+<h3>0.3.1<a class="headerlink" href="#id26" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Better handling of BAM file opening/closing</p></li>
 <li><p>Add <code class="docutils literal notranslate"><span class="pre">max_distance</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">fragments</span></code> to remove fragments over a certain length</p></li>
 </ul>
-</div>
-<div class="section" id="id26">
-<h3>0.3.0<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id27">
+<h3>0.3.0<a class="headerlink" href="#id27" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>added <code class="docutils literal notranslate"><span class="pre">fragments</span></code> function to create scATAC fragment file from BAM file</p></li>
 <li><p>removed use of versioneer for version tracking</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="version-0-2">
-<h2>Version 0.2<a class="headerlink" href="#version-0-2" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="version-0-2">
+<h2>Version 0.2<a class="headerlink" href="#version-0-2" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>added <code class="docutils literal notranslate"><span class="pre">addtags</span></code> function to add read tags to BAM file for different groups of cells</p></li>
 </ul>
-</div>
-<div class="section" id="version-0-1">
-<h2>Version 0.1<a class="headerlink" href="#version-0-1" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="version-0-1">
+<h2>Version 0.1<a class="headerlink" href="#version-0-1" title="Link to this heading"></a></h2>
 <p>First release. Functionality:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code></p></li>
 </ul>
 <div class="toctree-wrapper compound">
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2020, Tim Stuart, Warren W. Kretzschmar.
-
-    </p>
+    <p>&#169; Copyright 2020, Tim Stuart, Warren W. Kretzschmar.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

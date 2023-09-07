@@ -1,91 +1,46 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Processing scATAC-seq data &mdash; sinto 0.9.0 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
+  <title>Processing scATAC-seq data &mdash; sinto 0.10.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=82662543"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="User guide" href="basic_usage.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="index.html" class="icon icon-home"> sinto
           
-
-          
+          <a href="index.html" class="icon icon-home">
+            sinto
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="basic_usage.html">User guide</a></li>
@@ -100,91 +55,50 @@
 </li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">sinto</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
-      <li>Processing scATAC-seq data</li>
-    
-    
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Processing scATAC-seq data</li>
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="_sources/scatac.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="processing-scatac-seq-data">
-<h1>Processing scATAC-seq data<a class="headerlink" href="#processing-scatac-seq-data" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="processing-scatac-seq-data">
+<h1>Processing scATAC-seq data<a class="headerlink" href="#processing-scatac-seq-data" title="Link to this heading"></a></h1>
 <p>In this tutorial we’ll demonstrate a simple pipeline for processing scATAC-seq data using Sinto,
 <a class="reference external" href="https://github.com/lh3/bwa">bwa</a>, <a class="reference external" href="https://github.com/samtools/htslib">tabix</a>, and <a class="reference external" href="https://github.com/jsh58/Genrich">Genrich</a>.</p>
-<div class="section" id="download-data">
-<h2>Download data<a class="headerlink" href="#download-data" title="Permalink to this headline">¶</a></h2>
+<section id="download-data">
+<h2>Download data<a class="headerlink" href="#download-data" title="Link to this heading"></a></h2>
 <p>For this example we’ll download scATAC-seq data from
 <a class="reference external" href="https://www.nature.com/articles/s41587-019-0290-0">Chen, Lake, and Zhang (2019)</a>
 This dataset actually contains both gene expression and DNA accessibility measurements for each
 cell, but we can process the DNA accessibility data exactly as though it was a typical scATAC-seq
 experiment. In this example we’ll just process one replicate, but there are 12 replicates in
 total in the original data.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget https://sra-pub-src-1.s3.amazonaws.com/SRR9672090/SC_20190509A_AdMsBrain_SNARE_chromatin_S16_R1_001.fastq.gz.1
-wget https://sra-pub-src-1.s3.amazonaws.com/SRR9672090/SC_20190509A_AdMsBrain_SNARE_chromatin_S16_R2_001.fastq.gz.1
-wget https://sra-pub-src-1.s3.amazonaws.com/SRR9672090/SC_20190509A_AdMsBrain_SNARE_chromatin_S16_R3_001.fastq.gz.1
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://sra-pub-src-1.s3.amazonaws.com/SRR9672090/SC_20190509A_AdMsBrain_SNARE_chromatin_S16_R1_001.fastq.gz.1
+wget<span class="w"> </span>https://sra-pub-src-1.s3.amazonaws.com/SRR9672090/SC_20190509A_AdMsBrain_SNARE_chromatin_S16_R2_001.fastq.gz.1
+wget<span class="w"> </span>https://sra-pub-src-1.s3.amazonaws.com/SRR9672090/SC_20190509A_AdMsBrain_SNARE_chromatin_S16_R3_001.fastq.gz.1
 </pre></div>
 </div>
-</div>
-<div class="section" id="attach-cell-barcodes">
-<h2>Attach cell barcodes<a class="headerlink" href="#attach-cell-barcodes" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="attach-cell-barcodes">
+<h2>Attach cell barcodes<a class="headerlink" href="#attach-cell-barcodes" title="Link to this heading"></a></h2>
 <p>In this experiment the cell barcodes were sequenced using the first 12 bp of read 1,
 and the paired-end genomic DNA reads sequenced using read 2 and read 3. We can use the
 <code class="docutils literal notranslate"><span class="pre">sinto</span> <span class="pre">barcode</span></code> function to transfer the cell barcodes from read 1 into the read names
@@ -192,14 +106,14 @@ in read 2 and read 3. Storing the cell barcode in the read name is an easy way t
 which reads came from which cells.</p>
 <p>This step is much faster when using unzipped fastq files, so we’ll first unzip the fastq
 files we downloaded earlier.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gzip -S .gz.1 -d SC_20190509A_AdMsBrain_SNARE_chromatin_S16_R1_001.fastq.gz.1
-gzip -S .gz.1 -d SC_20190509A_AdMsBrain_SNARE_chromatin_S16_R2_001.fastq.gz.1
-gzip -S .gz.1 -d SC_20190509A_AdMsBrain_SNARE_chromatin_S16_R3_001.fastq.gz.1
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gzip<span class="w"> </span>-S<span class="w"> </span>.gz.1<span class="w"> </span>-d<span class="w"> </span>SC_20190509A_AdMsBrain_SNARE_chromatin_S16_R1_001.fastq.gz.1
+gzip<span class="w"> </span>-S<span class="w"> </span>.gz.1<span class="w"> </span>-d<span class="w"> </span>SC_20190509A_AdMsBrain_SNARE_chromatin_S16_R2_001.fastq.gz.1
+gzip<span class="w"> </span>-S<span class="w"> </span>.gz.1<span class="w"> </span>-d<span class="w"> </span>SC_20190509A_AdMsBrain_SNARE_chromatin_S16_R3_001.fastq.gz.1
 </pre></div>
 </div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sinto barcode -b <span class="m">12</span> --barcode_fastq SC_20190509A_AdMsBrain_SNARE_chromatin_S16_R1_001.fastq <span class="se">\</span>
-    --read1 SC_20190509A_AdMsBrain_SNARE_chromatin_S16_R2_001.fastq <span class="se">\</span>
-    --read2 SC_20190509A_AdMsBrain_SNARE_chromatin_S16_R3_001.fastq
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sinto<span class="w"> </span>barcode<span class="w"> </span>-b<span class="w"> </span><span class="m">12</span><span class="w"> </span>--barcode_fastq<span class="w"> </span>SC_20190509A_AdMsBrain_SNARE_chromatin_S16_R1_001.fastq<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--read1<span class="w"> </span>SC_20190509A_AdMsBrain_SNARE_chromatin_S16_R2_001.fastq<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--read2<span class="w"> </span>SC_20190509A_AdMsBrain_SNARE_chromatin_S16_R3_001.fastq
 </pre></div>
 </div>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Function run_barcode called with the following arguments:
@@ -215,28 +129,28 @@ func        &lt;function run_barcode at 0x7f28c93714c0&gt;
 Function completed in  8.0 m 13.35 s
 </pre></div>
 </div>
-</div>
-<div class="section" id="map">
-<h2>Map<a class="headerlink" href="#map" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="map">
+<h2>Map<a class="headerlink" href="#map" title="Link to this heading"></a></h2>
 <p>We can map the paired-end genomic reads using any aligner we like. In this example we’ll use
 bwa mem. First we need to download the fasta file for the mm10 genome and create a genome index for bwa:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget https://hgdownload.soe.ucsc.edu/goldenPath/mm10/bigZips/mm10.fa.gz
-gzip -d mm10.fa.gz
-bwa index mm10.fa
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://hgdownload.soe.ucsc.edu/goldenPath/mm10/bigZips/mm10.fa.gz
+gzip<span class="w"> </span>-d<span class="w"> </span>mm10.fa.gz
+bwa<span class="w"> </span>index<span class="w"> </span>mm10.fa
 </pre></div>
 </div>
 <p>Next we can map the reads with bwa mem:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bwa mem -t <span class="m">8</span> mm10.fa SC_20190509A_AdMsBrain_SNARE_chromatin_S16_R2_001.barcoded.fastq <span class="se">\</span>
-    SC_20190509A_AdMsBrain_SNARE_chromatin_S16_R3_001.barcoded.fastq <span class="se">\</span>
-    <span class="p">|</span> samtools view -b - &gt; aln.bam
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bwa<span class="w"> </span>mem<span class="w"> </span>-t<span class="w"> </span><span class="m">8</span><span class="w"> </span>mm10.fa<span class="w"> </span>SC_20190509A_AdMsBrain_SNARE_chromatin_S16_R2_001.barcoded.fastq<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>SC_20190509A_AdMsBrain_SNARE_chromatin_S16_R3_001.barcoded.fastq<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span>samtools<span class="w"> </span>view<span class="w"> </span>-b<span class="w"> </span>-<span class="w"> </span>&gt;<span class="w"> </span>aln.bam
 
 <span class="c1"># sort and index bam file</span>
-samtools sort -@ <span class="m">8</span> aln.bam -o aln.sort.bam
-samtools index -@ <span class="m">8</span> aln.sort.bam
+samtools<span class="w"> </span>sort<span class="w"> </span>-@<span class="w"> </span><span class="m">8</span><span class="w"> </span>aln.bam<span class="w"> </span>-o<span class="w"> </span>aln.sort.bam
+samtools<span class="w"> </span>index<span class="w"> </span>-@<span class="w"> </span><span class="m">8</span><span class="w"> </span>aln.sort.bam
 </pre></div>
 </div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># look at some of the aligned reads</span>
-samtools view aln.sort.bam <span class="p">|</span> head -n <span class="m">3</span>
+samtools<span class="w"> </span>view<span class="w"> </span>aln.sort.bam<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">3</span>
 </pre></div>
 </div>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>AACCTCCAACTG:D00611:698:CDN4HANXX:5:1106:1580:94969 69      chr1    3000052 0       *       =       3000052 0       TCACATTCTCAGTGCACAATAGAACCCCTTACCTCCAATCCAGAGTAAACAAAGAGTCTACCACAAACACACATC     /&lt;/&lt;///&lt;/BB/////&lt;//////&lt;///&lt;//&lt;&lt;////&lt;B&lt;BBB///////&lt;&lt;//////&lt;&lt;//&lt;////&lt;/&lt;&lt;FF&lt;&lt;/     MC:Z:32M43S     AS:i:0  XS:i:0
@@ -244,11 +158,11 @@ AACCTCCAACTG:D00611:698:CDN4HANXX:5:1106:1580:94969 137     chr1    3000052 0   
 TCCGCCGGAAAC:D00611:697:CD0V6ANXX:7:2116:7385:7732  117     chr1    3000098 0       *       =       3000098 0       AAGACGGCATACGAGATTCGCCTTAGTCTCGTGGGCTCGGAGATGTGTATAAGAGACATATACACTCAGCTTTAT     FFFFFFFFFFFFFFFFFFFFFFFFFFFF&lt;FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBBBBB     MC:Z:33M42S     AS:i:0  XS:i:0
 </pre></div>
 </div>
-</div>
-<div class="section" id="create-a-fragment-file">
-<h2>Create a fragment file<a class="headerlink" href="#create-a-fragment-file" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="create-a-fragment-file">
+<h2>Create a fragment file<a class="headerlink" href="#create-a-fragment-file" title="Link to this heading"></a></h2>
 <p>Finally we create a fragment file for the dataset using <code class="docutils literal notranslate"><span class="pre">sinto</span> <span class="pre">fragments</span></code></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sinto fragments -b aln.sort.bam -p <span class="m">8</span> -f fragments.bed --barcode_regex <span class="s2">&quot;[^:]*&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sinto<span class="w"> </span>fragments<span class="w"> </span>-b<span class="w"> </span>aln.sort.bam<span class="w"> </span>-p<span class="w"> </span><span class="m">8</span><span class="w"> </span>-f<span class="w"> </span>fragments.bed<span class="w"> </span>--barcode_regex<span class="w"> </span><span class="s2">&quot;[^:]*&quot;</span>
 </pre></div>
 </div>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Function run_fragments called with the following arguments:
@@ -269,15 +183,15 @@ Function completed in  7.0 m 30.24 s
 </pre></div>
 </div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># sort, compress, and index</span>
-sort -k1,1 -k2,2n fragments.bed &gt; fragments.sort.bed
-bgzip -@ <span class="m">8</span> fragments.sort.bed
-tabix -p bed fragments.sort.bed.gz
+sort<span class="w"> </span>-k1,1<span class="w"> </span>-k2,2n<span class="w"> </span>fragments.bed<span class="w"> </span>&gt;<span class="w"> </span>fragments.sort.bed
+bgzip<span class="w"> </span>-@<span class="w"> </span><span class="m">8</span><span class="w"> </span>fragments.sort.bed
+tabix<span class="w"> </span>-p<span class="w"> </span>bed<span class="w"> </span>fragments.sort.bed.gz
 
 <span class="c1"># clean up</span>
-rm fragments.bed
+rm<span class="w"> </span>fragments.bed
 
 <span class="c1"># take a look at the output</span>
-gzip -dc fragments.sort.bed.gz <span class="p">|</span> head
+gzip<span class="w"> </span>-dc<span class="w"> </span>fragments.sort.bed.gz<span class="w"> </span><span class="p">|</span><span class="w"> </span>head
 </pre></div>
 </div>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>chr1        3003930 3003960 ATGGTGACTCAT    1
@@ -292,18 +206,18 @@ chr1        3019505 3019588 CACGCTCGTCTT    1
 chr1        3021571 3021620 GTATTCGTCGGG    9
 </pre></div>
 </div>
-</div>
-<div class="section" id="call-peaks">
-<h2>Call peaks<a class="headerlink" href="#call-peaks" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="call-peaks">
+<h2>Call peaks<a class="headerlink" href="#call-peaks" title="Link to this heading"></a></h2>
 <p>We can call peaks using all cells combined using the mapped bam file and <a class="reference external" href="https://github.com/jsh58/Genrich">Genrich</a>.
 Genrich requires reads to be sorted by queryname, so we first re-sort the bam file and
 then run Genrich using ATAC-seq mode (<code class="docutils literal notranslate"><span class="pre">-j</span></code>) to find peaks.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>samtools sort -n -@ <span class="m">8</span> aln.sort.bam -o aln.qname.bam
-Genrich -j -t aln.qname.bam -o peaks.bed -v
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>samtools<span class="w"> </span>sort<span class="w"> </span>-n<span class="w"> </span>-@<span class="w"> </span><span class="m">8</span><span class="w"> </span>aln.sort.bam<span class="w"> </span>-o<span class="w"> </span>aln.qname.bam
+Genrich<span class="w"> </span>-j<span class="w"> </span>-t<span class="w"> </span>aln.qname.bam<span class="w"> </span>-o<span class="w"> </span>peaks.bed<span class="w"> </span>-v
 </pre></div>
 </div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># look at some of the peaks</span>
-head peaks.bed
+head<span class="w"> </span>peaks.bed
 </pre></div>
 </div>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>chr1        3094859 3095377 peak_0  1000    .       913.693115      5.720295        -1      374
@@ -318,59 +232,42 @@ chr1        3360973 3361167 peak_8  1000    .       262.217590      3.911148    
 chr1        3369527 3369829 peak_9  1000    .       373.499207      4.094081        -1      149
 </pre></div>
 </div>
-</div>
-<div class="section" id="downstream-analysis">
-<h2>Downstream analysis<a class="headerlink" href="#downstream-analysis" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="downstream-analysis">
+<h2>Downstream analysis<a class="headerlink" href="#downstream-analysis" title="Link to this heading"></a></h2>
 <p>Downstream analysis steps, including quantifying counts in each peak for each cell,
 can be performed using <a class="reference external" href="https://satijalab.org/signac">Signac</a>.</p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="basic_usage.html" class="btn btn-neutral float-left" title="User guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2020, Tim Stuart, Warren W. Kretzschmar.
-
-    </p>
+    <p>&#169; Copyright 2020, Tim Stuart, Warren W. Kretzschmar.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>
