@@ -5,6 +5,15 @@ Minor version changes indicate bug fixes or
 performance improvements to existing functionality
 without breaking compatibility with previous versions.
 
+Version 0.10
+--------------
+
+0.10.0
+~~~~~~
+
+- Add ability to perform barcode correction in ``barcode`` (https://github.com/timoast/sinto/pull/61; @dawe)
+
+
 Version 0.9
 -----------
 
