@@ -109,6 +109,7 @@ def run_barcode(options):
         fq3=options.read2,
         prefix=options.prefix,
         suffix=options.suffix,
+        wl=options.whitelist,
     )
 
 @utils.log_info
