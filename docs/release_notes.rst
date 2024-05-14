@@ -8,6 +8,12 @@ without breaking compatibility with previous versions.
 Version 0.10
 --------------
 
+0.10.1
+~~~~~~
+
+- Fixed bug in gzip file loading (https://github.com/timoast/sinto/issues/67)  
+- Fixed ``NoneType`` errors in ``barcode`` function (https://github.com/timoast/sinto/pull/65; @bgruening)
+
 0.10.0
 ~~~~~~
 
