@@ -126,7 +126,7 @@ def read_cells(cells):
         return None
     if os.path.isfile(cells):
         if cells.endswith(".gz"):
-            cb = [line.strip("\n") for line in gzip.open(cells, "b")]
+            cb = [line.strip("\n") for line in gzip.open(cells, "rt")]
         else:
             cb = [line.strip("\n") for line in open(cells, "r")]
     else:
@@ -168,7 +168,7 @@ def read_cell_barcode_tag_file(infile):
     cb = {}
     if os.path.isfile(infile):
         if infile.endswith(".gz"):
-            inf = gzip.open(infile, "b")
+            inf = gzip.open(infile, "rt")
         else:
             inf = open(infile, "r")
         for line in inf:
@@ -200,7 +200,7 @@ def read_cell_barcode_file(infile):
     cb = {}
     if os.path.isfile(infile):
         if infile.endswith(".gz"):
-            inf = gzip.open(infile, "b")
+            inf = gzip.open(infile, "rt")
         else:
             inf = open(infile, "r")
         for line in inf:
