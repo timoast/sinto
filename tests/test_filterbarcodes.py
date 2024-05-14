@@ -4,10 +4,11 @@ from sinto import filterbarcodes
 
 
 @pytest.mark.parametrize("nproc", [1, 2])
-def test_filterbarcodes(tmpdir, nproc):
+@pytest.mark.parametrize("barcodes", ["data/barcodes.tsv", "data/barcodes.tsv.gz"])
+def test_filterbarcodes(tmpdir, nproc, barcodes):
     basepath=os.path.dirname(os.path.realpath(__file__))
     bam=os.path.join(basepath, "data/test.bam")
-    barcodes=os.path.join(basepath, "data/barcodes.tsv")
+    barcodes=os.path.join(basepath, barcodes)
 
     filterbarcodes.filterbarcodes(
         cells=barcodes,
