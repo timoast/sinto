@@ -1,20 +1,22 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Version 0.10 &mdash; sinto 0.10.0 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <title>Version 0.10 &mdash; sinto 0.10.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
         <script src="_static/jquery.js?v=5d32c60e"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=82662543"></script>
-        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/documentation_options.js?v=261ea15a"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -78,7 +80,14 @@ without breaking compatibility with previous versions.</p>
 <section id="version-0-10">
 <h1>Version 0.10<a class="headerlink" href="#version-0-10" title="Link to this heading"></a></h1>
 <section id="id1">
-<h2>0.10.0<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>0.10.1<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Fixed bug in gzip file loading (<a class="reference external" href="https://github.com/timoast/sinto/issues/67">https://github.com/timoast/sinto/issues/67</a>)</p></li>
+<li><p>Fixed <code class="docutils literal notranslate"><span class="pre">NoneType</span></code> errors in <code class="docutils literal notranslate"><span class="pre">barcode</span></code> function (<a class="reference external" href="https://github.com/timoast/sinto/pull/65">https://github.com/timoast/sinto/pull/65</a>; &#64;bgruening)</p></li>
+</ul>
+</section>
+<section id="id2">
+<h2>0.10.0<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Add ability to perform barcode correction in <code class="docutils literal notranslate"><span class="pre">barcode</span></code> (<a class="reference external" href="https://github.com/timoast/sinto/pull/61">https://github.com/timoast/sinto/pull/61</a>; &#64;dawe)</p></li>
 </ul>
@@ -86,8 +95,8 @@ without breaking compatibility with previous versions.</p>
 </section>
 <section id="version-0-9">
 <h1>Version 0.9<a class="headerlink" href="#version-0-9" title="Link to this heading"></a></h1>
-<section id="id2">
-<h2>0.9.0<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="id3">
+<h2>0.9.0<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Add <code class="docutils literal notranslate"><span class="pre">blocks</span></code> command to create block file from BAM file.</p></li>
 </ul>
@@ -95,28 +104,28 @@ without breaking compatibility with previous versions.</p>
 </section>
 <section id="version-0-8">
 <h1>Version 0.8<a class="headerlink" href="#version-0-8" title="Link to this heading"></a></h1>
-<section id="id3">
-<h2>0.8.4<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<section id="id4">
+<h2>0.8.4<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Include unmapped reads in output of <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code> (<a class="reference external" href="https://github.com/timoast/sinto/issues/55">https://github.com/timoast/sinto/issues/55</a>)</p></li>
 </ul>
 </section>
-<section id="id4">
-<h2>0.8.3<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<section id="id5">
+<h2>0.8.3<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Fixed bug in BAM file chunking that caused some entries to be duplicated (<a class="reference external" href="https://github.com/timoast/sinto/issues/51">https://github.com/timoast/sinto/issues/51</a>)</p></li>
 <li><p>Properly set minimum Python version (<a class="reference external" href="https://github.com/timoast/sinto/issues/53">https://github.com/timoast/sinto/issues/53</a>)</p></li>
 <li><p>Fix bug in <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code> when no <code class="docutils literal notranslate"><span class="pre">RG</span></code> tags in BAM file (<a class="reference external" href="https://github.com/timoast/sinto/issues/52">https://github.com/timoast/sinto/issues/52</a>)</p></li>
 </ul>
 </section>
-<section id="id5">
-<h2>0.8.2<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<section id="id6">
+<h2>0.8.2<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Fixed bug in <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code> when cell barcode in the middle of the read name (<a class="reference external" href="https://github.com/timoast/sinto/issues/46">https://github.com/timoast/sinto/issues/46</a>)</p></li>
 </ul>
 </section>
-<section id="id6">
-<h2>0.8.1<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<section id="id7">
+<h2>0.8.1<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Fixed bug in <code class="docutils literal notranslate"><span class="pre">nametotag</span></code> when cell barcode in the middle of the read name (<a class="reference external" href="https://github.com/timoast/sinto/issues/46">https://github.com/timoast/sinto/issues/46</a>)</p></li>
 <li><p>Remove need for samtools in path (<a class="reference external" href="https://github.com/timoast/sinto/issues/41">https://github.com/timoast/sinto/issues/41</a>)</p></li>
@@ -125,8 +134,8 @@ without breaking compatibility with previous versions.</p>
 <li><p>Fixed bug in <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code> and <code class="docutils literal notranslate"><span class="pre">addtags</span></code> causing read groups to be modified (<a class="reference external" href="https://github.com/timoast/sinto/issues/17">https://github.com/timoast/sinto/issues/17</a>)</p></li>
 </ul>
 </section>
-<section id="id7">
-<h2>0.8.0<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<section id="id8">
+<h2>0.8.0<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Added <code class="docutils literal notranslate"><span class="pre">tagtoname</span></code> and <code class="docutils literal notranslate"><span class="pre">nametotag</span></code> commands to copy cell barcodes to/from read tags or read names</p></li>
 </ul>
@@ -134,47 +143,47 @@ without breaking compatibility with previous versions.</p>
 </section>
 <section id="version-0-7">
 <h1>Version 0.7<a class="headerlink" href="#version-0-7" title="Link to this heading"></a></h1>
-<section id="id8">
-<h2>0.7.6<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<section id="id9">
+<h2>0.7.6<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Added <code class="docutils literal notranslate"><span class="pre">--collapse_within</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">fragments</span></code> function to enable only collapsing PCR duplicates if the cell barcode is the same (<a class="reference external" href="https://github.com/timoast/sinto/issues/36">https://github.com/timoast/sinto/issues/36</a>)</p></li>
 <li><p>Added tests for <code class="docutils literal notranslate"><span class="pre">fragments</span></code> function and associated small test dataset</p></li>
 </ul>
 </section>
-<section id="id9">
-<h2>0.7.5<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<section id="id10">
+<h2>0.7.5<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Added <code class="docutils literal notranslate"><span class="pre">--shift_plus</span></code> and <code class="docutils literal notranslate"><span class="pre">--shift_minus</span></code> parameters to configure Tn5 shift applied in <code class="docutils literal notranslate"><span class="pre">fragments</span></code> function (<a class="reference external" href="https://github.com/timoast/sinto/issues/33">https://github.com/timoast/sinto/issues/33</a>)</p></li>
 </ul>
 </section>
-<section id="id10">
-<h2>0.7.4<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<section id="id11">
+<h2>0.7.4<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Fixed bug causing some fragments at the end of contigs to be dropped (<a class="reference external" href="https://github.com/timoast/sinto/issues/31">https://github.com/timoast/sinto/issues/31</a>)</p></li>
 </ul>
 </section>
-<section id="id11">
-<h2>0.7.3<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<section id="id12">
+<h2>0.7.3<a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Fixed error in soft clipping for <code class="docutils literal notranslate"><span class="pre">fragments</span></code> function (<a class="reference external" href="https://github.com/timoast/sinto/issues/29">https://github.com/timoast/sinto/issues/29</a>)</p></li>
 </ul>
 </section>
-<section id="id12">
-<h2>0.7.2<a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
+<section id="id13">
+<h2>0.7.2<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Added <code class="docutils literal notranslate"><span class="pre">min_distance</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">fragments</span></code></p></li>
 <li><p>Fixed bug in soft clipping for <code class="docutils literal notranslate"><span class="pre">fragments</span></code> function</p></li>
 </ul>
 </section>
-<section id="id13">
-<h2>0.7.1<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<section id="id14">
+<h2>0.7.1<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Code style update for <code class="docutils literal notranslate"><span class="pre">tagtotag</span></code> and <code class="docutils literal notranslate"><span class="pre">tagtorg</span></code></p></li>
 <li><p>Fix bug in <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code> and <code class="docutils literal notranslate"><span class="pre">addtags</span></code> that caused lines in BAM header to be duplicated (<a class="reference external" href="https://github.com/timoast/sinto/issues/15">https://github.com/timoast/sinto/issues/15</a>)</p></li>
 </ul>
 </section>
-<section id="id14">
-<h2>0.7.0<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
+<section id="id15">
+<h2>0.7.0<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>New <code class="docutils literal notranslate"><span class="pre">tagtotag</span></code> function to copy or move read tags</p></li>
 </ul>
@@ -182,15 +191,15 @@ without breaking compatibility with previous versions.</p>
 </section>
 <section id="version-0-6">
 <h1>Version 0.6<a class="headerlink" href="#version-0-6" title="Link to this heading"></a></h1>
-<section id="id15">
-<h2>0.6.1<a class="headerlink" href="#id15" title="Link to this heading"></a></h2>
+<section id="id16">
+<h2>0.6.1<a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Bug fixes for <code class="docutils literal notranslate"><span class="pre">barcode</span></code> function</p></li>
 <li><p>Allow running <code class="docutils literal notranslate"><span class="pre">barcode</span></code> on unzipped FASTQ files</p></li>
 </ul>
 </section>
-<section id="id16">
-<h2>0.6.0<a class="headerlink" href="#id16" title="Link to this heading"></a></h2>
+<section id="id17">
+<h2>0.6.0<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>New <code class="docutils literal notranslate"><span class="pre">barcode</span></code> function to add cell barcodes to read names in FASTQ file</p></li>
 </ul>
@@ -198,14 +207,14 @@ without breaking compatibility with previous versions.</p>
 </section>
 <section id="version-0-5">
 <h1>Version 0.5<a class="headerlink" href="#version-0-5" title="Link to this heading"></a></h1>
-<section id="id17">
-<h2>0.5.1<a class="headerlink" href="#id17" title="Link to this heading"></a></h2>
+<section id="id18">
+<h2>0.5.1<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Fix bug in <code class="docutils literal notranslate"><span class="pre">utils.read_cell_barcode_file</span></code> when same cell appears on multiple lines</p></li>
 </ul>
 </section>
-<section id="id18">
-<h2>0.5.0<a class="headerlink" href="#id18" title="Link to this heading"></a></h2>
+<section id="id19">
+<h2>0.5.0<a class="headerlink" href="#id19" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Add <code class="docutils literal notranslate"><span class="pre">tagtorg</span></code> command to add read groups to BAM according to cell barcode.</p></li>
 </ul>
@@ -213,27 +222,27 @@ without breaking compatibility with previous versions.</p>
 </section>
 <section id="version-0-4">
 <h1>Version 0.4<a class="headerlink" href="#version-0-4" title="Link to this heading"></a></h1>
-<section id="id19">
-<h2>0.4.3<a class="headerlink" href="#id19" title="Link to this heading"></a></h2>
+<section id="id20">
+<h2>0.4.3<a class="headerlink" href="#id20" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Throw error if file is not present for <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code> and <code class="docutils literal notranslate"><span class="pre">addtags</span></code></p></li>
 </ul>
 </section>
-<section id="id20">
-<h2>0.4.2<a class="headerlink" href="#id20" title="Link to this heading"></a></h2>
+<section id="id21">
+<h2>0.4.2<a class="headerlink" href="#id21" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Fix bug when cell barcode is None for <code class="docutils literal notranslate"><span class="pre">fragments</span></code> function.</p></li>
 </ul>
 </section>
-<section id="id21">
-<h2>0.4.1<a class="headerlink" href="#id21" title="Link to this heading"></a></h2>
+<section id="id22">
+<h2>0.4.1<a class="headerlink" href="#id22" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Increase recursion limit to prevent error when running on genomes
 with &gt;1000 scaffolds.</p></li>
 </ul>
 </section>
-<section id="id22">
-<h2>0.4.0<a class="headerlink" href="#id22" title="Link to this heading"></a></h2>
+<section id="id23">
+<h2>0.4.0<a class="headerlink" href="#id23" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Removed <code class="docutils literal notranslate"><span class="pre">sam</span></code> parameter from <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code></p></li>
 <li><p>Allow multiple groups of cells to be specified in <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code>.
@@ -243,33 +252,33 @@ This will create a separate BAM file for each unique group of cells.</p></li>
 </section>
 <section id="version-0-3">
 <h1>Version 0.3<a class="headerlink" href="#version-0-3" title="Link to this heading"></a></h1>
-<section id="id23">
-<h2>0.3.4<a class="headerlink" href="#id23" title="Link to this heading"></a></h2>
+<section id="id24">
+<h2>0.3.4<a class="headerlink" href="#id24" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Memory improvements for <code class="docutils literal notranslate"><span class="pre">fragments</span></code> function</p></li>
 </ul>
 </section>
-<section id="id24">
-<h2>0.3.3<a class="headerlink" href="#id24" title="Link to this heading"></a></h2>
+<section id="id25">
+<h2>0.3.3<a class="headerlink" href="#id25" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Bug fix for <code class="docutils literal notranslate"><span class="pre">fragments</span></code> function when using chromosome containing zero fragments</p></li>
 </ul>
 </section>
-<section id="id25">
-<h2>0.3.2<a class="headerlink" href="#id25" title="Link to this heading"></a></h2>
+<section id="id26">
+<h2>0.3.2<a class="headerlink" href="#id26" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Added <code class="docutils literal notranslate"><span class="pre">--barcodetag</span></code> and <code class="docutils literal notranslate"><span class="pre">--barcode_regex</span></code> arguments to <code class="docutils literal notranslate"><span class="pre">filterbarcodes</span></code></p></li>
 </ul>
 </section>
-<section id="id26">
-<h2>0.3.1<a class="headerlink" href="#id26" title="Link to this heading"></a></h2>
+<section id="id27">
+<h2>0.3.1<a class="headerlink" href="#id27" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Better handling of BAM file opening/closing</p></li>
 <li><p>Add <code class="docutils literal notranslate"><span class="pre">max_distance</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">fragments</span></code> to remove fragments over a certain length</p></li>
 </ul>
 </section>
-<section id="id27">
-<h2>0.3.0<a class="headerlink" href="#id27" title="Link to this heading"></a></h2>
+<section id="id28">
+<h2>0.3.0<a class="headerlink" href="#id28" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>added <code class="docutils literal notranslate"><span class="pre">fragments</span></code> function to create scATAC fragment file from BAM file</p></li>
 <li><p>removed use of versioneer for version tracking</p></li>
